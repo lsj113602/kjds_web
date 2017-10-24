@@ -1,0 +1,82 @@
+﻿<#+
+public class ConfigurationFactory : CSharpTemplate
+{
+    private string _prefixName;
+
+    public ConfigurationFactory(string prefixName)
+    {
+        _prefixName = prefixName;
+    }
+	public override string TransformText()
+	{
+		base.TransformText();
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Entity.ModelConfiguration.Configuration;
+
+using PLKJDS.Common.Extend;
+
+namespace PLKJDS.Mapping.ConfigurationFactories
+{
+	/// <summary>
+    /// 实体配置工厂类
+    /// </summary>
+    public static class <#= _prefixName #>ConfigurationFactory
+    {
+        /// <summary>
+        /// 同步对象
+        /// </summary>
+        private static readonly object sync = new object();
+
+        /// <summary>
+        /// 唯一实例
+        /// </summary>
+        private static IEnumerable<IEntityConfiguration> singleton;
+
+        /// <summary>
+        /// 实体配置
+        /// </summary>
+        private static IEnumerable<IEntityConfiguration> Configurations
+        {
+            get
+            {
+                if (singleton == null)
+                {
+                    lock (sync)
+                    {
+                        if (singleton == null)
+                        {
+                            var types = typeof(IEntityConfiguration).GetSubClass().Where(w => !w.IsAbstract && w.Namespace.EndsWith("<#= _prefixName #>"));
+
+                            singleton = types.Select(m => Activator.CreateInstance(m) as IEntityConfiguration);
+                        }
+                    }
+                }
+
+                return singleton;
+            }
+        }
+
+        /// <summary>
+        /// 初始化实体模型生成器
+        /// </summary>
+        /// <param name="configurations">实体模型生成器</param>
+        public static void ConfigurationsInit(ConfigurationRegistrar configurations)
+        {
+            foreach (var configuration in Configurations)
+            {
+                configuration.RegistTo(configurations);
+            }
+        }
+    }
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

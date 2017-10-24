@@ -1,0 +1,158 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "跨境电商产学研平台";
+}
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+</style>
+<div class="height10"></div>
+<!--课程列表 begin-->
+<section class="courseList container">
+    <div class="height8"></div>
+    <!--需要渲染的内容 begin-->
+    <div id="courseList">
+
+    </div>
+    <!--需要渲染的内容 end-->
+
+    <div class="height10"></div>
+</section>
+<!--课程列表 end-->
+<div class="height50"></div>
+
+<!--内容填充-->
+<script>
+    (function ($) {
+        var param = {
+            rows: 10,
+            page: 1,
+            sidx: "PublishTime",
+            levelID: -1,
+            statusCode: -1,
+            sord: "desc"
+        };
+        $.course = {
+            requestParam: param,
+            setLevelID: function (levelid, t) {
+                $.course.requestParam.levelID = levelid;
+                //style change
+                console.log($(t));
+                $(t).parent().parent().children().removeClass('categoryActive');
+                $(t).parent().addClass('categoryActive');
+                $.course.init();
+            },
+            statusCode: function (statuscode, t) {
+                $.course.requestParam.statusCode = statuscode;
+                //style change
+                //console.log($(this));
+                $(t).parent().children().removeClass('courseActive');
+                $(t).addClass('courseActive');
+                $.course.init();
+            },
+            buildCourseList: function (courseList) {
+                var str ='<div class="trainInfo">'
+               + '<div>'
+               + '<a href="@Url.Action("Index", "TrainPage")"><span class=" font777">培训</span></a>'
+                + ' <span class="sepLine font777">></span>'
+             + '    <span class=" font777">信息详情</span>'
+            + ' </div>'
+            + ' <div class="height30"></div>'
+             + '<div class="row">'
+                + ' <div class="col-md-6">'
+                   + '  <div style="background-image: url({0});height: 300px;background-size: cover;background-position: center">'
+                   + '  </div>'
+                + ' </div>'
+                 + '<div class="col-md-6">'
+                     + '<div style="padding:15px 0 15px 0">'
+                        + ' <h3>主题：{1}</h3>'
+                        + ' <div class="height20"></div>'
+                       + '  <div class="courseContent">'
+                           + '  简介：{2}'
+                        + ' </div>'
+                      + '   <div class="height20"></div>'
+                       + '  <div class="trainTime">'
+                            + ' <p>活动时间：{3}—{4}</p>'
+                           + '  <p>举办地点：{5}</p>'
+                       //     + ' <p>报名截止时间：{6}</p>'
+                      + '   </div>'
+                     + '    <div>'
+                    //    + '     <button class="btn btn-primary buyButton">立即报名</button>'
+
+                      //   + '    <button class="btn btn-primary buyButtonOver">活动已结束</button>'
+
+                      + '   </div>'
+                   + '  </div>'
+              + '   </div>'
+           + '  </div>'
+        + ' </div>'
+       + '  <!--培训信息 end-->'
+        + ' <div class="height30"></div>'
+        + ' <!--培训内容 begin-->'
+       + '  <div class="trainInfo">'
+           + '  <div>'
+              + '   <h3>活动内容</h3>'
+              + '   <div class="height30"></div>'
+              + '   <!--请使用富文本编辑器渲染 begin-->'
+             //+ '    <p class="trainContentTitle">主题介绍：</p>'
+             // + '   <div>'
+             //   + '     <!--请使用富文本编辑器渲染 begin-->'
+
+             //    + '    <!--富文本 end-->'
+             //  + '  </div>'
+
+              + '   <p class="trainContentTitle">主办方介绍：</p>'
+              + '   <div style="line-height: 20px;font-size: 13px">'
+                + '    <p>活动主办单位：{7}</p>'
+              + '   </div>'
+            + ' </div>'
+         + '</div>';
+                var html = "";
+
+                $.each(courseList, function (i, n) {
+                    var temp = str;
+                    var starttime = "", endtime = "";
+                    if (n.StartTime != null && n.StartTime != "" && n.EndTime != null && n.EndTime != "")
+                    {
+                        starttime = n.StartTime.substring(0, n.StartTime.length - 3);
+                        var endarr = n.EndTime.split(' ');
+                        endtime = endarr[1].substring(0, endarr[1].length - 3);
+                    }
+                    temp = temp.replace("{0}", n.PhotoID);
+                    temp = temp.replace("{1}", n.TrainTitle);
+                    temp = temp.replace("{2}", n.Content);
+                    temp = temp.replace("{3}", starttime);
+                    temp = temp.replace("{4}", endtime);
+                    temp = temp.replace("{5}", n.Address);
+                  //  temp = temp.replace("{6}", n.ApplyETime);
+                    temp = temp.replace("{7}", n.Host);
+                    html += temp;
+                });
+                return html;
+
+
+            },
+            init: function () {               
+                $.ajax({
+                    url:'@Url.Action("GetTrainPageDetail", "TrainPage")',
+                    data: $.course.requestParam,
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                       // console.log(data);
+                        if (data.state == "success") {
+                            var courseListHTML = $.course.buildCourseList(data.data.TrainDetail);
+                            $("#courseList").html(courseListHTML);
+                        }
+                    }
+                });
+            }
+        };
+        $(function () {
+            $.course.init();
+        });
+    })(jQuery);
+</script>

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script src="~/Content/js/loadDeviceParam.js"></script>
+<script>
+    var keyValue = $.request("keyValue");
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        else
+        {
+            var starttime = $("#StartTime").val();
+            var endtime = $("#EndTime").val();
+            var nowtime = new Date();
+            if (!dateCompare(starttime, endtime)) {
+                $("#EndTime").siblings('.validText').text('开课时间不能大于结课时间').show();
+            }
+            else if(!dateCompare(starttime,nowtime))
+            {
+                $("#EndTime").siblings('.validText').text('开课时间不能大于当前时间').show();
+            }
+            else
+            {
+                $("#EndTime").siblings('.validText').text('').hide();
+                $.submitForm({
+                    url: "/Course/SubmitForm?keyValue=" + keyValue + "&IsRevise=" + '1',
+                    param: $("#form1").formSerialize(),
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        }
+     
+    }
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">开课时间</th>
+                    <td class="formValue">
+                        <input id="StartTime" name="StartTime" type="text" class="form-control input-wdatepicker normal" onfocus="WdatePicker()" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <th class="formTitle">结课时间</th>
+                    <td class="formValue">
+                        <input id="EndTime" name="EndTime" type="text" class="form-control input-wdatepicker normal" onfocus="WdatePicker()" />
+                        <span class="validText" style="color: #ff3300;"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>

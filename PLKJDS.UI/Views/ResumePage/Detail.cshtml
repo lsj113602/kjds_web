@@ -1,0 +1,225 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "我的简历详情-跨境电商产学研平台";
+}
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+</style>
+
+<!--内容填充-->
+<div class="height30"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="margin: 0 10%">
+            <div class="rightContent">
+                <div class="previewCv text-center">
+                    <a class="btn btn-default" href="@Url.Action("Index", "ResumePage")">返回</a>
+                    <button class="btn btn-default" onclick="exportResume()">导出简历</button>
+                </div>
+                <hr>
+                <div class="cvBox">
+                    <div class="sepDiv">
+                        <h3>基本信息</h3>
+                    </div>
+                    <div class="cvUserInfo">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <span class="userCvName" id="cvUsername"></span>
+                                <span class="font555 fontSize14 marginLeft10" id="cvUserSex"></span>
+                                <span class="font555 fontSize14 marginLeft10"><span id ="cvUserAge"></span>岁</span>
+                                <div>
+                                    <div class="height10"></div>
+                                    <span class="font555 fontSize14">在校大学生</span>
+                                    <span class="sepLine font555 fontSize14">|</span>
+                                    <span class="font555 fontSize14">现居于</span>
+                                    <span class="font555 fontSize14" id="cvUserAddress"></span>
+                                </div>
+                                <div>
+                                    <div class="height10"></div>
+                                    <span class="font555 fontSize14">手机：<span id="cvUserTel"></span></span>
+                                    <div class="height10"></div>
+                                    <span class="font555 fontSize14">邮箱：<span id="cvUserEmail"></span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="text-align: right">
+                                <div>
+                                    <img id="cvLogoImg" src="" width="100px" height="100px" class="img-rounded img-responsive" style="position:absolute;right: 10px" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sepDiv">
+                        <h3>工作经验</h3>
+                    </div>
+                    <div class="cvJobExp">
+                        
+                    </div>
+                    <div class="sepDiv">
+                        <h3>培训经历</h3>
+                    </div>
+                    <div class="cvTrainExp">
+                        
+                    </div>
+                    <div class="sepDiv">
+                        <h3>教育背景</h3>
+                    </div>
+                    <div class="cvEdu">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div>
+                                    <span class="font555 fontSize14" id="eduSchool"></span>
+                                    @*<span class="font555 fontSize14 marginLeft10">经济管理</span>*@
+                                    <span class="sepLine font555 fontSize14">|</span>
+                                    <span class="font555 fontSize14" id="eduMajor"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="text-align: right">
+                                <span class="font555 fontSize14"><span id="eduSDT"></span> ~ 至今</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sepDiv">
+                        <h3>证书</h3>
+                    </div>
+                    <div class="cvCer">
+                        <div class="height10"></div>
+                        <div class="height10"></div>
+                        
+                    </div>
+                    <div class="sepDiv">
+                        <h3>专业技能</h3>
+                    </div>
+                    <div class="cvSkill">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <span class="fontSize14 font555" id="cvSkillContent">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sepDiv">
+                        <h3>自我评价</h3>
+                    </div>
+                    <div class="cvSelfCom">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <span class="fontSize14 font555" id="cvSelfContent">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="height30"></div>
+<iframe id="ifmExportResume"></iframe>
+
+<script type="text/javascript">
+    var Id = '@ViewBag.Id';//简历id
+
+    //加载简历
+    function loadResume(data) {
+        //var data = { Cv: null, JobExps: null, TrainExps: null, Edu: null, Cers: null };
+        if (data) {
+            debugger;
+            if (data.Cv) {
+                /*Username，UserSex，UserAge，UserAddress，UserTel，UserEmail，Logo SkillContent SelfContent*/
+                $.each(data.Cv, function (key, val) {
+                    $('.cvUserInfo,.cvSkill,.cvSelfCom').find('#cv' + key).text(data.Cv[key]);
+                });
+                $('#cvLogoImg').attr('src',"/File/GetFile?keyValue=" + data.Cv["Logo"]);
+            }
+
+            if (data.JobExps) {
+                var $cvJobExp = $('.cvJobExp');
+                for (var i = 0; i < data.JobExps.length; i++) {
+                    var exp = data.JobExps[i];
+                    //Id, CpyName Post JobDesc SDT EDT
+                    $cvJobExp.append('<div class="row" style="margin-bottom: 30px">\
+                            <div class="col-md-9">\
+                                <h3>'+ exp.CpyName + '</h3>\
+                                <div class="height8"></div>\
+                                <span class="font555 fontSize14">职务：<span>' + exp.Post + '</span></span>\
+                                <div class="height8"></div>\
+                                <span class="font555 fontSize14">工作内容：' + exp.JobDesc + '</span>\
+                            </div>\
+                            <div class="col-md-3" style="text-align: right">\
+                                <span class="font555 fontSize14">' + exp.SDTStr + ' ~ ' + exp.EDTStr + '</span>\
+                            </div>\
+                        </div>');
+                }
+            }
+
+            if (data.TrainExps) {
+                var $cvTrainExp = $('.cvTrainExp');
+                for (var i = 0; i < data.TrainExps.length; i++) {
+                    var exp = data.TrainExps[i];
+                    //Id CpyName Post TrainDesc SDT EDT
+                    $cvTrainExp.append('<div class="row" style="margin-bottom: 30px">\
+                            <div class="col-md-9">\
+                                <h3>' + exp.CpyName + '</h3>\
+                                <div class="height8"></div>\
+                                <span class="font555 fontSize14">培训岗位：<span>' + exp.Post + '</span></span>\
+                                <div class="height8"></div>\
+                                <span class="font555 fontSize14">培训内容：<span>' + exp.TrainDesc + '</span></span>\
+                            </div>\
+                            <div class="col-md-3" style="text-align: right">\
+                                <span class="font555 fontSize14">' + exp.SDTStr + ' ~ ' + exp.EDTStr + '</span>\
+                            </div>\
+                        </div>');
+                }
+            }
+
+            if (data.Edu) {
+                //School，Major，SDT
+                $.each(data.Edu, function (key, val) {
+                    $('.cvEdu').find('#edu' + key).text(data.Edu[key]);
+                });
+                $('.cvEdu').find('#eduSDT').text(data.Edu["SDTStr"]);
+            }
+
+            if (data.Cers) {
+                var $cvCer = $('.cvCer');
+                for (var i = 0; i < data.Cers.length; i++) {
+                    var cer = data.Cers[i];
+                    //Id Name Level
+                    $cvCer.append('<div class="row" style="margin-bottom: 20px">\
+                            <div class="col-md-12">\
+                                <div>\
+                                    <span class=fontSize14">'+cer.Name+'</span>\
+                                    <span class="font555 fontSize14 marginLeft10">'+cer.Level+'</span>\
+                                </div>\
+                            </div>\
+                        </div>');
+                }
+            }
+        }
+    }
+    var getResumeUrl = '@Url.Action("GetResume", "ResumePage")';
+
+    function exportResume() {
+        $('#ifmExportResume').attr('src', '@Url.Action("Export", "ResumePage")?id=' + Id);
+    }
+
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: getResumeUrl,
+            data: { id: Id },
+            dataType: "json",
+            success: function (data) {
+                loadResume(data.data);
+            }
+        });
+    });
+</script>
+

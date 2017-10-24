@@ -1,0 +1,268 @@
+﻿@using PLKJDS.Common
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <!--导入页面css-->
+    <link href="~/UIContent/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/UIContent/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/homeindex.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/UIContent/css/reset.css">
+    <link rel="stylesheet" href="~/UIContent/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/UIContent/css/yifanToast.css">
+    <script src="~/UIContent/js/jquery.min.js"></script>
+    <script src="~/UIContent/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/cookie/jquery.cookie.js"></script>
+    <script src="~/Content/js/md5/jquery.md5.js"></script>
+    <script src="~/UIContent/js/yifanToast.js"></script>
+    <script src="~/Scripts/mypage.js"></script>
+    <script src="~/Scripts/mypage.min.js"></script>
+    <!--IE9适配，IE8以下浏览器不支持会提示-->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+    <!--导航条 begin-->
+    <header>
+        <nav class="navbar navbar-default mailNav">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand mailBrand" href="/">
+                        <div>
+                            <img class="mailBrandImg" src="~/UIContent/img/logo/logo.png" height="55px" width="auto" alt="">
+                            <div class="logoText">长沙跨境电商产学研平台</div>
+                        </div>
+
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse mailCollapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="bannerFont"><a href='@Url.Action("Index", "TrainPage")'>培训</a></li>
+                        <li class="bannerFont"><a href='@Url.Action("Index", "CoursePage")'>课程</a></li>
+                        <li class="bannerFont"><a href="@Url.Action("Index", "JobPage")">就业</a></li>
+                        <li class="bannerFont"><a href="@Url.Action("Index", "QsBankPage")">题库</a></li>
+                    </ul>
+                    <!--搜索 begin-->
+                    <form class="navbar-form navbar-left hidden-xs">
+                        <div class="form-group inputGroup">
+                            <input type="text" class="form-control searchInput" placeholder="搜索课程/培训/就业信息">
+                        </div>
+                        <button type="submit" class="searchButton btn btn-info"><i class="fa fa-search"></i></button>
+                    </form>
+                    <!--搜索 end-->
+
+                    @{
+                        OperatorModel o = PLKJDS.Common.OperatorProvider.Provider.GetCurrent();
+                        if (o == null)
+                        {
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="bannerFontLogin"><a id="btnLogin" href="javascript:void(0);" data-toggle="modal" data-target="#loginModal">登录</a></li>
+                                <li class="lineStyle hidden-xs"><a href="javascript:void(0);">|</a></li>
+                                <li class="bannerFontRegister"><a href='@Url.Action("Index", "Register")'>注册</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="nav navbar-nav navbar-right">
+
+
+                                <li style="margin-right: -15px">
+                                    <a href="user-message.html">
+                                        <i class="fa fa-envelope-o" style="font-size: 20px"></i>
+                                        <span class="messageInfo"></span>
+                                    </a>
+                                </li>
+                                <li style="margin-top: -5px">
+                                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <span class="fa-stack">
+                                            <i class="fa fa-circle fa-stack-2x" style="font-size: 28px;color: rgba(44,157,255,1);"></i>
+                                            <i class="fa fa-user fa-stack-1x fa-inverse" style="font-size: 20px"></i>
+                                        </span>
+                                        <span style="font-size: 14px;font-weight: 600;line-height: 14px">Hi,@o.UserName</span>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a class="menuItem" data-id="userInfo" href='@Url.Action("Index", "UserCenter")'><i class="fa fa-user" style="margin-right:5px;"></i>个人中心</a></li>
+                                        <li class="divider"></li>
+                                        <li><a role="button" onclick ="Logout()"><i class="ace-icon fa fa-power-off" style="margin-right:5px;"></i>注销</a></li>
+                                    </ul>
+                                </li>
+                                @*<li style="margin-top: -3px"><a href="#" onclick="Logout()"><span style="font-size: 14px;font-weight: 600;line-height: 14px">注销</span></a></li>*@
+                            </ul>
+                        }
+                    }
+
+
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!--导航条 end-->
+    <!--内容填充-->
+    @RenderBody()
+    <!--内容填充-->
+
+    <footer id="footer" class="navbar-static-bottom">
+        <div class="footer text-center">
+            <div class="copyright">
+                <p class="text-center">
+                    <a class="footerTextTop" href="#"> 关于我们 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 常见问题 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 意见反馈 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 练习我们 </a>
+                </p>
+                <div class="height40"></div>
+                <p class="text-center">
+                    <span class="footerTextBottom"> 湘B2-20090191-26 </span>|
+                    <span class="footerTextBottom"> 京ICP备12020869号-2 </span>|
+                    <span class="footerTextBottom"> 京公网安备44010602000207 </span>
+                </p>
+                <div class="height20"></div>
+                <p class="text-center"><span class="footerTextBottom">&copy;2014-2017 www.ccsu.cn</span>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--登录模态框 begin-->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="max-width:500px;margin-top: 18.5% ">
+            <div class="modal-content" style="max-width: 500px;">
+                <div class="modal-header" style="text-align: center;border-bottom: 0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body" style="padding: 20px 55px 20px 55px">
+                    <div class="loginText">登录</div>
+                    <div class="height40"></div>
+                    <!--用户登录表单-->
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control loginInput" id="txt_account" placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control loginInput" id="txt_password" placeholder="请输入密码">
+                        </div>
+                        <button type="button" id="login_button" class="btn btn-primary loginButton"><span>登录</span></button>
+                        <div class="checkbox checkboxStyle">
+                            <!-- <label>
+                                <input type="checkbox" width="20px" style="border-radius: 0">
+                                下次自动登录 | <a href="#">忘记密码</a>
+                            </label> -->
+                        </div>
+                    </form>
+                    <div class="height40"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--登录模态框 end-->
+</body>
+
+</html>
+
+<script type="text/javascript">
+    (function ($) {
+        $.login = {
+            loginClick: function () {
+                var $username = $("#txt_account");
+                var $password = $("#txt_password");
+                if ($username.val() == "") {
+                    $username.focus();
+                    //$.login.formMessage('请输入用户名');
+                    return false;
+                } else if ($password.val() == "") {
+                    $password.focus();
+                    //$.login.formMessage('请输入登录密码。');
+                    return false;
+                }
+                else {
+                    $("#login_button").attr('disabled', 'disabled').find('span').html("loading...");
+                    $.ajax({
+                        url: '@Url.Action("CheckUserLogin", "UserLogin")',
+                        data: { username: $.trim($username.val()), password: $.md5($.trim($password.val())) },
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state == "success") {
+                                $("#login_button").find('span').html("登录成功，正在跳转...");
+                                window.setTimeout(function () {
+                                    window.location.href = '@Url.Action("Index", "Home")';
+                                }, 500);
+                            } else {
+                                $("#login_button").removeAttr('disabled').find('span').html("登录");
+                                yifanToast(data.message);
+                            }
+                        }
+                    });
+                }
+            },
+            init: function () {
+                $("#login_button").click(function () {
+                    $.login.loginClick();
+                });
+                document.onkeydown = function (e) {
+                    if (!e) e = window.event;
+                    if ((e.keyCode || e.which) == 13) {
+                        document.getElementById("login_button").focus();
+                        document.getElementById("login_button").click();
+                    }
+                }
+            }
+        };
+        $(function () {
+            $.login.init();
+            try {
+                var isLogin = getQueryString("isLogin")
+                if (isLogin == "true") {
+                    $('#btnLogin').click();
+                }
+            } catch (e) {
+
+            }
+        });
+    })(jQuery);
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    function Logout() {
+        $.ajax({
+            url: '@Url.Action("Logout", "UserLogin")',
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.state == "success") {
+                    window.setTimeout(function () {
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    }, 1000);
+                } else {
+
+                }
+            }
+        });
+    }
+</script>

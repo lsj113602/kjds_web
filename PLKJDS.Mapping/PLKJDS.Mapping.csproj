@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8EB5A2DB-485F-423F-ABF5-FF213EF32D65}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PLKJDS.Mapping</RootNamespace>
+    <AssemblyName>PLKJDS.Mapping</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PLKJDS.Reference\EntityFramework.6.1.3\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigurationFactories\ConfigurationFactory.Generate.cs" />
+    <Compile Include="Configurations\Generate\AccountTypeConfiguration.cs" />
+    <Compile Include="Configurations\Generate\AreaConfiguration.cs" />
+    <Compile Include="Configurations\Generate\AuthorizeConfiguration.cs" />
+    <Compile Include="Configurations\Generate\BannerConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ChapterContentConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ChapterContentTypeConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ChapterQuestionSelectConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ChapterQuestionTRConfiguration.cs" />
+    <Compile Include="Configurations\Generate\CooperateOrgConfiguration.cs" />
+    <Compile Include="Configurations\Generate\CooperateOrgRecordConfiguration.cs" />
+    <Compile Include="Configurations\Generate\CourseChapterConfiguration.cs" />
+    <Compile Include="Configurations\Generate\CourseConfiguration.cs" />
+    <Compile Include="Configurations\Generate\CourseLevelConfiguration.cs" />
+    <Compile Include="Configurations\Generate\CourseOrgConfiguration.cs" />
+    <Compile Include="Configurations\Generate\CourseParterConfiguration.cs" />
+    <Compile Include="Configurations\Generate\CustomerResumeConfiguration.cs" />
+    <Compile Include="Configurations\Generate\EducationConfiguration.cs" />
+    <Compile Include="Configurations\Generate\JobapplicationConfiguration.cs" />
+    <Compile Include="Configurations\Generate\EmployConfiguration.cs" />
+    <Compile Include="Configurations\Generate\EmployPartConfiguration.cs" />
+    <Compile Include="Configurations\Generate\EmployPositionConfiguration.cs" />
+    <Compile Include="Configurations\Generate\EmployPublishConfiguration.cs" />
+    <Compile Include="Configurations\Generate\EmployTypeConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ExaminationPaperConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ExaminationPaperDetailConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ExaminationPaperUserConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ExaminationUserConfiguration.cs" />
+    <Compile Include="Configurations\Generate\FileConfiguration.cs" />
+    <Compile Include="Configurations\Generate\FileTypeConfiguration.cs" />
+    <Compile Include="Configurations\Generate\MessageReceivedConfiguration.cs" />
+    <Compile Include="Configurations\Generate\MessageSendConfiguration.cs" />
+    <Compile Include="Configurations\Generate\OrganizeConfiguration.cs" />
+    <Compile Include="Configurations\Generate\resumecerConfiguration.cs" />
+    <Compile Include="Configurations\Generate\resumeedubackConfiguration.cs" />
+    <Compile Include="Configurations\Generate\resumetrainexpConfiguration.cs" />
+    <Compile Include="Configurations\Generate\QsBankConfiguration.cs" />
+    <Compile Include="Configurations\Generate\resumeworkexpConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ResumeBaseInfoConfiguration.cs" />
+    <Compile Include="Configurations\Generate\ResumeConfigConfiguration.cs" />
+    <Compile Include="Configurations\Generate\RoleAuthorizeConfiguration.cs" />
+    <Compile Include="Configurations\Generate\RoleConfiguration.cs" />
+    <Compile Include="Configurations\Generate\Skill2Configuration.cs" />
+    <Compile Include="Configurations\Generate\SkillConfiguration.cs" />
+    <Compile Include="Configurations\Generate\TeacherGroupConfiguration.cs" />
+    <Compile Include="Configurations\Generate\TeacherGroupUserConfiguration.cs" />
+    <Compile Include="Configurations\Generate\TestMaterialsConfiguration.cs" />
+    <Compile Include="Configurations\Generate\TrainDataConfiguration.cs" />
+    <Compile Include="Configurations\Generate\TrainExperienceConfiguration.cs" />
+    <Compile Include="Configurations\Generate\TrainInfoConfiguration.cs" />
+    <Compile Include="Configurations\Generate\TrainParterConfiguration.cs" />
+    <Compile Include="Configurations\Generate\UserCollectConfiguration.cs" />
+    <Compile Include="Configurations\Generate\UserCourseConfiguration.cs" />
+    <Compile Include="Configurations\Generate\UserConfiguration.cs" />
+    <Compile Include="Configurations\Generate\UserDataConfiguration.cs" />
+    <Compile Include="Configurations\Generate\WorkExperienceConfiguration.cs" />
+    <Compile Include="Infrastructure\EntityConfiguration.cs" />
+    <Compile Include="Infrastructure\IEntityConfiguration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="T4\Exec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Exec.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="T4\Configuration.ttinclude" />
+    <None Include="T4\ConfigurationFactory.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="T4\Exec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Exec.cs</LastGenOutput>
+      <LastOutputs>
+..\ConfigurationFactories\ConfigurationFactory.Generate.cs
+..\Configurations\Generate\AccountTypeConfiguration.cs
+..\Configurations\Generate\AreaConfiguration.cs
+..\Configurations\Generate\AuthorizeConfiguration.cs
+..\Configurations\Generate\BannerConfiguration.cs
+..\Configurations\Generate\ChapterContentConfiguration.cs
+..\Configurations\Generate\ChapterContentTypeConfiguration.cs
+..\Configurations\Generate\ChapterQuestionSelectConfiguration.cs
+..\Configurations\Generate\ChapterQuestionTRConfiguration.cs
+..\Configurations\Generate\CooperateOrgConfiguration.cs
+..\Configurations\Generate\CooperateOrgRecordConfiguration.cs
+..\Configurations\Generate\CourseChapterConfiguration.cs
+..\Configurations\Generate\CourseConfiguration.cs
+..\Configurations\Generate\CourseLevelConfiguration.cs
+..\Configurations\Generate\CourseOrgConfiguration.cs
+..\Configurations\Generate\CourseParterConfiguration.cs
+..\Configurations\Generate\CustomerResumeConfiguration.cs
+..\Configurations\Generate\EducationConfiguration.cs
+..\Configurations\Generate\EmployConfiguration.cs
+..\Configurations\Generate\EmployPartConfiguration.cs
+..\Configurations\Generate\EmployPositionConfiguration.cs
+..\Configurations\Generate\EmployPublishConfiguration.cs
+..\Configurations\Generate\EmployTypeConfiguration.cs
+..\Configurations\Generate\ExaminationPaperConfiguration.cs
+..\Configurations\Generate\ExaminationPaperDetailConfiguration.cs
+..\Configurations\Generate\ExaminationPaperUserConfiguration.cs
+..\Configurations\Generate\ExaminationUserConfiguration.cs
+..\Configurations\Generate\FileConfiguration.cs
+..\Configurations\Generate\FileTypeConfiguration.cs
+..\Configurations\Generate\MessageReceivedConfiguration.cs
+..\Configurations\Generate\MessageSendConfiguration.cs
+..\Configurations\Generate\OrganizeConfiguration.cs
+..\Configurations\Generate\ResumeBaseInfoConfiguration.cs
+..\Configurations\Generate\ResumeConfigConfiguration.cs
+..\Configurations\Generate\RoleAuthorizeConfiguration.cs
+..\Configurations\Generate\RoleConfiguration.cs
+..\Configurations\Generate\Skill2Configuration.cs
+..\Configurations\Generate\SkillConfiguration.cs
+..\Configurations\Generate\TeacherGroupConfiguration.cs
+..\Configurations\Generate\TeacherGroupUserConfiguration.cs
+..\Configurations\Generate\TestMaterialsConfiguration.cs
+..\Configurations\Generate\TrainDataConfiguration.cs
+..\Configurations\Generate\TrainExperienceConfiguration.cs
+..\Configurations\Generate\TrainInfoConfiguration.cs
+..\Configurations\Generate\TrainParterConfiguration.cs
+..\Configurations\Generate\UserCollectConfiguration.cs
+..\Configurations\Generate\UserConfiguration.cs
+..\Configurations\Generate\UserDataConfiguration.cs
+..\Configurations\Generate\WorkExperienceConfiguration.cs
+.\Exec.cs
+</LastOutputs>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PLKJDS.Common\PLKJDS.Common.csproj">
+      <Project>{5dcb78bc-4bfa-46bf-8333-885356b68eca}</Project>
+      <Name>PLKJDS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PLKJDS.Entity\PLKJDS.Entity.csproj">
+      <Project>{dd824908-5480-4d78-855a-bf8d8094301d}</Project>
+      <Name>PLKJDS.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configurations\Customize\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

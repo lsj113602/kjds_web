@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    function submitForm() {
+
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        else
+        {
+                $.submitForm({
+                    url: "/Employ/SubmitForm",
+                    param: $("#form1").formSerialize(),
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+        }
+    }
+
+
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">岗位名称</th>
+                    <td class="formValue">
+                        <input type="text" class="form-control required" name="Address" id="Address" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>

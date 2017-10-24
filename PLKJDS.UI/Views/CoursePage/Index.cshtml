@@ -1,0 +1,269 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "跨境电商产学研平台";
+}
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+</style>
+
+<div class="height20"></div>
+<!--内容填充-->
+<!--轮播图 begin-->
+<!--课程分类导航条 begin-->
+<section class="courseNav container">
+    <!--<ul class="nav nav-pills mailNavCategory">
+        <li class="tagType">分类：</li>
+        <li role="presentation" class="categoryActive"><a href="javascript:void(0);">全部</a></li>
+        <li role="presentation"><a href="javascript:void(0);">经济学</a></li>
+        <li role="presentation"><a href="javascript:void(0);">金融学</a></li>
+        <li role="presentation"><a href="javascript:void(0);">工商管理</a></li>
+        <li role="presentation"><a href="javascript:void(0);">电子商务</a></li>
+        <li role="presentation"><a href="javascript:void(0);">会计基础</a></li>
+        <li role="presentation"><a href="javascript:void(0);">管理科学和工程</a></li>
+        <li role="presentation"><a href="javascript:void(0);">市场营销学</a></li>
+    </ul>
+    <div class="height30"></div>-->
+    <ul class="nav nav-pills mailNavCategory">
+        <li class="tagType">课程级别：</li>
+        <li role="presentation" class="categoryActive"><a href="javascript:void(0);" onclick="$.course.setLevelID('-1', this);">全部</a></li>
+        <li role="presentation"><a href="javascript:void(0);" onclick="$.course.setLevelID('0', this);">初级</a></li>
+        <li role="presentation"><a href="javascript:void(0);" onclick="$.course.setLevelID('1', this);">中级</a></li>
+        <li role="presentation"><a href="javascript:void(0);" onclick="$.course.setLevelID('2', this);">高级</a></li>
+    </ul>
+</section>
+<!--课程分类导航条 end-->
+<div class="height20"></div>
+
+<!--课程列表 begin-->
+<section class="courseList container">
+    <div class="courseSort">
+        <span>课程状态：</span>
+        <a href="javascript:void(0);" onclick="$.course.statusCode('-1',this);" class="courseActive">全部</a>
+        <span>|</span>
+        <a href="javascript:void(0);" onclick="$.course.statusCode('1',this);">正在进行</a>
+        <span>|</span>
+        <a href="javascript:void(0);" onclick="$.course.statusCode('0',this);">即将开课</a>
+        <span>|</span>
+        <a href="javascript:void(0);" onclick="$.course.statusCode('2',this);">已结束</a>
+    </div>
+    <hr>
+    <div class="height8"></div>
+    <!--需要渲染的内容 begin-->
+    <div id="courseList">
+        
+    </div>
+    <!--需要渲染的内容 end-->
+
+    <!--分页组件 begin-->
+    <div id="kkpager"></div>
+    <!--分页组件 end-->
+</section>
+<!--课程列表 end-->
+<div class="height50"></div>
+
+<!--内容填充-->
+<script>
+    var coursepager = {pageNo: 1, pageSize: 8 };
+    (function ($) {
+        var param = {
+            rows: 5,
+            page: 1,
+            sidx: "StartTime",
+            levelID: -1,
+            statusCode: -1,
+            sord: "desc"
+        };
+        $.course = {
+            requestParam: param,
+            setLevelID: function (levelid, t) {
+                $.course.requestParam.levelID = levelid;
+                //style change
+                console.log($(t));
+                $(t).parent().parent().children().removeClass('categoryActive');
+                $(t).parent().addClass('categoryActive');
+                $.course.init();
+            },
+            statusCode: function (statuscode, t) {
+                $.course.requestParam.statusCode = statuscode;
+                //style change
+                //console.log($(this));
+                $(t).parent().children().removeClass('courseActive');
+                $(t).addClass('courseActive');
+                $.course.init();
+            },
+            setpage: function (pagecount, t) {
+                $.course.requestParam.page = pagecount;
+                //style change
+                console.log($(t));
+                $(t).parent().parent().children().removeClass('categoryActive');
+                $(t).parent().addClass('categoryActive');
+                $.course.init();
+            },
+            buildCourseList: function (courseList) {
+                var str = '<div class="row">'
+
+            + '<div class="col-md-12 col-xs-12">'
+            + '   <div class="row" style="padding: 0px">'
+             + '<a href="@Url.Action("CourseDetail", "CoursePage")?courseID={11}" class="textA">'
+            + '        <div class="col-md-4 col-xs-4">'
+            + '            <div>'
+            + '                <div class="hidden-xs" style="background-image: url({0});background-size: cover;background-position: center;width: 100%;max-height: 200px">'
+            + '                    <img src="/UIContent/img/tm.png" alt="">'
+            + '                </div>'
+            + '            </div>'
+            + '        </div>'
+                                     + '</a>'
+            + '        <div class="col-md-8 col-xs-8">'
+            + '            <div class="row">'
+            + '                <div class="col-md-4">'
+            + '                    <h2>{1}</h2>'
+            + '                </div>'
+            + '                <div class="col-md-8">'
+            + '                    <div class="row">'
+            + '                        <div class="col-md-4 textPeople"><div class="levelTag" style="width:30px;hegiht:20px;margin-right:15px;">{12}</div><i class="fa fa-user-o"> </i> {2}人参加</div>'
+            + '                        <div class="col-md-8">'
+            + '                            <div class="textLocation"><i class="fa fa-calendar-minus-o colorFont  fontBig"></i> <span> {6}&nbsp;至&nbsp;{7}</span></div>'
+            + '                        </div>'
+            + '                    </div>'
+            + '               </div>'
+            + '            </div>'
+            + '           <div>'
+            + '                <div class="height8"></div>'
+            + '                <span class="textPeople">{3}</span>'
+            + '                <span class="textPeople" style="margin-left: 10px">{5}</span>'
+            + '                <div class="height20"></div>'
+            + '            </div>'
+            + '           <div class="courseContent">'
+            + '                {4}'
+            + '            </div>'
+            + '            <div style="height: 40px"></div>'
+            + '          <button onclick="{10}" class="btn btn-primary {9}">{8}</button>'
+            + '        </div>'
+            + '    </div>'
+            + '    <hr style="">'
+            + '</div>'
+
+            + '</div>';
+                var html = "";
+
+                $.each(courseList, function (i, n) {
+                    var temp = str;
+                    var mydate = new Date().toLocaleString();
+                    temp = temp.replace("{0}", n.PhotoID);
+                    temp = temp.replace("{1}", n.CourseName);
+                    temp = temp.replace("{2}", n.PartnerCount);
+                    temp = temp.replace("{3}", n.OrgName);
+                    var courseDesc = n.Desc == null ? "暂无课程简介" : n.Desc;
+
+                    temp = temp.replace("{4}", courseDesc);
+                    temp = temp.replace("{5}", n.TeacherName);
+                    
+                    var starttime =n.StartTime==null?"": n.StartTime.split(' ')[0];
+                    var endtime = n.EndTime == null ? "" : n.EndTime.split(' ')[0];
+                    temp = temp.replace("{6}", starttime);
+                    temp = temp.replace("{7}", endtime);
+                    temp = temp.replace("{11}", n.ID);
+                    temp = temp.replace("{10}", "PartCourse('"+n.ID+"')");
+                    if (n.StatusCode == 0 && dateCompare(mydate, n.EndTime)) {//现在时间小于开始时间
+                        temp = temp.replace("{8}", "报名即将开始");
+                        temp = temp.replace("{9}", "startButton");
+                    } else if (n.StatusCode == 2) {
+                        temp = temp.replace("{8}", "已结束");
+                        temp = temp.replace("{9}", "overButton");
+                    } else if (n.StatusCode == 1) {
+                        temp = temp.replace("{8}", "立即报名");
+                        temp = temp.replace("{9}", "signButton");
+                    }
+                    switch(n.LevelID)
+                    {
+                        case "0": temp = temp.replace("{12}", "初级"); break;
+                        case "1": temp = temp.replace("{12}", "中级"); break;
+                        case "1": temp = temp.replace("{12}", "高级"); break;
+                    }
+                    html += temp;
+                });
+                return html;
+            },
+            init: function () {
+                $.ajax({
+                    url:'@Url.Action("GetCoursePageList", "CoursePage")',
+                    data: $.course.requestParam,
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.state == "success") {
+                            $('#page6').html("");
+                            MyPage(data.data.Page);
+                            var courseListHTML = $.course.buildCourseList(data.data.CourseList);
+                            $("#courseList").html(courseListHTML);
+                        }
+                    }
+                });
+            }
+        };
+        $(function () {
+            $.course.init();
+
+        });
+    })(jQuery);
+
+    function dateCompare(date1, date2) {
+        date1 = date1.replace(/\-/gi, "-");
+        date2 = date2.replace(/\-/gi, "-");
+        var time1 = new Date(date1).getTime();
+        var time2 = new Date(date2).getTime();
+        if (time1 > time2) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function MyPage(Page) {
+        $.mypage("page6", Page.page, Page.total, function (page) {
+            $.course.setpage(page, this);
+            updatePage(page);
+        });
+    }
+    function updatePage(now) {
+        $.mypage("page6", now, Page.total, function (page) {
+            $.course.setpage(page, this);
+            updatePage(page);
+        });
+    }
+
+    function PartCourse(courseID) {
+        $.ajax({
+            url:'@Url.Action("PartCourse", "CoursePage")',
+            data: { courseID: courseID },
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                //console.log(data);
+                if (data.state == "success") {
+                    yifanToast(data.message+",两秒回到课程界面");
+                    window.setTimeout(function () {
+                        window.location.href ='@Url.Action("Index", "CoursePage")';
+                    }, 2000)
+                } else {
+                    yifanToast(data.message + ",两秒回到课程界面");
+                    window.setTimeout(function () {
+                        window.location.href = '@Url.Action("Index", "CoursePage")';
+                    }, 2000)
+                }
+            }
+        });
+    }
+
+    //固定底部版权信息模块
+    function ct() {
+        return document.compatMode == "BackCompat" ? document.body.clientHeight : document.documentElement.clientHeight;
+    }
+    var f = document.getElementById('footer');
+    (window.onresize = function () {
+        f.style.position = document.body.scrollHeight > ct() ? '' : 'absolute';
+    })();
+</script>

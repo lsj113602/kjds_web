@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "跨境电商产学研平台";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <!--内容填充-->
+    <section class="container">
+        <div class="height30"></div>
+        <div class="courseWareNav">
+            <div class="nav1">
+                课程
+            </div>
+            <div class="angle"></div>
+            <div class="nav2">
+                <div>
+                    经济学原理测试长度
+                </div>
+            </div>
+            <div class="angle2"></div>
+            <div class="nav3">
+                课件视频
+            </div>
+        </div>
+        <div class="height30"></div>
+        <h1 class="wareName">
+            1.1经济学含义与组成
+        </h1>
+        <div class="height30"></div>
+        <div>
+            <!--视频播放 begin 备注：poster属性为视频预览海报，需要后台上传，因为抓取帧可能效果参差不齐-->
+            <video id="my-video" class="video-js vjs-default-skin" controls preload="none" width="100%" height="auto"
+                   data-setup="{}" poster="img/poster/poster.png" autoplay="autoplay">
+                <!--视频资源地址-->
+                @{
+                    var videourl = ViewBag.VideoUrl;
+                    if(videourl!="")
+                    {
+                          <source src=@videourl type='video/mp4'>
+                    }
+                    else
+                    {
+                          <!--<source src="http://7xru12.media1.z0.glb.clouddn.com/ad720p.mp4" type='video/mp4'>-->
+                    }
+                }
+              
+            </video>
+            <!--视频播放 end-->
+        </div>
+        <div class="height10"></div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> 自动播放下个视频
+            </label>
+        </div>
+    </section>
+    <!--内容填充-->
+</body>
+</html>

@@ -1,0 +1,206 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "课程详情-跨境电商产学研平台";
+}
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+</style>
+
+<!--内容填充-->
+<div style="background-color: #eee">
+    <!--课程详情模块 begin-->
+    <div class="height30"></div>
+    <section class="container">
+        <div class="row">
+            <!--左侧div-->
+            <div class="col-md-9">
+                <div class="jobList">
+                    <div class="bottom15">
+                        <span class="loginText" id="jobMain_Name"></span>
+                    </div>
+                    <div class="height8"></div>
+                    <div>
+                        <span class="tel" id="jobMain_Pay"></span>
+                        <span class="sepLine">|</span>
+                        <span id="jobMain_Address"></span>
+                        <span class="sepLine">|</span>
+                        <span id="jobMain_Exp"></span>
+                        <span class="sepLine">|</span>
+                        <span id="jobMain_Edu"></span>
+                        <span class="sepLine">|</span>
+                        <span id="jobMain_Type"></span>
+                        <button class="btn btn-primary bgBlue bdBlue width120" style="float: right;margin-top: -10px" id="applyJob">立即申请</button>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="height8"></div>
+                    <div>
+                        <span class="smallText">发布于：<span id="jobMain_PubDT"></span></span>
+                    </div>
+                </div>
+                <div class="height30"></div>
+                <div class="jobList">
+                    <h3>职位诱惑:</h3>
+                    <div class="height15"></div>
+                    <p class="jobOverview" id="jobDetail_Tempt"></p>
+                    <div class="height20"></div>
+                    <h3>职位描述:</h3>
+                    <div class="height15"></div>
+                    <!--以下div内容请用富文本编辑器完成！！！！-->
+                    <div class="jobOverview " id="jobDetail_Desc">
+                    </div>
+                    <div class="height20"></div>
+                    <h3>工作地点:</h3>
+                    <div class="height8"></div>
+                    <div class="jobOverview">
+                        <p id="jobDetail_Address"></p>
+                    </div>
+                </div>
+            </div>
+            <!--右侧div-->
+            <div class="col-md-3" style="padding: 0">
+                <div class="rightBox" style="min-height: 176px">
+                    <p class="comp fontColorBlue" id="jobCpy_Name">
+                        
+                    </p>
+                    <div class="marginTop8">
+                        <span class="smallText">行业</span>
+                        <span class="marginLeft10 fontSize12" id="jobCpy_Ind"></span>
+                    </div>
+                    <div class="marginTop8">
+                        <span class="smallText">性质</span>
+                        <span class="marginLeft10 fontSize12" id="jobCpy_Nature"></span>
+                    </div>
+                    <div class="marginTop8">
+                        <span class="smallText">规模</span>
+                        <span class="marginLeft10 fontSize12" id="jobCpy_Scale"></span>
+                    </div>
+                    <div class="marginTop8">
+                        <span class="smallText">主页</span>
+                        <span class="marginLeft10 fontSize12" id="jobCpy_OffSite"></span>
+                    </div>
+                </div>
+                <div class="height30"></div>
+                <div class="rightBox">
+                    <h3>相似职位</h3>
+                    <div class="height30"></div>
+                    <div id="SimilarJobs">
+
+                    </div>
+                    <button class="btn btn-default moreJobButton">查看更多相似职位 ></button>
+                    <!--相似职位部分 end-->
+                    <div class="height30"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--课程详情模块 end-->
+    <div class="height30"></div>
+</div>
+<script src="~/Content/js/yifanToast.js"></script>
+<!--内容填充-->
+<script type="text/javascript">
+    var JobId = '@ViewBag.JobId';
+    var loadJobMain = function (data) {
+        //jobMain_Name,jobMain_Pay,jobMain_Address,jobMain_Exp,jobMain_Edu,jobMain_Type,jobMain_PubDT
+        if (data) {
+            $.each(data, function (key, val) {
+                $('#jobMain_' + key).text(data[key] || '');
+            });
+        }
+    };
+    var loadJobDetail = function (data) {
+        //jobDetail_Tempt,jobDetail_Desc,jobDetail_Address
+        if (data) {
+            $.each(data, function (key, val) {
+                $('#jobDetail_' + key).html(data[key] || '');
+            });
+        }
+    };
+    var loadJobCpy = function (data) {
+        //jobCpy_Name,jobCpy_Ind,jobCpy_Nature,jobCpy_Scale,jobCpy_OffSite
+        if (data) {
+            $.each(data, function (key, val) {
+                $('#jobCpy_' + key).text(data[key] || '');
+            });
+        }
+    };
+    var jobDetailUrl = '@Url.Action("Detail", "JobPage")';
+    var loadSimilarJobs = function (data) {
+        var $SimilarJobs = $('#SimilarJobs');
+        //Id, ImgSrc,  Name, Pay, CpyName, Address
+        if (data) {
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                $SimilarJobs.append('<div class="row job" data-id="' + item.Id + '">\
+                    <div class="img col-md-4">\
+                        <img src="' + (item.ImgSrc || "../Content/img/cpylogo.jpg") + '" width="60px" height="60px" class="img-rounded " alt="">\
+                    </div>\
+                    <div class="col-md-8" style="padding: 0;line-height: 19px">\
+                        <p>'+ (item.Name || '') + '</p>\
+                        <p class="sal">'+ item.Pay + '</p>\
+                        <p class="smallText">'+ (item.CpyName || '') + ' [' + (item.Address || '') + ']</p>\
+                    </div>\
+                </div>\
+                <hr class="jobHr">');
+            }
+        }
+        $SimilarJobs.find('.job').click(function () {
+            var jobId = $(this).attr('data-id');
+            window.location.href = jobDetailUrl + '?id=' + jobId;
+        });
+    };
+    var applyJobUrl = '@Url.Action("ApplyJob", "JobPage")';
+    var applyJob = function () {
+        $.ajax({
+            type: "POST",
+            url: applyJobUrl,
+            data: { id: JobId },
+            dataType: "json",
+            success: function (data) {
+                if (data.state == 'success') {
+                    yifanToast("申请成功！", 'toast-md');
+                } else if (data.state == 'login') {
+                    yifanToast("请先登录", 'toast-md');
+                    $('#btnLogin').click();
+                } else {
+                    yifanToast("申请失败，请稍后重试。", 'toast-md');
+                }
+            }
+        });
+    };
+    var getJobUrl = '@Url.Action("GetJob", "JobPage")';
+    $(function () {
+        var JobJSON = '@Html.Raw(ViewBag.JobJSON)'//{ JobMain: null, JobDetail: null, JobCpy: null, SimilarJobs:null };
+        /*if (JobJSON) {
+            try {
+                var Job = JSON.parse(JobJSON);
+                loadJobMain(Job.JobMain);
+                loadJobDetail(Job.JobDetail);
+                loadJobCpy(Job.JobCpy);
+                loadSimilarJobs(Job.SimilarJobs);
+            } catch (e) {
+            }
+        }*/
+        $.ajax({
+            type: "GET",
+            url: getJobUrl,
+            data: {id:JobId},
+            dataType: "json",
+            success: function (data) {
+                var job = data.data;
+                if (job) {
+                    loadJobMain(job.JobMain);
+                    loadJobDetail(job.JobDetail);
+                    loadJobCpy(job.JobCpy);
+                    loadSimilarJobs(job.SimilarJobs);
+                }
+            }
+        });
+
+        $('#applyJob').click(applyJob);
+    });
+</script>
+

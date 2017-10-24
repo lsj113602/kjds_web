@@ -1,0 +1,60 @@
+<#@ template language="C#" debug="True" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension="cs" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="T4Toolbox.tt" #>
+<#@ include file="IRepository.ttinclude" #>
+<#@ include file="Repository.ttinclude" #>
+<#
+
+    string coreName = "PLKJDS", projectName = coreName + ".Data", entityProjectName = coreName + ".Entity";
+    string entityBaseModelName = entityProjectName + ".EntityBaseModel";
+    string entityBaseModelNameForReflection = entityProjectName + ".EntityModelBaseForReflection";
+    //当前完整路径
+    string currentPath = Path.GetDirectoryName(Host.TemplateFile);
+    //T4文件夹的父级文件夹路径
+    string projectPath = currentPath.Substring(0, currentPath.IndexOf(@"\T4"));
+    //解决方案路径
+    string solutionFolderPath = currentPath.Substring(0, currentPath.IndexOf(@"\" + projectName)); 
+
+    //加载数据实体.dll
+    string entityFilePath = string.Concat(solutionFolderPath, ("\\"+ entityProjectName +"\\bin\\Debug\\" + entityProjectName + ".dll"));
+    byte[] fileData = File.ReadAllBytes(entityFilePath);
+    Assembly assembly = Assembly.Load(fileData);
+    //反射出实体类，不知道为啥此处不能成功判定“是否继承EntityModelBaseForReflection类”
+    //因此只能通过名称比较的方式来判定
+    IEnumerable<Type> modelTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract).Where(m => m.BaseType.BaseType != null && m.BaseType.BaseType.FullName.Equals(entityBaseModelNameForReflection));
+
+    //循环实体类
+	foreach (Type item in modelTypes)
+    {
+        //找 实体文件夹 名称
+        string tempNamespace= item.Namespace, nameSpaceWithoutProjectName = tempNamespace.Substring(entityProjectName.Length);
+        //if(nameSpaceWithoutProjectName.IndexOf(".") != 0 || nameSpaceWithoutProjectName.LastIndexOf(".") > 0)
+        //{ continue; }
+   
+        //实体所在的数据库标识名称
+        string targetName = nameSpaceWithoutProjectName == "" ? "" : nameSpaceWithoutProjectName.Substring(1);
+        //目标文件的路径和名称（嵌套Generate文件夹是为了标识T4生成的类文件）
+        string fileName= targetName + @"\Generate\I" + item.Name + "Repository.cs";
+        
+		//仓储接口文件
+        string folderName= @"\IRepositories\";
+        IRepository irepository = new IRepository(item.Name, targetName);
+        irepository.Output.Encoding = Encoding.UTF8;
+        string path = projectPath + folderName + fileName;
+        irepository.RenderToFile(path);
+
+		//仓储文件
+		fileName= targetName + @"\Generate\" + item.Name + "Repository.cs";
+        folderName= @"\Repositories\";
+        Repository repository = new Repository(item.Name, targetName);
+        repository.Output.Encoding = Encoding.UTF8;
+        path = projectPath + folderName + fileName;
+        repository.RenderToFile(path);
+    }
+#>

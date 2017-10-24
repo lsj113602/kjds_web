@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户注册</title>
+    <!--导入页面css-->
+    <link href="~/UIContent/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/UIContent/css/style.css">
+    <link rel="stylesheet" href="~/UIContent/css/reset.css">
+    <link rel="stylesheet" href="~/UIContent/css/yifanToast.css">
+    <link rel="stylesheet" href="~/UIContent/css/font-awesome/css/font-awesome.min.css">
+    <script src="~/UIContent/js/jquery.min.js"></script>
+    <script src="~/UIContent/js/bootstrap.min.js"></script>
+    <script src="~/UIContent/js/yifanToast.js"></script>
+    <link href="~/Content/js/select2/select2.min.css" rel="stylesheet" />
+    <script src="~/Content/js/select2/select2.min.js"></script>
+    <script src="~/Content/js/framework-ui.js"></script>
+    <script src="~/Content/js/plupload/plupload.full.min.js"></script>
+    <script src="~/Content/js/loadDeviceParam.js"></script>
+    <script src="~/Content/js/md5/jquery.md5.js"></script>
+    <!--IE9适配，IE8以下浏览器不支持会提示-->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body style="background-color: #eee;height: 100%">
+    <!--导航条 begin-->
+    <header>
+        <nav class="navbar navbar-default mailNav">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand mailBrand" href="/">
+                        <div>
+                            <img class="mailBrandImg" src="~/UIContent/img/logo/logo.png" height="55px" width="auto" alt="">
+                            <div class="logoText">长沙跨境电商产学研平台</div>
+                        </div>
+
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse mailCollapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="bannerFontLogin"><a href="#" data-toggle="modal" data-target="#loginModal">我已注册，现在就 <span style="color: #e35b5a">登录</span></a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!--导航条 end-->
+    <!--用户注册模块 begin-->
+    <section class="container registerSection">
+        <div class="height50"></div>
+        <div class="text-center">
+            <p>新用户注册</p>
+        </div>
+        <div class="height30"></div>
+        <div class="registerForm">
+            <form class="form-horizontal">
+                <div class="form-group " style="position: relative">
+                    <label for="username" class="col-sm-3 control-label">用户名:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control registerInput" id="registerName" onblur="checkUserName()" placeholder="请输入用户名">
+                    </div>
+                    <div id="errorMessage1">
+                      
+                    </div>
+                </div>
+                <div class="height8"></div>
+                <div class="form-group" style="position: relative">
+                    <label for="password" class="col-sm-3 control-label">密码:</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control registerInput" id="registerPassword" placeholder="请输入密码" onchange="checkUserPassword()">
+                        <div id="errorMessage2">
+                            密码不得少于6位，且不多于20位！
+                        </div>
+                    </div>
+                </div>
+                <div class="height8"></div>
+                <div class="form-group">
+                    <label for="username" class="col-sm-3 control-label">所属院校:</label>
+                    <div class="col-sm-9">
+                        <select class="form-control registerInput" name="registerSchool" id="registerSchool" style="border-radius: 0">
+                            <!--<option style="color: #ddd" value="">请选择学校</option>
+                            <option value="1">长沙学院</option>
+                            <option value="2">湖南科技大学</option>
+                            <option value="3">中南大学</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="height8"></div>
+                <div class="form-group" style="position: relative">
+                    <label for="username" class="col-sm-3 control-label">学号:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control registerInput" id="registerStudentNo" placeholder="请输入您的学号" onchange="checkStuNo()">
+                    </div>
+                    <div id="errorMessage3">
+                        学号中不得含有特殊字符！
+                    </div>
+                </div>
+                <div class="height8"></div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">学生证:</label>
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="showImage">
+                                    <img id="cover_img" src="~/UIContent/img/images/plus.jpg" height="100%" width="100%" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="height50"></div>
+                                <div class="fontSize12">请上传学生证照片，支持JPG,GIF,PNG格式</div>
+                                @*<div style="height: 13px"></div>
+                                <a href="javascript:void(0);" class="file">
+                                    上传学生证
+                                    <input type="file" id="file" onchange="coverUpload()">
+                                </a>
+                                <input type="text" class="hidden" id="cover">*@
+                                @*<img id="PicImage" height="200" width="200" style="" />*@
+                                <input id="PhotoID" name="PhotoID" type="hidden" />
+                                <a id="selectImg" class="btn btn-default" style="margin-top:14px;">上传学生证</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" class="hidden" id="canSubmit" value="0">
+                <div class="height40"></div>
+                <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" onclick="submitRegister()" class="btn btn-primary registerBotton">注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="height50"></div>
+    </section>
+    <!--用户注册模块 end-->
+    <div class="height50"></div>
+    <footer>
+        <div class="footer text-center">
+            <div class="copyright">
+                <p class="text-center">
+                    <a class="footerTextTop" href="#"> 关于我们 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 常见问题 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 意见反馈 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 练习我们 </a>
+                </p>
+                <div class="height40"></div>
+                <p class="text-center">
+                    <span class="footerTextBottom"> 湘B2-20090191-26 </span>|
+                    <span class="footerTextBottom"> 京ICP备12020869号-2 </span>|
+                    <span class="footerTextBottom"> 京公网安备44010602000207 </span>
+                </p>
+                <div class="height20"></div>
+                <p class="text-center"><span class="footerTextBottom">&copy;2014-2016 www.ccsu.cn</span>
+            </div>
+        </div>
+    </footer>
+
+    <!--登录模态框 begin-->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="max-width:500px;margin-top: 18.5% ">
+            <div class="modal-content" style="max-width: 500px;">
+                <div class="modal-header" style="text-align: center;border-bottom: 0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body" style="padding: 20px 55px 20px 55px">
+                    <div class="loginText">登录</div>
+                    <div class="height40"></div>
+                    <!--用户登录表单-->
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control loginInput" id="txt_account" placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control loginInput" id="txt_password" placeholder="请输入密码">
+                        </div>
+                        <button type="button" id="login_button" class="btn btn-primary loginButton">登录</button>
+                        @*<div class="checkbox checkboxStyle">
+                            <label>
+                                <input type="checkbox" width="20px" style="border-radius: 0">
+                                下次自动登录 | <a href="#">忘记密码</a>
+                            </label>
+                        </div>*@
+                    </form>
+                    <div class="height40"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<!--独有js-->
+<script>
+    $(function ()
+    {
+        $("#registerSchool").bindSelect({
+            url: "@Url.Action("GetSchoolList", "Register")"
+        });
+        coverUpload();
+    });
+
+    function checkUserName() {
+        var reg = /^\w{6,20}$/g;
+        var reg2 = /<script>/g;
+        var registern = $('#registerName').val();
+        var errortip = "请输入6-20个字母、数字、下划线!";
+        $("#errorMessage1").text('');
+        if (reg.test(registern) || reg2.test(registern)) {
+            $("#errorMessage1").css("display", "none");
+        } else {
+            $("#errorMessage1").text(errortip);
+            $("#errorMessage1").css("display", "block");
+        }
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("IsExsitUser", "Register")',
+            data: { username: registern },
+            dataType: "Json",
+            success:function(result)
+            {
+                console.log(result);
+                if(result.state=="error")
+                {
+                    $("#errorMessage1").text(result.message);
+                    $("#errorMessage1").css("display", "block");
+                }
+            }
+        })
+    }
+    function checkUserPassword() {
+        if ($('#registerPassword').val().length < 6 || $('#registerPassword').val().length > 20) {
+            document.getElementById("errorMessage2").style.display = "block";
+        } else {
+            document.getElementById("errorMessage2").style.display = "none"
+        }
+    }
+    function checkStuNo() {
+        var reg = /^(\w){6,20}$/g;
+        if (!reg.exec($('#registerStudentNo').val())) {
+            document.getElementById("errorMessage3").style.display = "block";
+        } else {
+            document.getElementById("errorMessage3").style.display = "none"
+        }
+    }
+
+    //图片异步上传，后端写好图片处理逻辑，并且返回成功状态码10000和正确的url地址
+    function coverUpload() {
+        @*var form_data = new FormData();
+        var file = $("#file").prop("files")[0];
+        if (!file) {
+            return;
+        }
+        form_data.append("file", file);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SavePic","CoursePage")',
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            data: form_data,
+            success: function (data) {
+                console.log(data);
+                if (data.state == "success") {
+                   // $("#cover").val(data.data.id);
+                    $("#cover_img").attr("src", data.data)
+                } else {
+                    yifanToast("上传图片错误，请重试", 'toast-md');
+                }
+            },
+            error: function () {
+                yifanToast("无法连接服务器", 'toast-md');
+            }
+        })*@
+        var uploader = new plupload.Uploader({
+            browse_button: 'selectImg', //触发文件选择对话框的按钮，为那个元素id
+            url: '@Url.Action("SavePic", "CoursePage")', //服务器端的上传页面地址
+            multi_selection: false,
+            filters: {
+                max_file_size: "1mb",
+                mime_types: [{
+                    title: "图片类型",
+                    extensions: "jpg,png,gif,bmp"
+                }],
+                prevent_duplicates: true
+            },
+            init: {
+                FilesAdded: function (uploader, files) {
+                    //每个事件监听函数都会传入一些很有用的参数，
+                    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+                    uploader.start();
+                 
+                },
+                FileUploaded: function (up, file, data) {
+                    //每个事件监听函数都会传入一些很有用的参数，
+                    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+             
+                    var result = $.parseJSON(data.response);
+                    if (result.state == "success") {
+                        //userLogoID = result.Data.Items[0].ID;  
+                        //var imgpath = getRootPath() + result.data;
+                        $('#cover_img').attr('src', result.data);
+
+                        $('#PhotoID').attr('value', result.data);
+                    } else {
+                        alert(result.Message);
+                    }
+                }
+            }
+        });
+        uploader.init();
+    }
+
+    //<!--注册表单提交-->
+    function submitRegister() {
+        var registerName = $('#registerName').val();
+        var registerPassword = $('#registerPassword').val();
+        var registerSchool = $('#registerSchool').val();
+        var registerStudentNo = $('#registerStudentNo').val();
+        var cover = $('#PhotoID').val();
+        if (document.getElementById("errorMessage1").style.display == "block" || document.getElementById("errorMessage2").style.display == "block" || document.getElementById("errorMessage3").style.display == "block") {
+            yifanToast("请核查注册信息是否有错误项！", "toast-md")
+        } else {
+            if (registerName == "" || registerPassword == "" || registerSchool == "" || registerStudentNo == "" || cover == "") {
+                yifanToast("请填写完整注册信息！", "toast-md")
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("RegsiterUser", "Register")',
+                    dataType: "json",
+                    data: {
+                        UserName: registerName,
+                        Password: registerPassword,
+                        OrgID: registerSchool,
+                        StudentID: registerStudentNo,
+                        PicUrl: cover
+                    },
+                    success: function (data) {
+                        if (data.state == "success") {
+                            //用户注册时请处理好自动登录逻辑
+                            //window.location.reload();
+                            //   $.modalMsg('操作成功！自动登录中', 'success');
+                            yifanToast('注册成功!立即登录');
+                            @*setTimeout(function ()
+                            {
+                                window.location.href ='@Url.Action("Index", "Home")';
+                            },3000);*@
+                            $.ajax({
+                                url: '@Url.Action("CheckUserLogin", "UserLogin")',
+                                data: { username: $.trim(registerName), password: $.md5($.trim(registerPassword)) },
+                                type: "post",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.state == "success") {
+                                        window.setTimeout(function () {
+                                            window.location.href = '@Url.Action("Index", "Home")';
+                                        }, 500);
+                                    } else {
+                                        yifanToast(data.message);
+                                    }
+                                }
+                            });
+                            
+                        } else {
+                            //  $.modalMsg('注册失败', 'error');
+                            yifanToast('注册失败');
+                        }
+                    },
+                    error: function () {
+                        yifanToast("无法连接服务器，请检查您的网络!");
+                    }
+                });
+            }
+        }
+
+    }
+
+    (function ($) {
+        $.login = {
+            loginClick: function () {
+                var $username = $("#txt_account");
+                var $password = $("#txt_password");
+                if ($username.val() == "") {
+                    $username.focus();
+                    //$.login.formMessage('请输入用户名');
+                    return false;
+                } else if ($password.val() == "") {
+                    $password.focus();
+                    //$.login.formMessage('请输入登录密码。');
+                    return false;
+                }
+                else {
+                    $("#login_button").attr('disabled', 'disabled').find('span').html("loading...");
+                    $.ajax({
+                        url: '@Url.Action("CheckUserLogin", "UserLogin")',
+                        data: { username: $.trim($username.val()), password: $.md5($.trim($password.val())) },
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state == "success") {
+                                $("#login_button").find('span').html("登录成功，正在跳转...");
+                                window.setTimeout(function () {
+                                    window.location.href = '@Url.Action("Index", "Home")';
+                                }, 500);
+                            } else {
+                                $("#login_button").removeAttr('disabled').find('span').html("登录");
+                                yifanToast(data.message);
+                            }
+                        }
+                    });
+                }
+            },
+            init: function () {
+                $("#login_button").click(function () {
+                    $.login.loginClick();
+                });
+                document.onkeydown = function (e) {
+                    if (!e) e = window.event;
+                    if ((e.keyCode || e.which) == 13) {
+                        document.getElementById("login_button").focus();
+                        document.getElementById("login_button").click();
+                    }
+                }
+            }
+        };
+        $(function () {
+            $.login.init();
+        });
+    })(jQuery);
+</script>
+
+</html>

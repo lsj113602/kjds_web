@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="topPanel">
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="请输入参与者姓名" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "@Url.Action("GetParterJson", "TrainInfo")" + "?keyValue=" + keyValue,
+            height: $(window).height() - 150,
+            colModel: [
+                { label: '主键', name: 'ID', hidden: true },
+                { label: '姓名', name: 'TrueName', width: 80, align: 'left' },
+                { label: '性别', name: 'Gender', width: 80, align: 'left' },
+               
+                { label: '联系电话', name: 'Phone', width: 100, align: 'left' },
+                 {
+                     label: '所属机构', name: 'OrgName', width: 180, align: 'left',
+                 },
+                {
+                    label: '报名时间', name: 'PartTime', width: 120, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'y-m-d h:i:s', newformat: 'y-m-d h:i:s' }
+                }
+            ],
+            pager: "#gridPager",
+            sortname: 'CreatorTime',
+
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+            $gridList.jqGrid('setGridParam', {
+                postData: { keyword: $("#txt_keyword").val() },
+            }).trigger('reloadGrid');
+        });
+    }
+
+
+</script>

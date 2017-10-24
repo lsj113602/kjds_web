@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        var courseId = $("#CourseID option:selected").val();
+        getQuestionNum(courseId);
+    });
+    function submitForm() {
+        var prosum = $("#QuesetionNum").val();
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        else if (prosum == 0) {
+            return false;
+        }
+        else {
+            $.submitForm({
+                url: "/TestPaper/CreateTestPaper",
+                param: $("#form1").formSerialize(),
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            })
+        }
+
+    }
+
+    function initControl() {
+        $("#CourseID").bindSelect({
+            url: "/CourseChapter/GetCourseTree",
+            change: function () {
+                var courseID = $("#CourseID").val();
+                getQuestionNum(courseID);
+            }
+        });
+        loadSelect()
+    }
+
+    function getQuestionNum(id) {
+        $.ajax({
+            type: "post",
+            url: "/TestPaper/GetQuestionSum?courseID=" + id,
+            dataType: "Json",
+            success: function (result) {
+                var selectSum = result.selectTotal;
+                var TFSum = result.TFTotal;
+                var Sum = selectSum + TFSum;
+                if (Sum > 0 && Sum < 50) {
+                    $("#Numtip").text("温馨提示：题库中该课程的数量不足");
+                    $("#PassMark").val('');
+                }
+                else if (Sum < 0) {
+                    $("#Numtip").text("警告：题库中该课程的数量不足");
+                    $("#PassMark").val('');
+                }
+                else {
+                    $("#Numtip").text("");
+                }
+                $("#QuesetionNum").val(Sum);
+                $("#SelectNum").val(selectSum);
+                $("#TFNum").val(TFSum);
+                var seletmark = parseInt($("#SelectScore option:selected").val());
+                var TFmark = parseInt($("#TFScore option:selected").val());
+                var selectScore = selectSum * seletmark;
+                var TFScore = TFSum * seletmark;
+                var fullMark = selectScore + TFScore;
+                $("#FullMark").val(fullMark);
+                if (parseInt($("#FullMark").val()) < 100) {
+                    $("#PassMark").val('');
+                }
+            }
+        })
+    }
+
+
+
+    function getProSum(obj, type) {
+        var num = parseInt(obj.value);
+        var othernum = 0, selectScore = 0, TFScore = 0;
+        var seletmark = parseInt($("#SelectScore option:selected").val());
+        var TFmark = parseInt($("#TFScore option:selected").val());
+        switch (type) {
+            case "Select":
+                othernum = parseInt($("#TFNum").val());
+                selectScore = num * seletmark;
+                TFScore = othernum * TFmark;
+                break;
+            case "TF":
+                othernum = parseInt($("#SelectNum").val());
+                TFScore = num * TFmark;
+                selectScore = othernum * seletmark;
+                break;
+            default: break;
+        }
+        var sum = num + othernum;
+        var fullScore = selectScore + TFScore;
+        $("#QuesetionNum").val(sum);
+        $("#FullMark").val(fullScore);
+
+    }
+
+    function loadSelect()
+    {
+        $.ajax({
+            type: "post",
+            url: "/TestPaper/GetPaperDetail",
+            data:{paperID:keyValue},
+            dataType: "Json",
+            success:function(result)
+            {
+                alert(result.CourseID);
+            }
+        })
+    }
+
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;position:relative">
+        <div style="padding-top: 20px; margin-right: 30px;">
+    
+            <table class="form">
+
+                <tr>
+                    <td class="formValue" colspan="3">
+                       <label>试卷</label>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th class="formTitle">满分</th>
+                    <td class="formValue">
+                        <input id="FullMark" name="FullMark" type="text" class="form-control required" value="100" disabled />
+                    </td>               
+                    <th class="formTitle">及格分数</th>
+                    <td class="formValue">
+                        <input id="PassMark" name="PassMark" type="text" class="form-control required" value="60" />
+                    </td>
+                    <th class="formTitle">题目总数</th>
+                    <td class="formValue">
+                        <input id="QuesetionNum" name="QuesetionNum" type="number" value="50" class="form-control required" disabled />
+                    </td>
+                    <th class="formTitle">单选题数量</th>
+                    <td class="formValue">
+                        <input id="SelectNum" name="SelectNum" type="text" class="form-control required text" value="25"  />
+
+                    </td>
+                    <th class="formTitle">判断题数量</th>
+                    <td class="formValue">
+                        <input id="TFNum" name="TFNum" type="text" class="form-control required text" value="25"  />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style=" position: absolute; right: 48px; top: 105px;">
+            <a href="#" role="button" style="color:#0094ff"><i class="fa fa-plus"></i>添加题目</a>
+        </div>
+        <div class="panel panel-default selectPanel" style="width:90%;margin:35px;display:none;">
+            <div class="panel-heading">
+                <label>#title</label>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item" style="border:none" ><input type="radio" name="select">A</li>
+                    <li class="list-group-item" style="border:none"><input type="radio" name="select"> B</li>
+                    <li class="list-group-item" style="border:none"><input type="radio" name="select"> C</li>
+                    <li class="list-group-item" style="border:none"><input type="radio" name="select"> D</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</form>

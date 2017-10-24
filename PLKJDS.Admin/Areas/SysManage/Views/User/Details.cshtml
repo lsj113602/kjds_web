@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        $.ajax({
+            url: getRootPath()+ "/SysManage/User/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+                $("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                $("#form1").find('div.ckbox label').attr('for', '');
+                $("#F_UserPassword").val("******");
+            }
+        });
+    });
+    function initControl() {
+        $("#Gender").bindSelect();
+        $("#OrgID").bindSelect({
+            url: getRootPath()+ "/SysManage/Organize/GetTreeSelectJson"
+        });
+        $("#RoleID").bindSelect({
+            url: getRootPath()+ "/SysManage/Role/GetTreeSelectJson",
+            id: "ID",
+            text: "RoleName"
+        });
+    }
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#">基本信息</a></li>
+            @*<li ><a href="#">扩展信息</a></li>*@
+        </ul>
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">账户</th>
+                    <td class="formValue">
+                        <input id="UserName" name="UserName" type="text" class="form-control required" placeholder="请输入账户" />
+                    </td>
+                    <th class="formTitle">密码</th>
+                    <td class="formValue">
+                        <input id="Passsword" name="Passsword" type="password" class="form-control required" placeholder="请输入密码" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">公司</th>
+                    <td class="formValue">
+                        <select id="OrgID" name="OrgID" class="form-control required"></select>
+                    </td>
+                    <th class="formTitle">角色</th>
+                    <td class="formValue">
+                        <select id="RoleID" name="RoleID" class="form-control required">
+                            <option value="">==请选择==</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">姓名</th>
+                    <td class="formValue">
+                        <input id="TrueName" name="TrueName" type="text" class="form-control required" placeholder="请输入姓名" />
+                    </td>
+                    <th class="formTitle">性别</th>
+                    <td class="formValue">
+                        <select id="Gender" name="Gender" class="form-control required">
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">手机</th>
+                    <td class="formValue">
+                        <input id="Phone" name="Phone" type="text" class="form-control" />
+                    </td>
+                    <th class="formTitle">生日</th>
+                    <td class="formValue">
+                        <input id="BirthDay" name="BirthDay" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">微信</th>
+                    <td class="formValue">
+                        <input id="WetChat" name="WetChat" type="text" class="form-control" />
+                    </td>
+                    <th class="formTitle">邮箱</th>
+                    <td class="formValue">
+                        <input id="EMail" name="EMail" type="text" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle" style="height: 35px;">选项</th>
+                    <td class="formValue" style="padding-top: 1px;">
+                        <div class="ckbox">
+                            <input id="IsLogin" name="IsLogin" type="checkbox" checked="checked"><label for="IsLogin">允许登录</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle" valign="top" style="padding-top: 5px;">
+                        备注
+                    </th>
+                    <td class="formValue" colspan="3">
+                        <textarea id="ReMark" name="ReMark" class="form-control" style="height: 60px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DD824908-5480-4D78-855A-BF8D8094301D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PLKJDS.Entity</RootNamespace>
+    <AssemblyName>PLKJDS.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountType.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Area.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Authorize.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Banner.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChapterContent.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChapterContentType.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChapterQuestionSelect.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChapterQuestionTR.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CooperateOrg.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CooperateOrgRecord.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Course.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CourseChapter.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CourseLevel.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CourseOrg.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CourseParter.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerResume.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Customize\ChapterContent.cs" />
+    <Compile Include="Customize\ChapterQuestionSelect.cs" />
+    <Compile Include="Customize\ChapterQuestionTR.cs" />
+    <Compile Include="Customize\CourseParter.cs" />
+    <Compile Include="Customize\ExaminationPaperDetail.cs" />
+    <Compile Include="Customize\ExaminationPaper.cs" />
+    <Compile Include="Customize\EmployPublish.cs" />
+    <Compile Include="Customize\EmployPosition.cs" />
+    <Compile Include="Customize\Employ.cs" />
+    <Compile Include="Customize\File.cs" />
+    <Compile Include="Customize\TrainData.cs" />
+    <Compile Include="Customize\TrainInfo.cs" />
+    <Compile Include="Customize\CourseChapter.cs" />
+    <Compile Include="Customize\Authorize.cs" />
+    <Compile Include="Customize\Course.cs" />
+    <Compile Include="Customize\AccountType.cs" />
+    <Compile Include="Customize\Organize.cs" />
+    <Compile Include="Customize\Role.cs" />
+    <Compile Include="Customize\RoleAuthorize.cs" />
+    <Compile Include="Customize\User.cs" />
+    <Compile Include="Customize\UserData.cs" />
+    <Compile Include="dic.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Education.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Employ.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployPart.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployPosition.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployPublish.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployType.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationPaper.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationPaperDetail.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationPaperUser.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationUser.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="File.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FileType.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\EntityBaseModel.cs" />
+    <Compile Include="Infrastructure\EntityModelBaseForReflection.cs" />
+    <Compile Include="Infrastructure\ICreationAudited.cs" />
+    <Compile Include="Infrastructure\IDeleteAudited.cs" />
+    <Compile Include="Infrastructure\IModificationAudited.cs" />
+    <Compile Include="Jobapplication.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MessageReceived.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MessageSend.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Organize.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PLYL.Entity.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QsBank.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResumeBaseInfo.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="resumecer.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResumeConfig.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="resumeeduback.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="resumetrainexp.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="resumeworkexp.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoleAuthorize.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Skill.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Skill2.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TeacherGroup.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TeacherGroupUser.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestMaterials.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrainData.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrainExperience.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrainInfo.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrainParter.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserCollect.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserCourse.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserData.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\AuthorizeActionModel.cs" />
+    <Compile Include="ViewModel\UserListModel.cs" />
+    <Compile Include="WorkExperience.cs">
+      <DependentUpon>PLYL.Entity.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SQLServerReversePOCO.Core.ttinclude" />
+    <None Include="SQLServerReversePOCO.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PLYL.Entity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PLYL.Entity.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PLKJDS.Common\PLKJDS.Common.csproj">
+      <Project>{5dcb78bc-4bfa-46bf-8333-885356b68eca}</Project>
+      <Name>PLKJDS.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

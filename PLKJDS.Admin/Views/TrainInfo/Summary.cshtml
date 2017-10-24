@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<link href="~/Content/css/updoadFiles/reset.css" rel="stylesheet" />
+<link href="~/Content/css/updoadFiles/default.css" rel="stylesheet" />
+<link href="~/Content/css/updoadFiles/jquery-filer.css" rel="stylesheet" />
+<link href="~/Content/css/updoadFiles/jquery.filer.css" rel="stylesheet" />
+<link href="~/Content/css/updoadFiles/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
+<link href="~/Content/css/updoadFiles/tomorrow.css" rel="stylesheet" />
+<link href="~/Content/css/updoadFiles/custom.css" rel="stylesheet" />
+<script src="~/Content/js/plupload/plupload.full.min.js"></script>
+<script src="~/Content/js/loadDeviceParam.js"></script>
+<script src="~/Content/js/updoadFile/jquery.filer.min.js"></script>
+<script src="~/Content/js/updoadFile/prettify.js"></script>
+<script src="~/Content/js/updoadFile/scripts.js"></script>
+<script src="~/Content/js/updoadFile/custom.js"></script>
+<link href="~/Content/js/simditor/css/simditor.css" rel="stylesheet" />
+<script src="~/Content/js/simditor/js/module.min.js"></script>
+<script src="~/Content/js/simditor/js/hotkeys.min.js"></script>
+<script src="~/Content/js/simditor/js/simditor.min.js"></script>
+<script src="~/Content/js/jquery.searchableSelect.js"></script>
+<style>z #selectImg {
+        top: -109px;
+        left: 229px;
+    }
+</style>
+<script>
+    var keyValue = $.request("keyValue");
+
+    var editor;
+    $(function () {
+        editor = new Simditor({
+            textarea: $('#Summary'),
+            toolbar: ['title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent']
+        });
+        $("#TrainID").val(keyValue);
+    });
+
+    //function submitForm() {
+    //    var summary = $("#FileID").val($("#Summary").val());
+    //    var fileID = encodeURIComponent($("#FileID").val());
+    //    console.log(summary);
+    //    console.log(fileID);
+    //    console.log(keyValue);
+    //    if (fileID == "" || fileID == "undefined" || fileID == null)
+    //    {
+    //        alert("请选择上传文件");
+    //    }
+    //    else if (summary == "" | summary == "undefined")
+    //    {
+    //        alert("请输入活动总结");
+    //    }
+    //    else {
+    //        $.ajax({
+    //            type: "post",
+    //            url: "/TrainInfo/SubmitSummary",
+    //            data:{trainID:keyValue,fileID:fileID,summary:summary},
+    //            dataType: "Json",
+    //            success: function () {
+    //                alert("success");
+    //            }
+    //        })
+    //    }
+
+    //}
+
+    function submitForm() {
+        $("#TrainID").val(keyValue);
+        //var summary = $("#Summary").val()
+       var summary= $("#Summary").val();
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        else {
+
+            $.submitForm({
+                url: "/TrainInfo/SubmitSummary?summary="+summary,
+                param: $("#form1").formSerialize(),
+                success: function () {
+                    $.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            })
+        }
+    }
+
+    function HTMLEncode(html) {
+        var temp = document.createElement("div");
+        (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html);
+        var output = temp.innerHTML;
+        temp = null;
+        return output;
+    }
+
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+              
+                <tr>
+                    <td colspan="3">
+                        <div>
+                            <input type="file" name="file" id="demo-fileInput-6" multiple="multiple">
+                            <input type="hidden" id="FileID" name="FileID" />
+                            <input type="hidden" id="TrainID" name="TrainID" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <textarea id="Summary" placeholder="请输入培训总结" autofocus ></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>

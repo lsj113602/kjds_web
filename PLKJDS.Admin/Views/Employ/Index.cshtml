@@ -1,0 +1,160 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<style>
+
+</style>
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="NF-add" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>创建项目招聘</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first">已选中<span>1</span>项</li>
+                <li><a id="NF-edit" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改项目招聘</a></li>
+                <li><a id="NF-delete" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除项目招聘</a></li>
+                <li><a id="NF-Details" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看项目招聘</a></li>
+                <li class="split"></li>
+                <li><a id="NF-parter" onclick="btn_parter()"><i class="fa fa-asterisk"></i>应聘人员管理</a></li>
+                <li style="display:none" id="reviseCourse"><a id="NF-revisepassword" onclick="btn_revisecourse()"><i class="fa fa-key"></i>重新开课</a></li>
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+        <script>$('.toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="请输入招聘岗位" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            treeGrid: true,
+            treeGridModel: "adjacency",
+            ExpandColumn: "ChapterName",
+            url: "@Url.Action("GetGridJson", "Employ")",
+            height: $(window).height() - 128,
+            colModel: [
+                { label: '主键', name: 'ID', hidden: true },
+                { label: '招聘单位', name: 'CompanyName', width: 200, align: 'left' },
+                { label: '招聘岗位', name: 'Title', width: 180, align: 'left' },
+                {
+                    label: '工作类型', name: 'TypeID', width: 120, align: 'left',
+                },
+                {
+                    label: '状态', name: 'StatusCode', width: 100, align: 'left',
+                    formatter:function(cellvalue)
+                    {
+                        var statu="";
+                        switch(cellvalue)
+                        {
+                            case "0":statu="待审批"; break;
+                            case "1": statu = "已发布"; break;
+                            case "2": statu = "未通过审批"; break;
+                        }
+                        return statu;
+                    }
+                },
+                {
+                    label: '创建时间', name: 'CreatorTime', width: 100, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                }
+            ],
+            pager: "#gridPager",
+            sortname: 'CreatorTime',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+            $gridList.jqGrid('setGridParam', {
+                postData: { keyword: $("#txt_keyword").val() },
+            }).trigger('reloadGrid');
+        });
+    }
+
+
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "创建项目招聘",
+            url: "@Url.Action("Form", "Employ")",
+            width: "650px",
+            height: "850px",
+            callBack: function (iframeId) {
+            top.frames[iframeId].submitForm();
+        }
+    });
+    }
+
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().ID;
+        $.modalOpen({
+            id: "Form",
+            title: "修改项目招聘",
+            url: "@Url.Action("Form", "Employ")"+"?keyValue=" + keyValue,
+            width: "650px",
+            height: "610px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+
+    function btn_details() {
+        var keyValue = $("#gridList").jqGridRowValue().ID;
+        $.modalOpen({
+            id: "Form",
+            title: "查看项目招聘",
+            url: "@Url.Action("Details", "Employ")"+"?keyValue=" + keyValue,
+            width: "650px",
+            height: "710px",
+            callBack: function (iframeId) {
+            top.frames[iframeId].submitForm();
+        }
+    });
+       
+    }
+
+    function btn_delete() {
+        $.deleteForm({
+            url: "@Url.Action("DeleteForm", "Employ")",
+            param: { keyvalue: $("#gridList").jqGridRowValue().ID },
+            success: function () {
+                $("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+
+    function btn_parter()
+    {
+        var keyValue = $("#gridList").jqGridRowValue().ID;
+        window.location.href = "/Employ/Parter?keyValue=" + keyValue;
+    }
+
+
+   
+</script>

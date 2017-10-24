@@ -1,0 +1,199 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "跨境电商产学研平台";
+}
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+ /*.page{width:480px;margin:auto;}*/
+</style>
+<div class="height10"></div>
+<!--课程分类导航条 begin-->
+<section class="courseNav container">
+    <ul class="nav nav-pills mailNavCategory">
+        <li role="presentation" class="categoryActive"><a href="javascript:void(0);" onclick="$.course.setLevelID('-1', this);">最新</a></li>
+        @*<li role="presentation"><a href="javascript:void(0);" onclick="$.course.setLevelID('0', this);">最热</a></li>*@
+        <li role="presentation"><a href="javascript:void(0);" onclick="$.course.setLevelID('1', this);">历史通知</a></li>
+    </ul>
+</section>
+<!--课程分类导航条 end-->
+<div class="height10"></div>
+
+<!--课程列表 begin-->
+<section class="courseList container">
+    <div class="height8"></div>
+    <!--需要渲染的内容 begin-->
+    <div id="courseList">
+
+    </div>
+    <!--需要渲染的内容 end-->
+    <div class="height10"></div>
+</section>
+<section class="courseList container">
+    <!--分页组件 begin-->
+    <div class="text-center">
+        <div class="page" id="page6"></div>
+        @*<nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="pages disabled">
+                    <a href="javascript:void(0);" aria-label="Previous">
+                        <span aria-hidden="true">< 上一页</span>
+                    </a>
+                </li>
+                <li class="pages pageNow"><a href="javascript:void(0);">1</a></li>
+                <li class="pages"><a href="javascript:void(0);">2</a></li>
+                <li class="pages"><a href="javascript:void(0);">3</a></li>
+                <li class="pages"><a href="javascript:void(0);">4</a></li>
+                <li class="pages"><a href="javascript:void(0);">5</a></li>
+                <li class="pages">
+                    <a href="javascript:void(0);" aria-label="Next">
+                        <span aria-hidden="true">下一页 ></span>
+                    </a>
+                </li>
+            </ul>
+        </nav>*@
+    </div>
+
+    <!--分页组件 end-->
+    <div class="height10"></div>
+</section>
+<div class="height50"></div>
+<!--内容填充-->
+<script>
+    (function ($) {
+        var param = {
+            rows: 12,
+            page: 1,
+            sidx: "PublishTime",
+            levelID: -1,
+            statusCode: -1,
+            sord: "desc"
+        };
+        $.course = {
+            requestParam: param,
+            setLevelID: function (levelid, t) {
+                $.course.requestParam.levelID = levelid;
+                //style change
+                console.log($(t));
+                $(t).parent().parent().children().removeClass('categoryActive');
+                $(t).parent().addClass('categoryActive');
+                $.course.init();
+            },
+            statusCode: function (statuscode, t) {
+                $.course.requestParam.statusCode = statuscode;
+                //style change
+                //console.log($(this));
+                $(t).parent().children().removeClass('courseActive');
+                $(t).addClass('courseActive');
+                $.course.init();
+            },
+            setpage: function (pagecount, t) {
+                $.course.requestParam.page = pagecount;
+                //style change
+                console.log($(t));
+                $(t).parent().parent().children().removeClass('categoryActive');
+                $(t).parent().addClass('categoryActive');
+                $.course.init();
+            },
+            buildCourseList: function (courseList) {
+                var str ='<div class="col-md-3 col-xs-12 bottom25">'
+               + '<a href="@Url.Action("TrainDetail", "TrainPage")?trainID={7}" class="textA">'
+               + '<div class="textBox evenflow_scale">'
+               + '<div class="textImg" style="background-image: url({0});height: 148px;width: 265px;background-position: center;background-size: cover">'
+               + '<!--底部黑色半透明div begin-->'
+                + '<div class="bottomText">'
+               + '<div class="row">'
+               + '<div class="col-md-6 imgContent">{1}</div>'
+              + '</div>'
+              + '</div>'
+               + '<!--底部黑色半透明div end-->'
+                + '</div>'
+                + '<!--课程详情 begin-->'
+               + '<div class="textDetail">'
+              + '<div class="textTime"><i class="fa fa-calendar-minus-o colorFont"></i> <span> {2}-{3}</span></div>'
+              + '<div class="textLocation"><i class="fa fa-map-marker colorFont  fontBig"></i> <span> {4}</span></div>'
+             + '</div>'
+              + '<div class="signUp">'
+              + '<div class="row">'
+              + '<div class="col-md-6 ">主办方：{5}</div>'
+          //    + '<div class="col-md-6 "><span class="numColor">{5}</span>人已报名</div>'
+        //     + '<div class="col-md-6 colorFont text-right">{6}人</div>'
+             + '</div>'
+             + '</div>'
+              + '<!--课程详情 end-->'
+              + '</div>'
+             + '</a>'
+              + '</div>';
+                var html = "";
+
+                $.each(courseList, function (i, n) {
+                    var temp = str, starttime = "", endtime = "";
+                    if (n.EndTime != null && n.EndTime != "")
+                    {
+                        var endArr = n.EndTime.split(' ');
+                        endtime = endArr[1];
+                        endtime = endtime.substring(0, endtime.length - 3);
+                    }
+                    if (n.StartTime != null && n.StartTime != "") {
+                        var starttime = n.StartTime.substring(0, n.StartTime.length - 3);
+                    }
+                    console.log(starttime);
+                    temp = temp.replace("{0}", n.PhotoID);
+                    temp = temp.replace("{1}", n.TrainTitle);
+                    temp = temp.replace("{2}", starttime);
+                    temp = temp.replace("{3}", endtime);
+                    temp = temp.replace("{4}", n.Address);
+                    temp = temp.replace("{5}", n.Host);
+                  //  temp = temp.replace("{5}", n.PartNumber);
+                    //  temp = temp.replace("{6}", "限额"+n.LimitNumber);
+                    //if (n.LimitNumber > 0) {
+                    //    temp = temp.replace("{6}", "限额" + n.LimitNumber);
+                    //} else {
+                    //    temp = temp.replace("{6}", "不限额" );
+                    //}
+                    temp = temp.replace("{7}", n.ID);
+                    html += temp;
+                });
+                return html;
+
+
+            },
+            init: function () {
+                $.ajax({
+                    url:'@Url.Action("GetTrainPageList2", "TrainPage")',
+                    data: $.course.requestParam,
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.state == "success") {
+                            $('#page6').html("");
+                            MyPage(data.data.Page);
+                            var courseListHTML = $.course.buildCourseList(data.data.CourseList);
+                            $("#courseList").html(courseListHTML);
+                        }
+                    }
+                });
+            }
+        };
+        $(function () {
+            $.course.init();
+        });
+    })(jQuery);
+
+
+    function MyPage(Page) {
+        $.mypage("page6", Page.page, Page.total, function (page) {
+            $.course.setpage(page, this);
+            updatePage(page);
+        });
+    }
+    function updatePage(now){
+        $.mypage("page6", now, Page.total, function (page) {
+            $.course.setpage(page, this);
+            updatePage(page);
+        });
+    }
+</script>

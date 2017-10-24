@@ -1,0 +1,201 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "课程-跨境电商产学研平台";
+}
+@*<link href="~/Content/js/kkpager/kkpager_blue.css" rel="stylesheet" />*@
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+</style>
+<!--内容填充-->
+<div class="height30"></div>
+<!--课程分类导航条 begin-->
+<section class="courseNav container">
+    <ul class="nav nav-pills mailNavCategory" id="ul_jobPost">
+        <li class="tagType">工作岗位：</li>
+        <li role="presentation" class="categoryActive"><a data-id="" href="javascript:;">全部</a></li>
+    </ul>
+    <div class="height30"></div>
+    <ul class="nav nav-pills mailNavCategory" id="ul_jobType">
+        <li class="tagType">工作类型：</li>
+        <li role="presentation" class="categoryActive"><a data-id="" href="javascript:;">全部</a></li>
+    </ul>
+    <div class="height30"></div>
+    <ul class="nav nav-pills mailNavCategory" id="ul_jobArea">
+        <li class="tagType">工作地点：</li>
+        <li role="presentation" class="categoryActive"><a data-id="" href="javascript:;">全部</a></li>
+    </ul>
+</section>
+<!--课程分类导航条 end-->
+
+<div class="height30"></div>
+<!--课程列表 begin-->
+<section class="jobList container">
+    <div class="row" id="jobList">
+    </div>
+    <!--分页组件 begin-->
+    <div class="text-center">
+        @*<div id="kkpager"></div>*@
+        <div class="page" id="page6"></div>
+    </div>
+    <!--分页组件 end-->
+
+    <div class="height30"></div>
+</section>
+<!--课程列表 end-->
+<div class="height50"></div>
+
+@*<script src="~/Content/js/kkpager/kkpager.min.js"></script>*@
+<script type="text/javascript">
+    //工作岗位
+    var loadJobPost = function (data) {
+        //ul_jobPost
+        //<li role="presentation"><a href="#">IT/互联网</a></li>
+        if (data) {
+            var $ul_jobPost = $('#ul_jobPost');
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                $ul_jobPost.append('<li role="presentation"><a data-id="'+item.Id+'" href="javascript:;">'+item.Name+'</a></li>');
+            }
+
+            $ul_jobPost.find('a').click(function () {
+                laodJobCondition.jobPostId = $(this).attr('data-id');
+                laodJobCondition.pageNo = 1;
+                loadJob();
+            });
+        }
+    };
+    //工作类型
+    var loadJobType = function (data) {
+        //ul_jobType
+        //<li role="presentation"><a href="#">全职</a></li>
+        if (data) {
+            var $ul_jobType = $('#ul_jobType');
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                $ul_jobType.append('<li role="presentation"><a data-id="' + item.Id + '" href="javascript:;">' + item.Name + '</a></li>');
+            }
+
+            $ul_jobType.find('a').click(function () {
+                laodJobCondition.jobTypeId = $(this).attr('data-id');
+                laodJobCondition.pageNo = 1;
+                loadJob();
+            });
+        }
+    };
+    //工作地点
+    var loadJobArea = function (data) {
+        //ul_jobArea
+        //<li role="presentation"><a href="#">北京</a></li>
+        if (data) {
+            var $ul_jobArea = $('#ul_jobArea');
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                $ul_jobArea.append('<li role="presentation"><a data-id="' + item.Id + '" href="javascript:;">' + item.Name + '</a></li>');
+            }
+
+            $ul_jobArea.find('a').click(function () {
+                laodJobCondition.jobAreaId = $(this).attr('data-id');
+                laodJobCondition.pageNo = 1;
+                loadJob();
+            });
+        }
+    };
+
+    //加载数据
+    var laodJobCondition = { jobPostId: null, jobTypeId: null, jobAreaId: null, pageNo: 1, pageSize: 8 };
+    var loadJobUrl = '@Url.Action("GetJobs", "JobPage")';
+    var jobDetailUrl = '@Url.Action("Detail", "JobPage")';
+    var loadJob = function () {
+        $.ajax({
+            type: "GET",
+            url: loadJobUrl,
+            data: laodJobCondition,
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var $jobList = $('#jobList');
+                $jobList.empty();
+                if (data.List.length > 0) {
+                    for (var i = 0; i < data.List.length; i++) {
+                        var item = data.List[i];
+                        //Id, Name:市场推广, Type:兼职, Cpy:湖南纽曼数码科技有限公司, Address:工作地点, Count:招聘人数, PubDT:发布时间, Pay:薪资
+                        $jobList.append('<div class="col-md-6 bottom50 jobItem" data-id="'+item.Id+'">\
+                            <div class="row bottom20">\
+                                <div class="col-md-4">\
+                                    <span class="recruitTitle">'+(item.Name||'')+'</span>\
+                                    <div class="btn btn-default jobButton">\
+                                        '+(item.Type||'')+'\
+                                    </div>\
+                                </div>\
+                                <div class="col-md-8">\
+                                    <span class="comp">'+(item.Cpy||'')+'</span>\
+                                </div>\
+                            </div>\
+                            <div class="row bottom15">\
+                                <div class="col-md-5">\
+                                    <div class="textLocation"><i class="fa fa-map-marker colorFont2  fontBig2"></i> <span> 工作地点：' + (item.Address||'') + '</span></div>\
+                                </div>\
+                                <div class="col-md-7">\
+                                    <div class="textLocation"><i class="fa fa-user-circle colorFont2  fontBig2"></i> <span> 招聘人数：' + (item.Count||'') + '人</span></div>\
+                                </div>\
+                            </div>\
+                            <div class="row">\
+                                <div class="col-md-5">\
+                                    <div class="textLocation"><i class="fa fa-clock-o colorFont  fontBig"></i> <span> 发布时间：' + (item.PubDT||'') + '</span></div>\
+                                </div>\
+                                <div class="col-md-7">\
+                                    <div class="textLocation"><i class="fa fa-yen colorFont  fontBig"></i> <span> 薪资：' + (item.Pay||'') + '</span></div>\
+                                </div>\
+                            </div>\
+                        </div>');
+                    }
+
+                    $jobList.find('.jobItem').click(function () {
+                        var jobId = $(this).attr('data-id');
+                        window.location.href = jobDetailUrl + '?id=' + jobId;
+                    });
+                }else {
+                    $jobList.append('抱歉，暂无相关信息！');
+                }
+
+                //生成分页
+                //kkpager.generPageHtml({
+                //    pno: laodJobCondition.pageNo,
+                //    total: data.TotalPage,   //总页码
+                //    totalRecords: data.TotalRecord,//总数据条数
+                //    mode: 'click',
+                //    click: function (n) {
+                //        this.selectPage(n);
+                //        //重新执行查询
+                //        laodJobCondition.pageNo = n;
+                //        loadJob();
+                //        return false;
+                //    }
+                //}, true);
+
+                $.mypage("page6", laodJobCondition.pageNo, data.TotalPage, function (page) {
+                    laodJobCondition.pageNo = page;
+                    loadJob();
+                });
+            }
+        });
+    };
+
+    $(function () {
+        var ConditionJSON = '@Html.Raw(ViewBag.ConditionJSON)'//{ JobPosts: null, JobTypes: null, JobAreas: null };
+        if (ConditionJSON) {
+            try {
+                var Condition = JSON.parse(ConditionJSON);
+                loadJobPost(Condition.JobPosts);
+                loadJobType(Condition.JobTypes);
+                loadJobArea(Condition.JobAreas);
+            } catch (e) {
+            }
+        }
+
+        loadJob();
+    });
+</script>

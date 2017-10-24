@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{23A85A97-2B76-420B-A4E0-7052930189FB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PLKJDS.Reference</RootNamespace>
+    <AssemblyName>PLKJDS.Reference</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Aspose.Words.dll" />
+    <Content Include="Aspose.Words.xml" />
+    <Content Include="EntityFramework.6.1.3\EntityFramework.dll" />
+    <Content Include="EntityFramework.6.1.3\EntityFramework.SqlServer.dll" />
+    <Content Include="EntityFramework.6.1.3\EntityFramework.SqlServer.xml" />
+    <Content Include="EntityFramework.6.1.3\EntityFramework.xml" />
+    <Content Include="EntityFramework.6.1.3\zh-Hans\EntityFramework.resources.dll" />
+    <Content Include="EntityFramework.6.1.3\zh-Hans\EntityFramework.SqlServer.resources.dll" />
+    <Content Include="EntityFramework.6.1.3\zh-Hans\EntityFramework.SqlServer.xml" />
+    <Content Include="EntityFramework.6.1.3\zh-Hans\EntityFramework.xml" />
+    <Content Include="ICSharpCode.SharpZipLib.dll" />
+    <Content Include="Lengine.SDK\Lengine.Common.dll" />
+    <Content Include="Lengine.SDK\Lengine.Interface.dll" />
+    <Content Include="Lengine.SDK\log4net.dll" />
+    <Content Include="Lengine.SDK\Newtonsoft.Json.dll" />
+    <Content Include="Lengine.SDK\protobuf-net.dll" />
+    <Content Include="Lengine.SDK\protobuf-net.xml" />
+    <Content Include="log4net.2.0.5\log4net.dll" />
+    <Content Include="log4net.2.0.5\log4net.xml" />
+    <Content Include="MySql.Data.6.9.9\MySql.Data.dll" />
+    <Content Include="MySql.Data.Entity.6.9.9\MySql.Data.Entity.EF6.dll" />
+    <Content Include="Lengine.SDK\Lengine.SDK.dll" />
+    <Content Include="Newtonsoft.Json.6.0.4\Newtonsoft.Json.dll" />
+    <Content Include="Newtonsoft.Json.6.0.4\Newtonsoft.Json.xml" />
+    <Content Include="NPOI.2.2.1\NPOI.dll" />
+    <Content Include="NPOI.2.2.1\NPOI.OOXML.dll" />
+    <Content Include="NPOI.2.2.1\NPOI.OpenXml4Net.dll" />
+    <Content Include="NPOI.2.2.1\NPOI.OpenXmlFormats.dll" />
+    <Content Include="NPOI.2.2.1\NPOI.XML" />
+    <Content Include="Oracle.ManagedDataAccess.12.1.2400\Oracle.ManagedDataAccess.dll" />
+    <Content Include="Oracle.ManagedDataAccess.EntityFramework.12.1.2400\Oracle.ManagedDataAccess.EntityFramework.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

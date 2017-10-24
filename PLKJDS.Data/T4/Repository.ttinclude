@@ -1,0 +1,36 @@
+﻿<#+
+public class Repository : CSharpTemplate
+{
+    private string _modelName;
+    private string _prefixName;
+
+    public Repository(string modelName, string prefixName)
+    {
+        _modelName = modelName;
+        _prefixName = prefixName == "" ? "" : "." + prefixName;
+    }
+
+	public override string TransformText()
+	{
+		base.TransformText();
+#>
+using System;
+using PLKJDS.Entity;
+using System.Collections.Generic;
+using PLKJDS.Data.IRepositories<#= _prefixName #>;
+
+namespace PLKJDS.Data.Repositories<#= _prefixName #>
+{
+	/// <summary>
+    /// I<#= _modelName #>Repository仓储接口
+    /// </summary>
+    public partial class <#= _modelName #>Repository : RepositoryBase<<#= _modelName #>>, I<#= _modelName #>Repository
+    {
+	 
+    }
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

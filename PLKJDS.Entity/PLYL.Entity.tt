@@ -1,0 +1,322 @@
+﻿<#@ include file="SQLServerReversePOCO.Core.ttinclude" #>
+<#
+    // 主设置 **********************************************************************************************************************
+    ConnectionStringName = "PLKJDS";   // 在 ConfigFilenameSearchOrder设置中搜索的连接字符串名称
+    // Namespace = ""; // 覆盖默认的命名空间
+    DbContextName = "MyDbContext";
+    //DbContextInterfaceName = "IMyDbContext"; //默认为 "I" + DbContextName
+    DbContextInterfaceBaseClasses = "System.IDisposable";    // 申明DbContextInterface接口的基类
+    DbContextBaseClass = "System.Data.Entity.DbContext";   // 定义DbContext的基类. For ASP.NET Identity use "IdentityDbContext<ApplicationUser>"
+    //DefaultConstructorArgument = "EnvironmentConnectionStrings.MyDbContext"; //默认为"Name=" + ConnectionStringName
+    TargetFrameworkVersion = "4.51"; // .NET framework 版本, 4.0, 4.5, 4.51等等.
+    ConfigurationClassName = "Mapping"; // Configuration, Mapping, Map, etc. This is appended to the Poco class name to configure the mappings.
+    ConfigFilenameSearchOrder = new[] { "app.config", "web.config", "app.config.transform", "web.config.transform" }; // 搜索文件，优先从本工程搜索，再到整个解决方案搜索
+    MakeClassesPartial = true;
+    MakeDbContextInterfacePartial = true;
+    GenerateSeparateFiles = true; // 是否为每个Entity生成独立的文件
+    UseMappingTables = true; // If true, mapping will be used and no mapping tables will be generated. If false, all tables will be generated.
+    UseCamelCase = false;    // 表名和字段名是否采用驼峰命名法
+    IncludeComments = CommentsStyle.AtEndOfField; // 是否包括字段描述
+    IncludeExtendedPropertyComments = CommentsStyle.InSummaryBlock; // 增加额外的描述信息
+    IncludeViews = true;	//是否包含视图
+    IncludeSynonyms = false; //是否包含同义词
+    IncludeStoredProcedures = false;  //是否包含存储过程
+    IncludeTableValuedFunctions = false; // 如果设置为true，则必须设置IncludeStoredProcedures = true,且必须安装"EntityFramework.CodeFirstStoreFunctions" Nuget包.
+    DisableGeographyTypes = false; // Turns off use of System.Data.Entity.Spatial.DbGeography and System.Data.Entity.Spatial.DbGeometry as OData doesn't support entities with geometry/geography types.
+    CollectionType = "System.Collections.Generic.List";  // Determines the type of collection for the Navigation Properties. "ObservableCollection" for example. Add "System.Collections.ObjectModel" to AdditionalNamespaces if setting the CollectionType = "ObservableCollection".
+    NullableShortHand = true; //true => T?, false => Nullable<T>
+    AddUnitTestingDbContext = true; // 是否增加单元测试的FakeDbContext 和 FakeDbSet
+    IncludeQueryTraceOn9481Flag = false; // If SqlServer 2014 appears frozen / take a long time when this file is saved, try setting this to true (you will also need elevated privileges).
+    UsePrivateSetterForComputedColumns = true; // If the columns is computed, use a private setter.
+    AdditionalNamespaces = new[] { "" };  // 外部的命名空间，如"Microsoft.AspNet.Identity.EntityFramework"
+    AdditionalContextInterfaceItems = new[] // To include extra db context interface items, include them here. Also set MakeClassesPartial=true, and implement the partial DbContext class functions.
+    {
+        ""  //  example: "void SetAutoDetectChangesEnabled(bool flag);"
+    };
+    // If you need to serialize your entities with the JsonSerializer from Newtonsoft, this would serialize
+    // all properties including the Reverse Navigation and Foreign Keys. The simplest way to exclude them is
+    // to use the data annotation [JsonIgnore] on reverse navigation and foreign keys.
+    AdditionalReverseNavigationsDataAnnotations = new string[] // 导航属性的数据注解
+    {
+        // "JsonIgnore"
+    };
+    AdditionalForeignKeysDataAnnotations = new string[] // 外键的数据注解
+    {
+        // "JsonIgnore"
+    };
+
+    // 数据迁移配置 *************************************************************************************************************************
+    MigrationConfigurationFileName = ""; // null or empty to not create migrations
+    MigrationStrategy = "MigrateDatabaseToLatestVersion"; // MigrateDatabaseToLatestVersion, CreateDatabaseIfNotExists or DropCreateDatabaseIfModelChanges
+    ContextKey = ""; // Sets the string used to distinguish migrations belonging to this configuration from migrations belonging to other configurations using the same database. This property enables migrations from multiple different models to be applied to applied to a single database.
+    AutomaticMigrationsEnabled = true;
+    AutomaticMigrationDataLossAllowed = true; // if true, can drop fields and lose data during automatic migration
+
+    // 多语言配置 **********************************************************************************************************************
+    // To turn off pluralization, use:
+    //      Inflector.PluralizationService = null;
+    // Default pluralization, use:
+    //      Inflector.PluralizationService = new EnglishPluralizationService();
+    // For Spanish pluralization:
+    //      1. Intall the "EF6.Contrib" Nuget Package.
+    //      2. Add the following to the top of this file and adjust path, and remove the space between the angle bracket and # at the beginning and end.
+    //         < #@ assembly name="your full path to \EntityFramework.Contrib.dll" # >
+    //      3. Change the line below to: Inflector.PluralizationService = new SpanishPluralizationService();
+    Inflector.PluralizationService = new EnglishPluralizationService();
+    // If pluralisation does not do the right thing, override it here by adding in a custom entry.
+    //Inflector.PluralizationService = new EnglishPluralizationService(new[]
+    //{
+    //    // Create custom ("Singular", "Plural") forms for one-off words as needed.
+    //    new CustomPluralizationEntry("Course", "Courses"),
+    //    new CustomPluralizationEntry("Status", "Status") // Use same value to prevent pluralisation
+    //});
+
+
+    // 生成元素配置  ***************************************************************************************************************
+    ElementsToGenerate = Elements.Poco;
+	// | Elements.Context | Elements.UnitOfWork | Elements.PocoConfiguration;
+
+    // Use these namespaces to specify where the different elements now live. These may even be in different assemblies.
+    // Please note this does not create the files in these locations, it only adds a using statement to say where they are.
+    // The way to do this is to add the "EntityFramework Reverse POCO Code First Generator" into each of these folders.
+    // Then set the .tt to only generate the relevant section you need by setting
+    //      ElementsToGenerate = Elements.Poco; in your Entity folder,
+    //      ElementsToGenerate = Elements.Context | Elements.UnitOfWork; in your Context folder,
+    //      ElementsToGenerate = Elements.PocoConfiguration; in your Maps folder.
+    //      PocoNamespace = "YourProject.Entities";
+    //      ContextNamespace = "YourProject.Context";
+    //      UnitOfWorkNamespace = "YourProject.Context";
+    //      PocoConfigurationNamespace = "YourProject.Maps";
+    // You also need to set the following to the namespace where they now live:
+    PocoNamespace = "PLKJDS.Entity";
+    ContextNamespace = "PLKJDS.Data";
+    UnitOfWorkNamespace = "PLKJDS.BLL";
+    PocoConfigurationNamespace = "PLKJDS.Mapping";
+
+
+    // 架构设置 *****************************************************************************************************************************
+    // If there are multiple schemas, then the table name is prefixed with the schema, except for dbo.
+    // Ie. dbo.hello will be Hello.
+    //     abc.hello will be AbcHello.
+    PrependSchemaName = false;   // 设置架构名是否放在表名前面
+
+
+    // 过滤配置 **************************************************************************************************************************
+    // Use the following table/view name regex filters to include or exclude tables/views
+    // Exclude filters are checked first and tables matching filters are removed.
+    //  * If left null, none are excluded.
+    //  * If not null, any tables matching the regex are excluded.
+    // Include filters are checked second.
+    //  * If left null, all are included.
+    //  * If not null, only the tables matching the regex are included.
+    // For clarity: if you want to include all the customer tables, but not the customer billing tables.
+    //      TableFilterInclude = new Regex("^[Cc]ustomer.*"); // This includes all the customer and customer billing tables
+    //      TableFilterExclude = new Regex(".*[Bb]illing.*"); // This excludes all the billing tables
+    //
+    // Example:     TableFilterExclude = new Regex(".*auto.*");
+    //              TableFilterInclude = new Regex("(.*_FR_.*)|(data_.*)");
+    //              TableFilterInclude = new Regex("^table_name1$|^table_name2$|etc");
+    //              ColumnFilterExclude = new Regex("^FK_.*$");
+    SchemaFilterExclude = null;
+    SchemaFilterInclude = null;
+    TableFilterExclude = null;
+    TableFilterInclude = null;
+    ColumnFilterExclude = null;
+
+    // 此处的过滤是在上述正则过滤的列表基础上过滤的
+    TableFilter = (Table t) =>
+    {
+        // 比如排除架构dbo中包含 "order" 的表
+        //if(t.Schema.Equals("dbo", StringComparison.InvariantCultureIgnoreCase) && t.NameHumanCase.ToLowerInvariant().Contains("order"))
+        //    return false;
+        return true;
+    };
+
+
+    // 存储过程配置 ******************************************************************************************************************
+    // Use the following regex filters to include or exclude stored procedures
+    StoredProcedureFilterExclude = null;
+    StoredProcedureFilterInclude = null;
+
+
+    // 表名重命名 *********************************************************************************************************************
+    // Use the following function to rename tables such as tblOrders to Orders, Shipments_AB to Shipments, etc.
+    // Example:
+    TableRename = (name, schema) =>
+    {
+        //if (name.StartsWith("tbl"))
+        //    name = name.Remove(0, 3);
+        //name = name.Replace("_AB", "");
+
+        // If you turn camel casing off (UseCamelCase = false), and use the pluralisation service, and some of your
+        // tables names are all UPPERCASE, some words ending in IES such as CATEGORIES get singularised as CATEGORy.
+        // Therefore you can make them lowercase by using the following
+        // return Inflector.MakeLowerIfAllCaps(name);
+
+        return name;
+    };
+
+    // 列名更改 *****************************************************************************************************************
+    // Use the following list to replace column byte types with Enums.
+    // As long as the type can be mapped to your new type, all is well.
+    //EnumsDefinitions.Add(new EnumDefinition { Schema = "dbo", Table = "match_table_name", Column = "match_column_name", EnumType = "name_of_enum" });
+    //EnumsDefinitions.Add(new EnumDefinition { Schema = "dbo", Table = "OrderHeader", Column = "OrderStatus", EnumType = "OrderStatusType" }); // This will replace OrderHeader.OrderStatus type to be an OrderStatusType enum
+
+    // Use the following function if you need to apply additional modifications to a column
+    // eg. normalise names etc.
+    UpdateColumn = (Column column, Table table) =>
+    {
+        //if (column.IsPrimaryKey && column.NameHumanCase == "PkId")
+        //    column.NameHumanCase = "Id";
+
+        // .IsConcurrencyToken() must be manually configured. However .IsRowVersion() can be automatically detected.
+        //if (table.NameHumanCase.Equals("SomeTable", StringComparison.InvariantCultureIgnoreCase) && column.NameHumanCase.Equals("SomeColumn", StringComparison.InvariantCultureIgnoreCase))
+        //    column.IsConcurrencyToken = true;
+
+        // 从主键中移除表名
+        //if (column.IsPrimaryKey && column.NameHumanCase.Equals(table.NameHumanCase + "Id", StringComparison.InvariantCultureIgnoreCase))
+        //    column.NameHumanCase = "Id";
+
+        // Remove column from poco class as it will be inherited from a base class
+        //if (column.IsPrimaryKey && table.NameHumanCase.Equals("SomeTable", StringComparison.InvariantCultureIgnoreCase))
+        //    column.Hidden = true;
+
+        // Perform Enum property type replacement
+        var enumDefinition = EnumsDefinitions.FirstOrDefault(e =>
+            (e.Schema.Equals(table.Schema, StringComparison.InvariantCultureIgnoreCase)) &&
+            (e.Table.Equals(table.Name, StringComparison.InvariantCultureIgnoreCase) || e.Table.Equals(table.NameHumanCase, StringComparison.InvariantCultureIgnoreCase)) &&
+            (e.Column.Equals(column.Name, StringComparison.InvariantCultureIgnoreCase) || e.Column.Equals(column.NameHumanCase, StringComparison.InvariantCultureIgnoreCase)));
+
+        if (enumDefinition != null)
+        {
+            column.PropertyType = enumDefinition.EnumType;
+            if(!string.IsNullOrEmpty(column.Default))
+                column.Default = "(" + enumDefinition.EnumType + ") " + column.Default;
+        }
+
+        return column;
+    };
+
+    // 存储过程重命名 ************************************************************************************************************
+    // Use the following function to rename stored procs such as sp_CreateOrderHistory to CreateOrderHistory, my_sp_shipments to Shipments, etc.
+    // Example:
+    /*StoredProcedureRename = (name, schema) =>
+    {
+        if (name.StartsWith("sp_"))
+            name = name.Remove(0, 3);
+        return name.Replace("my_sp_", "");
+    };*/
+    StoredProcedureRename = (name, schema) => name;   // Do nothing by default
+
+    // 存储过程返回类型配置 *******************************************************************************************************
+    // Override generation of return models for stored procedures that return entities.
+    // If a stored procedure returns an entity, add it to the list below.
+    // This will suppress the generation of the return model, and instead return the entity.
+    // Example:                       Proc name      Return this entity type instead
+    //StoredProcedureReturnTypes.Add("SalesByYear", "SummaryOfSalesByYear");
+
+
+    // WCF ********************************************************************************************************************************
+    // This is only intended as a helper, to get you started creating WCF contracts, and to save a lot of typing.
+    AddWcfDataAttributes = false;
+    ExtraWcfDataContractAttributes = "";    // This string is inserted into the  [DataContract] attribute, before the closing square bracket.
+    // Example: "";                                           = [DataContract]
+    //          "(Namespace = \"http://www.contoso.com\")";   = [DataContract(Namespace = "http://www.contoso.com")]
+    //          "(Namespace = Constants.ServiceNamespace)";   = [DataContract(Namespace = Constants.ServiceNamespace)]
+
+
+    // 回调配置 **********************************************************************************************************************
+    // This method will be called right before we write the POCO header.
+    Action<Table> WritePocoClassAttributes = t =>
+    {
+        // Do nothing by default
+        // Example:
+        // if(t.ClassName.StartsWith("Order"))
+        //     WriteLine("    [SomeAttribute]");
+    };
+
+    // Writes optional base classes
+    Func<Table, string> WritePocoBaseClasses = t =>
+    {
+        //if (t.ClassName == "User")
+        //    return ": IdentityUser<int, CustomUserLogin, CustomUserRole, CustomUserClaim>";
+        return "";
+    };
+
+    // Writes any boilerplate stuff
+    Action<Table> WritePocoBaseClassBody = t =>
+    {
+        // Do nothing by default
+        // Example:
+        // WriteLine("        // " + t.ClassName);
+    };
+
+    Func<Column, string> WritePocoColumn = c =>
+    {
+        // Example of adding a [Required] data annotation attribute to all non-null fields
+        //if (!c.IsNullable)
+        //    return "[System.ComponentModel.DataAnnotations.Required] " + c.Entity;
+
+        return c.Entity;
+    };
+
+    ForeignKeyFilter = (ForeignKey fk) =>
+    {
+        // Return null to exclude this foreign key
+        // Example, to exclude all foreign keys for the Categories table, use:
+        // if (fk.PkTableName == "Categories")
+        //    return null;
+        return fk;
+    };
+
+    ForeignKeyName = (tableName, foreignKeyName, attempt) =>
+    {
+        // 5 Attempts to correctly name the foreign key
+        switch (attempt)
+        {
+            case 1:
+                // Try without appending foreign key name
+                return tableName;
+
+            case 2:
+                // Only called if foreign key name ends with "id"
+                // Use foreign key name without "id" at end of string
+                return foreignKeyName.Remove(foreignKeyName.Length-2, 2);
+
+            case 3:
+                // Use foreign key name only
+                return foreignKeyName;
+
+            case 4:
+                // Use table name and foreign key name
+                return tableName + "_" + foreignKeyName;
+
+            case 5:
+                // Used in for loop 1 to 99 to append a number to the end
+                return tableName;
+
+            default:
+                // Give up
+                return tableName;
+        }
+    };
+
+    // Return true to include this table in the db context
+    ConfigurationFilter = (Table t) =>
+    {
+        return true;
+    };
+
+    // Read schema
+    var factory = GetDbProviderFactory();
+    IsSqlCe = IsSqlCeConnection(factory);
+    var tables = LoadTables(factory);
+    var storedProcs = LoadStoredProcs(factory);
+
+    // Generate output
+    if (tables.Count > 0 || storedProcs.Count > 0)
+    {
+#>
+<#@ include file="SQLServerReversePOCO.ttinclude" #>
+<#@ import namespace="System.Xml.Schema" #>
+<# } #>

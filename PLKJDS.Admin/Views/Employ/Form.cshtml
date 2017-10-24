@@ -1,0 +1,451 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script src="~/Content/js/plupload/plupload.full.min.js"></script>
+<script src="~/Content/js/loadDeviceParam.js"></script>
+<link href="~/Content/js/simditor/css/simditor.css" rel="stylesheet" />
+<script src="~/Content/js/simditor/js/module.min.js"></script>
+<script src="~/Content/js/simditor/js/hotkeys.min.js"></script>
+<script src="~/Content/js/simditor/js/simditor.min.js"></script>
+<style>
+    #selectImg {
+        top: -109px;
+        left: 229px;
+    }
+    .ra{
+        margin-right:15px;
+    }
+    .freetime {
+        color: #66cccc;
+    }
+    .freeorg {
+        width:200px;
+        margin-left:20px;
+    }
+    #startTime,#endTime
+    {
+        width:42%;
+        display:inline-block;
+    }
+    .checkbox {
+        margin-top: 10px;
+        margin-left: 5px;
+    }
+</style>
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/Employ/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data)
+                    $("#Type").text(data.TypeID);
+                    getOrgList()
+                }
+            });
+        }
+
+        $("input[name='publishTime']").change(function () {
+
+            var statu = $("#mytime").css("display");
+            if (statu == "block") {
+                $("#mytime").css("display", "none");
+            }
+        });
+
+        var editor_job = new Simditor({
+            textarea: $('#JobResp'),
+            toolbar: ['ol', 'ul']
+        });
+        var editor_desc = new Simditor({
+            textarea: $('#EmployDesc'),
+            toolbar: ['ol', 'ul']
+        });
+        var editor_atract= new Simditor({
+            textarea: $('#EmployAtract'),
+            toolbar: ['ol', 'ul']
+        });
+    });
+
+    function FormCheck(id)
+    {
+        var res = true;
+        var formvalue = $("#" + id).val();
+        if (formvalue == "" || formvalue == null)
+        {
+            res=false;
+        }
+        return res;
+    }
+
+    function getOrgList()
+    {
+        $.ajax({
+            url: "/Employ/GetOrgList",
+            data: { employID: keyValue },
+            async: false,
+            success: function (data) {
+                alert(data);
+            }
+        });
+    }
+
+    function submitForm() {
+        var job_res= FormCheck("JobResp");
+        var employ_res= FormCheck("EmployDesc");
+        var atract_res= FormCheck("EmployAtract");
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        else if (job_res == false)
+        {
+       
+            $("#JobResp_span").text('该项为必填项');
+        }
+        else if (employ_res == false) {
+
+            $("#EmployDesc_span").text('该项为必填项');
+        }
+        else if (atract_res == false) {
+
+            $("#EmployAtract_span").text('该项为必填项');
+        }
+        else
+        {
+            $("#form1").find(".errortip").attr("text", "");
+            var a = $("input[name='publishTime']:checked").attr("id");
+            var orglist = $("#hid_orgid").val();
+            var isall = $("#choicebox").find("input[type='checkbox']:checked").length;
+            if (isall == 1)
+            {
+                orglist = $("#hid_allid").val();
+            }
+            else
+            {
+                orglist = $("#hid_orgid").val();
+            }
+            if (a != "oneweek" && a != "onemonth" && a != "forever") {
+                var starttime = $("#startTime").val();
+                var endtime = $("#endTime").val();
+                $("#StartTime").val(starttime);
+                $("#EndTime").val(endtime);
+            }
+            else {
+                $("#EndTime").val(a);
+            }
+           
+                $.submitForm({
+                    url: "/Employ/SubmitForm?Orglist="+orglist,
+                    param: $("#form1").formSerialize(),
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+        }
+    }
+
+    function EditPublishTime()
+    {
+        $("input[name='publishTime']:checked").attr("checked", false);
+        $("#mytime").css("display", "block");
+    }
+
+    function initControl()
+    {
+        $("#Title").bindSelect({
+            url: "/Employ/GetSelectJson",
+            minimumResultsForSearch: 1,
+            search: true
+        });
+        $("#TypeID").bindSelect({
+            url: "/Employ/GetJobExpSelectJson?type=" + "3"
+        });
+        $("#EduRequire").bindSelect({
+            url: "/Employ/GetJobExpSelectJson?type=" + "2"
+        });
+        $("#WorkExperience").bindSelect({
+            url: "/Employ/GetJobExpSelectJson?type="+"1"
+        });
+        var a = $("#hid_allid").val();
+    }
+   
+    function AddJobPosition()
+    {
+        $("#mydialog").modal("show");
+    }
+
+    function choiceOrg()
+    {
+        gridList();
+        $(".checkbox").css("margin-top", "10px");
+        $("#Orgdialog").modal("show");
+    }
+
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/SysManage/Organize/GetTreeGridJson",
+            height: $(window).height() / 2 - 96,
+            sortname:"CreatorTime",
+            colModel: [
+                { label: "主键", name: "ID", hidden: true, key: true },
+                { label: '名称', name: 'OrgName', width: 200, align: 'left' },
+                {
+                    label: '编号', name: 'OrgCode', width:100, align: 'left'
+                },
+                {
+                    label: '创建时间', name: 'CreatorTime', width: 100, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                },
+                {
+                    label: "有效", name: "IsEnable", width:100, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                }
+            ],
+            multiselect:true,
+            pager: "#gridPager",
+        viewrecords: true
+        });
+        $("#btn_search").click(function () {
+            $gridList.jqGrid('setGridParam', {
+                postData: { keyword: $("#txt_keyword").val() },
+            }).trigger('reloadGrid');
+        });
+    }
+
+    function SavePosition()
+    {
+        var posname = $("#PosName").val();
+        var sortcode = $("#SortCode").val();
+        $.ajax({
+            type: "post",
+            url: "/Employ/AddJobPosition",
+            data: { posname: posname, sortcode: sortcode },
+            dataType:"Json",
+            success:function(result)
+            {
+                var data = result;
+                if(data==1)
+                {
+                    $("#Title").empty();
+                    initControl();                 
+                }
+                else if(data==-1)
+                {
+                    alert("该岗位已存在!");
+                 }
+                $("#mydialog").modal("hide");
+            }
+        })
+    }
+
+    function testJqfrid() {
+        var obj = $("#gridList").jqGrid('getGridParam', 'selarrrow');
+        var orgID_str = "",orgName_str="";
+        if (obj.length == 0)
+        {
+            alert("请选择机构");
+        }
+        jQuery(obj).each(function () {
+            orgID_str = orgID_str+ this + ",";
+    
+        });
+        
+        $("#hid_orgid").val(orgID_str);
+        var html = "<div class='ckbox'><input type='checkbox' id='#id' name='#name' checked  onchange='cancelOrg(this)'/><label for='#lab'>#机构名称</label></div>"
+        var arr = $("#gridList").jqGridRowValue();
+        for (var i = 0; i < arr.length; i++) {
+            orgName_str = orgName_str + arr[i].OrgName + ",";
+            var newhtmlStr = html.replace("#机构名称", arr[i].OrgName).replace("#id", arr[i].OrgCode).replace("#lab",arr[i].OrgCode).replace("#name",arr[i].OrgCode);
+            console.log(newhtmlStr);
+            $("#orglist").append(newhtmlStr);
+        }
+        $("#Orgdialog").modal('hide')
+    }
+    function IsAll(obj)
+    {
+        var isall = $("#choicebox").find("input[type='checkbox']:checked").length;
+        var orgcount = $("#orglist").find("input[type='checkbox']:checked").length;
+        if(isall==1)
+        {
+            $("#orglist").css("display", "none");
+        }
+        else
+        {
+            $("#orglist").css("display", "block");
+        }
+    }
+
+    function cancelOrg(obj)
+    {
+        var id = $(obj).attr("id");
+    }
+</script>
+<input type="hidden"  id="hid_orgname" />
+<input type="hidden"  id="hid_orgid" />
+<input type="hidden" id="hid_allid" value="@ViewBag.AllOrgID" />
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">招聘单位</th>
+                    <td class="formValue" colspan="3">
+                        <input id="CompanyName" name="CompanyName" type="text" class="form-control required" />
+                    </td>
+                <tr>
+                    <th class="formTitle">工作类型</th>
+                    <td class="formValue">
+                        <select class="form-control" id="TypeID" name="TypeID">
+                        </select>
+                    </td>
+                    <th class="formTitle">招聘岗位</th>
+                    <td class="formValue" style="width:207px;display:inline-flex">
+                        <select class="form-control" id="Title" name="Title">
+                        </select>
+                        <a role="button" onclick="AddJobPosition()" style="display:inline;margin:8px 0px 0px 5px;color:#66cccc;width:150px"><i class="fa fa-plus"></i>添加新岗位</a>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th class="formTitle">招聘人数</th>
+                    <td class="formValue">
+                        <input id="PeopleCount" name="PeopleCount" type="number" min="1" class="form-control required" />
+                    </td>
+                    <th class="formTitle">薪资水平</th>
+                    <td class="formValue">
+                        <input id="Salary" name="Salary" type="text" class="form-control required" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle">学历要求</th>
+                    <td class="formValue">
+                        <select id="EduRequire" name="EduRequire" class="form-control">
+                        </select>
+                    </td>
+                    <th class="formTitle">工作经验</th>
+                    <td class="formValue">
+                        <select class="form-control" id="WorkExperience" name="WorkExperience">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">工作地点</th>
+                    <td class="formValue" colspan="3">
+                        <input type="text"  class="form-control required"  name="Address" id="Address"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">岗位要求</th>
+                    <td class="formValue" colspan="3" style="width:473px; display:inline-flexbox">
+                        <textarea id="EmployDesc" name="EmployDesc" style="width:373px;"></textarea>
+                        <span id="EmployDesc_span" class="errortip" style="color: #ff3300;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">工作职责</th>
+                    <td class="formValue" colspan="3">
+                        <textarea id="JobResp" name="JobResp" style="width:373px;"></textarea>
+                        <span id="JobResp_span" class="errortip" style="color: #ff3300;"></span>
+                    </td>
+
+                    <td></td>
+                </tr>
+                <tr>
+                    <th  class="formTitle">职位福利</th>
+                    <td class="formValue" colspan="3">
+                        <textarea id="EmployAtract" name="EmployAtract" style="width:373px;"></textarea>
+                        <span id="EmployAtract_span" class="errortip" style="color: #ff3300;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle" style="height: 35px;">信息有效期</th>
+                    <td class="formValue" colspan="3"  >
+                        <input id="oneweek" name="publishTime" type="radio" value="0" /><label for="oneweek" class=" ra">发布后一周</label>
+                        <input id="onemonth" name="publishTime" type="radio" value="1" class=" ra" /><label for="onemonth" class=" ra">发布后一个月</label>
+                        <input id="forever" name="publishTime" type="radio" value="2" class=" ra" /><label for="forever" class=" ra">永久有效</label>
+                        <a href="#" role="button" class="freetime" onclick="EditPublishTime()"><i class="fa fa-plus"></i>自定义时间</a>
+                        <div id="mytime" style="display:none">
+                            <input id="startTime" name="startTime" type="text" class="form-control input-wdatepicker normal required" onfocus="WdatePicker({ minDate: '%y-%M-#{%d}', dateFmt: 'yyyy-MM-dd' })" />
+                            <span style="margin-right:10px;">至</span>
+                            <input id="endTime" name="endTime" type="text" class="form-control input-wdatepicker normal required" onfocus="WdatePicker({ minDate: '%y-%M-#{%d}', dateFmt: 'yyyy-MM-dd' })" />
+                            <span class="validText" style="color: #ff3300;"></span>
+                        </div>
+                        <input type="hidden" id="StartTime" name="StartTime" />
+                        <input type="hidden" id="EndTime" name="EndTime" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">面向机构</th>
+                    <td colspan="2" >
+                        <div class="ckbox" id="choicebox">
+                            <input id="AllOrg" name="AllOrg" type="checkbox" onchange="IsAll(this)"><label for="AllOrg">全部机构</label>
+                            <a href="#" role="button" class="freeorg freetime"  onclick="choiceOrg()">选择特定机构</a>
+                        </div>
+                            <div id="orglist">
+                            </div>                       
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+                        
+<div id="mydialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="width:60%;top:25%;left:24%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">添加工作岗位</h4>
+            </div>
+            <div class="modal-body">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle">岗位名称</th>
+                        <td class="formValue">
+                            <input type="text" class="form-control required" name="PosName" id="PosName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">排序编号</th>
+                        <td class="formValue">
+                            <input type="number" class="form-control required" name="SortCode" id="SortCode" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="SavePosition()">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+<div id="Orgdialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="width:100%">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">选择机构</h4>
+        </div>
+        <div class="modal-body">
+            <div class="gridPanel">
+                <table id="gridList"></table>
+                <div id="gridPager"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=" testJqfrid()">确定</button>
+    </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+

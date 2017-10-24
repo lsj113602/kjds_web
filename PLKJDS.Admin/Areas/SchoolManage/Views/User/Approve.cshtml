@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        $.ajax({
+            url: getRootPath()+ "/SchoolManage/User/GetUserApprove",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                //$("#form1").formSerialize(data);
+                $("#UserName").val(data.user.UserName);
+                $("#StudentID").val(data.user.StudentID);
+
+                var imgElement = '<img src="{0}" width="650" height="320"/>';
+                var div = $("#imgDiv");
+                var html = "";
+                $.each(data.userData, function (i, n) {
+                    html += imgElement.replace("{0}", n.FileID);
+                });
+                div.append(html);
+                //$("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                //$("#form1").find('div.ckbox label').attr('for', '');
+                //$("#F_UserPassword").val("******");
+            }
+        });
+    });
+    function initControl() {
+        //$("#Gender").bindSelect();
+        //$("#OrgID").bindSelect({
+        //    url: getRootPath()+ "/SchoolManage/Organize/GetTreeSelectJson"
+        //});
+        //$("#RoleID").bindSelect({
+        //    url: getRootPath()+ "/SchoolManage/Role/GetTreeSelectJson",
+        //    id: "ID",
+        //    text: "RoleName"
+        //});
+    }
+    function approve()
+    {
+        $.submitForm({
+            url: getRootPath()+ "/SchoolManage/User/UserApprove?keyValue=" + keyValue,
+            param: { typeID: "1" },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+    function noApprove()
+    {
+        $.submitForm({
+            url: getRootPath()+ "/SchoolManage/User/UserApprove?keyValue=" + keyValue,
+            param: { typeID :"2"},
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+</script>
+<form id="form1">
+    <div style="margin-top: 10px;  ">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#">基本信息</a></li>
+            @*<li ><a href="#">扩展信息</a></li>*@
+        </ul>
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">账户</th>
+                    <td class="formValue">
+                        <input id="UserName" name="UserName" type="text" class="form-control required" placeholder="" />
+                    </td>
+                    <th class="formTitle">学号</th>
+                    <td class="formValue">
+                        <input id="StudentID" name="StudentID" type="text" class="form-control required" placeholder="" />
+                    </td>
+                </tr> 
+            </table>
+        </div>
+        <div id="imgDiv" style="padding-top: 20px; margin-right: 30px;text-align:center;">  
+        </div>
+        <div class="form-button" id="wizard-actions">
+            <a id="btn_last" class="btn btn-primary" onclick="approve()">同意</a>
+            <a id="btn_next" class="btn btn-danger" onclick="noApprove()">不同意</a>
+        </div>
+
+    </div>
+</form>

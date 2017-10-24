@@ -1,0 +1,307 @@
+[33mcommit 22e47ccf498d1ed401c41ee69638a1a37a667902[m
+Merge: 43aa581 51c43d7
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 14 11:29:53 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 43aa5816ef95288ae81f6e54fae14738d4f2eec8[m
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 14 11:25:45 2017 +0800
+
+     代码整合
+
+[33mcommit 51c43d7028f001791af19869825c0c35ec45fd5f[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Wed Jun 14 11:19:05 2017 +0800
+
+    222
+
+[33mcommit d202a86e2066bdfa97d88498f49f1ab54e8a2d72[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Wed Jun 14 09:52:10 2017 +0800
+
+    111
+
+[33mcommit dd97fe759422570e05be8176eb68f64c23d4129f[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Mon Jun 12 09:14:02 2017 +0800
+
+    111
+
+[33mcommit e15bab651ddeaa9b7baf9153c13639626691fa3d[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Fri Jun 9 14:37:26 2017 +0800
+
+    1111
+
+[33mcommit 9aa389fe655cbae391a72348aa88cdb04b5cad3f[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Apr 28 17:13:45 2017 +0800
+
+    course
+
+[33mcommit 1b2d1e20f1105ed8af10428d6fff080a151a5b1f[m
+Author: dhm <472646405@qq.com>
+Date:   Thu Apr 27 11:15:42 2017 +0800
+
+    登录注册整合完成
+
+[33mcommit 1ab118da58f50c2eca9576e3ec37512b05474759[m
+Author: dhm <472646405@qq.com>
+Date:   Thu Apr 20 09:16:20 2017 +0800
+
+    Interface
+
+[33mcommit 03d1d4e8b99db4de15b618b31e68af6c99163f9f[m
+Author: dhm <472646405@qq.com>
+Date:   Mon Apr 17 14:19:33 2017 +0800
+
+    Add TestMatreials Table
+
+[33mcommit 1de0eb22be0baba543d13a1b2c2654925d7cba6e[m
+Author: dhm <472646405@qq.com>
+Date:   Mon Apr 17 14:16:11 2017 +0800
+
+    合并
+
+[33mcommit bb123a9cfc59c81a2f62cf3d7e55cef92b6896e2[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 17 15:38:05 2017 +0800
+
+    ...
+
+[33mcommit 4e8a01afe7697481579754a739d136f55ef467d8[m
+Merge: 38530fc 5ade8cc
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 17 15:36:05 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 38530fc51e85ba39fadda5712082a09c7ef9f171[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 17 15:35:30 2017 +0800
+
+    加载试卷详�
+
+[33mcommit 5ade8cc1173d685569270c253cf043f4b2e4b19d[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 17 15:32:51 2017 +0800
+
+    hebing
+
+[33mcommit 39792381a75f592e514cb3326d6f4dd9a142c0bc[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 17 11:03:17 2017 +0800
+
+    ..
+
+[33mcommit d8bf2c96c237392455e613c6700d93afb6116a8e[m
+Merge: b75d634 f8292d7
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 17 10:54:19 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit f8292d72e5f4d604bf2e7567880da4cc3e429c53[m
+Author: dhm <472646405@qq.com>
+Date:   Thu Mar 16 11:16:29 2017 +0800
+
+    添加UI框架
+
+[33mcommit b75d63479e680bc594d94df6a077585df55cbc0a[m
+Merge: c695cd1 e6fcb8c
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 17:55:57 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit c695cd141d3a8e702297e105dc6195f5905aa0ba[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 17:55:09 2017 +0800
+
+    修改试卷布局
+
+[33mcommit e6fcb8c29e7f97ba51e86622b5f7dfc29bbe1bbb[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 10 17:50:59 2017 +0800
+
+    用户管理调整，添加sql语句查询条件查询，应聘者管理列表
+
+[33mcommit 1f8b16b34b7b3c0c8e871b2988b0f201503cf050[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 10 09:26:34 2017 +0800
+
+    ...
+
+[33mcommit 3502342a21de9f82c005b8bd9ee44f0ae9679557[m
+Merge: 2199f76 be58c64
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 09:24:18 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 2199f76821ab56174be52fbde95facd8e9eb54da[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 09:24:13 2017 +0800
+
+    删除不用的类
+
+[33mcommit be58c64909bcd0e022717cc2a36b8dc5876a932b[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 10 09:13:27 2017 +0800
+
+    ...
+
+[33mcommit 9fd037be0b1acca81de0093a796d9b5fcfdfd188[m
+Merge: d2130a9 35dcb2f
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 10 09:13:22 2017 +0800
+
+    ...
+
+[33mcommit 35dcb2f0fddd881f63145f310d7275ea704ac919[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 09:07:45 2017 +0800
+
+    生成试卷
+
+[33mcommit d2130a993a3aa7b8f6dc4831bfbe47f01600fdd3[m
+Author: dhm <472646405@qq.com>
+Date:   Thu Mar 9 17:43:29 2017 +0800
+
+    试题库开发完成
+
+[33mcommit a3f1691d2d40241f57ba0b960a45849dda0b3c9b[m
+Author: dhm <472646405@qq.com>
+Date:   Wed Mar 8 16:51:07 2017 +0800
+
+    hebing
+
+[33mcommit fcdf2c08953e72adb80af94386fb74a07aa8d6d4[m
+Merge: b3a3686 30fc16e
+Author: dhm <472646405@qq.com>
+Date:   Wed Mar 8 16:50:36 2017 +0800
+
+    ...
+
+[33mcommit 30fc16e2e81781d904a06386902283e40d4058b5[m
+Author: yinwen <yinwen@163.com>
+Date:   Wed Mar 8 16:48:22 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 9ba1e686dc12df8b0000ad4e2e0f7576d27a1eb7[m
+Merge: be9b37b 95dbe50
+Author: yinwen <yinwen@163.com>
+Date:   Wed Mar 8 16:48:17 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit be9b37b15084d8bf85129c2b1dbaebf0cf771e81[m
+Author: yinwen <yinwen@163.com>
+Date:   Wed Mar 8 16:44:29 2017 +0800
+
+    课程大纲排序、查看培训活动资料与总结
+
+[33mcommit b3a3686e3d04984a070869e589e4f4b387428c58[m
+Author: dhm <472646405@qq.com>
+Date:   Wed Mar 8 16:44:12 2017 +0800
+
+    db modify
+
+[33mcommit 0a6218b1c29ab059f822b60ce24a737a70eb883c[m
+Author: dhm <472646405@qq.com>
+Date:   Mon Mar 6 17:49:48 2017 +0800
+
+    文件服务，学校用户管理
+
+[33mcommit 95dbe504e15915c857772a6f5acfc40675888a14[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Jan 20 21:34:25 2017 +0800
+
+    hebing
+
+[33mcommit 7482b0d6f1dd5eebcb65b3de7f6b65817e1280ce[m
+Merge: 1cacada 733fce9
+Author: dhm <472646405@qq.com>
+Date:   Fri Jan 20 21:32:35 2017 +0800
+
+    Merge branch 'master' of http://121.42.149.112:8080/r/HNPL.KJDS
+
+[33mcommit 1cacadae04264d7ee4fdffd2afa060ae39f7d823[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Jan 20 21:32:23 2017 +0800
+
+    20170120commit
+
+[33mcommit 733fce9c6c0ae862743d8037771c4bbe4b8b1b1b[m
+Merge: 3b23fa3 bd2c8e4
+Author: yinwen <yinwen@163.com>
+Date:   Tue Jan 17 16:35:56 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 3b23fa3956cb8cff6d5df1045312dd69b09f3a4b[m
+Author: yinwen <yinwen@163.com>
+Date:   Tue Jan 17 16:35:23 2017 +0800
+
+    文本框调整
+
+[33mcommit bd2c8e4fbac2635feab13c2dbf84f22f6074acf3[m
+Author: dhm <472646405@qq.com>
+Date:   Tue Jan 17 15:55:32 2017 +0800
+
+    合并冲突
+
+[33mcommit c887dd256c1623d517cfea4f88fcc4369b9f2472[m
+Merge: 4cda2da 25fb1e2
+Author: yinwen <yinwen@163.com>
+Date:   Tue Jan 17 15:54:34 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 4cda2da3096a236c8c9237981f64d3306868c024[m
+Author: yinwen <yinwen@163.com>
+Date:   Tue Jan 17 15:53:17 2017 +0800
+
+    创建招聘信息
+
+[33mcommit 25fb1e2847d8803d462cb87940d542317f2c8161[m
+Author: dhm <472646405@qq.com>
+Date:   Tue Jan 17 15:52:28 2017 +0800
+
+    合并冲突
+
+[33mcommit 4d167d61fc48a024c253c0ebd0274c42aa660a0e[m
+Merge: 6380066 e0e40a7
+Author: dhm <472646405@qq.com>
+Date:   Tue Jan 17 15:51:14 2017 +0800
+
+    Merge branch 'master' of http://denghuamou@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 63800669f76549cd7b10bfd870fadb84d176dfed[m
+Author: dhm <472646405@qq.com>
+Date:   Tue Jan 17 15:51:04 2017 +0800
+
+    ...
+
+[33mcommit 8af44a39c4d0a4ed364b2439c7ebf86155e62834[m
+Author: dhm <472646405@qq.com>
+Date:   Tue Jan 17 15:50:12 2017 +0800
+
+    20170117学校管理模块提交
+
+[33mcommit 5b81d1e5f4f235f8f9104bde1a57d5e8c25554a6[m
+Author: dhm <472646405@qq.com>
+Date:   Tue Jan 17 15:48:51 2017 +0800
+
+    添加常用职位表
+
+[33mcommit e0e40a79bda45869948da6264bcc4bbf05e57b0a[m
+Author: yinwen <yinwen@163.com>
+Date:   Mon Jan 16 17:49:13 2017 +0800
+
+    培训报名者名单
+
+[

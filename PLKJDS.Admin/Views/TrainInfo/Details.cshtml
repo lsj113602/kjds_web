@@ -1,0 +1,224 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<style>
+    .context_span {
+        color: #a1a1a1;
+    }
+    .tip_span
+    {
+        margin-right:10px;
+    }
+    .infobox
+    {
+        margin-bottom:10px;
+    }
+    .data-left
+    {
+       float:left;
+        width:30%;
+    }
+    #filediv li
+    {
+        list-style:none;
+        margin-left:-30px;
+    }
+    #summary {
+       font-size:14px;
+    }
+    
+    .summary-right {
+        float: left;
+        margin-left: 4%;
+        width: 65%;
+
+    }
+</style>
+<script>
+    var keyValue = $.request("keyValue");
+    var summary;
+    $(function () {
+
+        $.ajax({
+            url:'@Url.Action("GetFormJson", "TrainInfo")?keyValue='+keyValue,
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+                var path = getIMGRootPath();
+                console.log(path);
+                var traintime = data.StartTime + "   至   " + data.EndTime;
+                var ordertime = data.ApplySTime +"   至   " + data.ApplyETime;
+                var statu = "";
+                $("#PhotoID").attr("src", path + data.PhotoID);
+                $("#TrainTitle").text(data.TrainTitle);
+                $("#Host").text(data.Host);
+                $("#Address").text(data.Address);
+                $("#TrainTime").text(traintime);
+                $("#OrderTime").text(ordertime);
+                $("#Content").text(data.Desc);
+                switch (data.StatusCode)
+                {
+                    case "0": statu = "报名中"; break;
+                    case "1": statu = "培训已结束"; break;
+                    case "2": statu = "报名即将开始"; break;
+                    case "3": statu = "培训进行中"; break;
+                    case "4": statu = "培训即将开始"; break;
+                }
+                $("#StatusCode").text(statu);
+                summary = data.Summary;
+            }
+        });
+
+        $("a[data-toggle='tab']:last").on('shown.bs.tab', function (e) {
+            var a=html_encode(summary)
+            $("#summary").append(summary);
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("GetTrainDataList", "TrainInfo")?trainID='+keyValue,
+                dataType:"Json",
+                success:function(result)
+                {
+                    var data = result;
+                    var htmltext = "<ul>";
+                    $.each(data, function (n, value) {
+                        var filename=value.FileID.split('/')[2].substring(17);
+                        switch (value.TypeID.toLocaleLowerCase()) {
+                            case 'jpg':
+                            case 'png':
+                            case 'jpeg':
+                            case 'gif':
+                            case 'bmp':
+                            case 'JPG':
+                            case 'JPEG':
+                                htmltext += "<li><img width='100px' height='100px' name='" + value.text + "' src='" +
+value.FileID + "' onclick='_showBigImg()'><p>"+filename+"<p></li>";
+                                break;
+                            case 'wav':
+                            case 'aif':
+                            case 'au':
+                            case 'mp3':
+                            case 'ram':
+                            case 'amr':
+                                htmltext += "<li><img width='100px' height='100px' src='../Image/audio.png' ><p>" + filename + "<p></li>";
+                                break;
+                            case 'mp4':
+                            case 'mp5':
+                            case 'rmvb':
+                            case 'rm':
+                            case 'swf':
+                            case 'mov':
+                            case 'mpg':
+                            case 'avi':
+                            case 'wmv':
+                                htmltext += "<li><img width='100px' height='100px' src='../Image/video.png' ><p>" + filename + "<p></li>";
+                                break;
+
+                            case 'pdf':
+                                htmltext += "<li><img src='../Image/pdfIcon.jpg'/><p>" + filename + "<p></li>"
+                                break;
+                            default:
+                                htmltext += "<li><img   width='100px' height='100px' src='../Image/fileIcon.jpg'   /><p>" + filename + "<p></li>"
+                                break;
+                        }
+                       
+                    });
+                    $("#filediv").html(htmltext + "</ul>");
+                }
+            });
+        });
+    });
+
+    function html_decode(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/>/g, "&");
+        s = s.replace(/</g, "<");
+        s = s.replace(/>/g, ">");
+        s = s.replace(/ /g, " ");
+        s = s.replace(/'/g, "\'");
+        s = s.replace(/"/g, "\"");
+        s = s.replace(/<br>/g, "\n");
+        return s;
+    }
+    function html_encode(str)
+    {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&/g, ">");
+        s = s.replace(/</g, "<");
+        s = s.replace(/>/g, ">");
+        s = s.replace(/ /g, " ");
+        s = s.replace(/\'/g, "'");
+		s = s.replace(/\n/g, "<br>");
+        return s;
+    }
+
+</script>
+<script src="~/Content/js/loadDeviceParam.js"></script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_a" data-toggle="tab">基本信息</a></li>
+            <li><a href="#tab_b" data-toggle="tab">培训资料与总结</a></li>
+        </ul>
+        <div class="tab-content" style="padding-top: 5px;">
+            <div id="tab_a" style="padding-top: 20px; margin-right: 30px;" class="tab-pane active">
+                <div>
+                    <div align="center"><h4 id="TrainTitle"></h4></div>
+                    <div class="infobox">
+                        <span  class="tip_span">状态:</span>
+                        <span id="StatusCode" class="context_span">12</span>                        
+                    </div>
+                    <div class="infobox">
+                        <span class="tip_span">培训时间:</span>
+                        <span id="TrainTime" class="context_span">13小时</span>
+                    </div>
+                    <div class="infobox">
+                        <span class="tip_span">报名时间:</span>
+                        <span id="OrderTime" class="context_span">19小时</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="infobox">
+                        <span class="tip_span">主办单位:</span>
+                        <span id="Host" class="context_span"></span>
+                    </div>
+                    <div class="infobox">
+                        <span class="tip_span">活动地点:</span>
+                        <span id="Address" class="context_span"></span>
+                    </div>
+                </div>
+                <div class="media" style="overflow:visible;margin-top:20px;">
+                    <a class="media-left media-middle" href="#">
+                        <img id="PhotoID" height="200" width="200">
+                    </a>
+                    <div class="media-body">
+                        <p id="Content"></p>
+                    </div>
+                </div>
+            </div>
+            <div id="tab_b" style="padding-top: 20px; margin-right: 30px;" class="tab-pane">
+                    <div class="data-left">
+                     <img id="dataImg" />
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">培训活动资料</h3>
+                            </div>
+                            <div class="panel-body" id="filediv">
+                      
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-right">
+                       <h4 style="text-align:center">活动总结</h4>
+                        <div id="summary"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>

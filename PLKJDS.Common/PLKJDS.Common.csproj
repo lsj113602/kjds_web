@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5DCB78BC-4BFA-46BF-8333-885356B68ECA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PLKJDS.Common</RootNamespace>
+    <AssemblyName>PLKJDS.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\PLKJDS.Reference\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\PLKJDS.Reference\log4net.2.0.5\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PLKJDS.Reference\Newtonsoft.Json.6.0.4\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\PLKJDS.Reference\NPOI.2.2.1\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\PLKJDS.Reference\NPOI.2.2.1\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\PLKJDS.Reference\NPOI.2.2.1\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\PLKJDS.Reference\NPOI.2.2.1\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cache\Cache.cs" />
+    <Compile Include="Cache\CacheFactory.cs" />
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="CommonUtility.cs" />
+    <Compile Include="Configs\Configs.cs" />
+    <Compile Include="Configs\DBConnection.cs" />
+    <Compile Include="ConfigUtility.cs" />
+    <Compile Include="CustomerAttribute\EnumNoteAttribute.cs" />
+    <Compile Include="EntityCopyHelper.cs" />
+    <Compile Include="Enums\AppStyle.cs" />
+    <Compile Include="Enums\AuthorizeType.cs" />
+    <Compile Include="Enums\ChapterContentType.cs" />
+    <Compile Include="Enums\CourseGrade.cs" />
+    <Compile Include="Enums\EducationRequire.cs" />
+    <Compile Include="Enums\EmployStatu.cs" />
+    <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Enums\EmployTypes.cs" />
+    <Compile Include="Enums\EnumExt.cs" />
+    <Compile Include="Enums\FileType.cs" />
+    <Compile Include="Enums\ImportSatatusEnum.cs" />
+    <Compile Include="Enums\CourseStatu.cs" />
+    <Compile Include="Enums\MenuTarget.cs" />
+    <Compile Include="Enums\MessageType.cs" />
+    <Compile Include="Enums\OrgProp.cs" />
+    <Compile Include="Enums\ResumeConfigType.cs" />
+    <Compile Include="Enums\RoleAuthorizeType.cs" />
+    <Compile Include="Enums\UserAgreeCode.cs" />
+    <Compile Include="Enums\JobExperience.cs" />
+    <Compile Include="Enums\WorkType.cs" />
+    <Compile Include="Excel\ExcelHelper.cs" />
+    <Compile Include="Excel\NPOIExcel.cs" />
+    <Compile Include="Extend\EnumerableExtensions.cs" />
+    <Compile Include="Extend\Ext.Convert.cs" />
+    <Compile Include="Extend\Ext.DateTime.cs" />
+    <Compile Include="Extend\Ext.Format.cs" />
+    <Compile Include="Extend\ExtLinq.cs" />
+    <Compile Include="Extend\ExtLinq.SortBy.cs" />
+    <Compile Include="Extend\ExtList.Comparint.cs" />
+    <Compile Include="Extend\ExtList.cs" />
+    <Compile Include="Extend\ExtTable.cs" />
+    <Compile Include="Extend\ObjectExtensions.cs" />
+    <Compile Include="Extend\StringExtensions.cs" />
+    <Compile Include="Extend\TypeExtensions.cs" />
+    <Compile Include="Extend\Types.cs" />
+    <Compile Include="File\FileDownHelper.cs" />
+    <Compile Include="File\FileHelper.cs" />
+    <Compile Include="GZip.cs" />
+    <Compile Include="HttpHelper.cs" />
+    <Compile Include="Json\Json.cs" />
+    <Compile Include="Licence.cs" />
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="Log\LogFactory.cs" />
+    <Compile Include="Mail\MailHelper.cs" />
+    <Compile Include="Net\HttpMethods.cs" />
+    <Compile Include="Net\Net.cs" />
+    <Compile Include="Operator\OperatorModel.cs" />
+    <Compile Include="Operator\OperatorProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\Assemblies.cs" />
+    <Compile Include="Reflection\AssemblyScope.cs" />
+    <Compile Include="Security\DESEncrypt.cs" />
+    <Compile Include="Security\Md5.cs" />
+    <Compile Include="Serialize.cs" />
+    <Compile Include="Utility\ConfigUtility.cs" />
+    <Compile Include="Validate\Validate.cs" />
+    <Compile Include="VerifyCode.cs" />
+    <Compile Include="Web\AjaxResult.cs" />
+    <Compile Include="Web\Pagination.cs" />
+    <Compile Include="Web\TreeGrid\TreeGrid.cs" />
+    <Compile Include="Web\TreeGrid\TreeGridModel.cs" />
+    <Compile Include="Web\TreeQuery.cs" />
+    <Compile Include="Web\TreeView\TreeView.cs" />
+    <Compile Include="Web\TreeView\TreeViewModel.cs" />
+    <Compile Include="Web\Tree\TreeSelect.cs" />
+    <Compile Include="Web\Tree\TreeSelectModel.cs" />
+    <Compile Include="Web\WebHelper.cs" />
+    <Compile Include="XXTeaHelper1.cs" />
+    <Compile Include="XXTeaHelper.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

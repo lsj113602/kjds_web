@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script src="~/Content/js/plupload/plupload.full.min.js"></script>
+<script src="~/Content/js/loadDeviceParam.js"></script>
+<style>
+    #selectImg
+    {
+        top:-109px;
+        left:229px;
+    }
+</style>
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/Course/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                    $("#PicImage").show();
+                    $("#PicImage").attr('src', getRootPath() + data.PhotoID);//添加图片
+                    if(data.IsTest)
+                    {
+                        $("#IsTest").find("option[value=true]").attr("selected", true);
+                    }
+                    else
+                    {
+                        $("#IsTest").find("option[value=false]").attr("selected", true);
+                    }
+                }
+            });
+        }
+
+        var uploader = new plupload.Uploader({
+            browse_button: 'selectImg', //触发文件选择对话框的按钮，为那个元素id
+            url: '@Url.Action("SavePic", "Course")', //服务器端的上传页面地址
+            multi_selection: false,
+            filters: {
+                max_file_size: "1mb",
+                mime_types: [{
+                    title: "图片类型",
+                    extensions: "jpg,png,gif,bmp"
+                }],
+                prevent_duplicates: true
+            },
+            init: {
+                FilesAdded: function (uploader, files) {
+                    //每个事件监听函数都会传入一些很有用的参数，
+                    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+                    uploader.start();
+                },
+                FileUploaded: function (up, file, data) {
+                    //每个事件监听函数都会传入一些很有用的参数，
+                    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+                    var result = $.parseJSON(data.response);
+                    if (result.state == "success") {
+                        //userLogoID = result.Data.Items[0].ID;  
+                        var imgpath = getRootPath() + result.data;
+                        $('#PicImage').attr('src',imgpath);
+                     
+                        $('#PhotoID').attr('value',imgpath);
+                    } else {
+                        alert(result.Message);
+                    }
+                }
+            }
+
+
+        });
+        uploader.init();
+    });
+   
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        else
+        {
+            var starttime = $("#StartTime").val();
+            var endtime = $("#EndTime").val();
+        
+            if(!dateCompare(starttime, endtime))
+            {
+                $("#EndTime").siblings('.validText').text('开课时间不能大于结课时间').show();
+            }
+            else {
+                $("#EndTime").siblings('.validText').text('').hide();
+                $.submitForm({
+                    url: "/Course/SubmitForm?keyValue=" + keyValue+"&IsRevise="+'0',
+                    param: $("#form1").formSerialize(),
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        }
+       
+    }
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">课程名称</th>
+                    <td class="formValue">
+                        <input id="CourseName" name="CourseName" type="text" class="form-control required" />
+                    </td>
+                    <th class="formTitle">课程级别</th>
+                    <td class="formValue">
+                        <select class="form-control" id="LevelID" style="width:166px;height:20px;">
+                            <option value=0>初级</option>
+                            <option value=1>中级</option>
+                            <option value=2>高级</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">开课时间</th>
+                    <td class="formValue">
+                        <input id="StartTime" name="StartTime" type="text" class="form-control input-wdatepicker normal" onfocus="WdatePicker()" />                   
+                    </td>    
+                    <th class="formTitle">结课时间</th>
+                    <td class="formValue">
+                        <input id="EndTime" name="EndTime" type="text" class="form-control input-wdatepicker normal" onfocus="WdatePicker()" />
+                        <span class="validText" style="color: #ff3300;"></span>
+                    </td>              
+                </tr>
+                <tr>
+                    <th class="formTitle">课程宣传图片</th>
+                    <td class="formValue">
+                        <img id="PicImage" height="200" width="200" style="" />
+                        <input id="PhotoID" name="PhotoID" type="hidden" />
+                        <a id="selectImg" class="btn btn-default">上传图片</a>
+                    </td>
+                    <td>
+                       
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle" style="height: 35px;">是否开设考试</th>
+                    <td class="formValue">
+                        <select id="IsTest" name="IsTest" class="form-control">
+                            <option value=true>开设</option>
+                            <option value=false>不开设</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">描述</th>
+                    <td class="formValue">
+                        <textarea class="form-control"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>

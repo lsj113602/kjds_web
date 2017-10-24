@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script src="~/Content/js/plupload/plupload.full.min.js"></script>
+<script src="~/Content/js/loadDeviceParam.js"></script>
+<link href="~/Content/js/simditor/css/simditor.css" rel="stylesheet" />
+<script src="~/Content/js/simditor/js/module.min.js"></script>
+<script src="~/Content/js/simditor/js/hotkeys.min.js"></script>
+<script src="~/Content/js/simditor/js/simditor.min.js"></script>
+<style>
+    #selectImg {
+        top: -109px;
+        left: 229px;
+    }
+
+    .ra {
+        margin-right: 15px;
+    }
+
+    .freetime {
+        color: #66cccc;
+    }
+
+    .freeorg {
+        width: 200px;
+        margin-left: 20px;
+    }
+
+    #startTime, #endTime {
+        width: 42%;
+        display: inline-block;
+    }
+
+    .checkbox {
+        margin-top: 10px;
+        margin-left: 5px;
+    }
+
+    .filled {
+        height: 17px;
+        width: 90px;
+    }
+</style>
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/Employ/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data)
+                    $("#form1").find('.form-control,select,input,textarea').attr('readonly', 'readonly');
+                    $("#form1").find('div.ckbox label').attr('for', '');
+                    $("#Type").text(data.TypeID);
+                }
+            });
+        }
+
+        $("input[name='publishTime']").change(function () {
+
+            var statu = $("#mytime").css("display");
+            if (statu == "block") {
+                $("#mytime").css("display", "none");
+            }
+        });
+
+        var editor_job = new Simditor({
+            textarea: $('#JobResp'),
+            toolbar: ['ol', 'ul']
+        });
+        var editor_desc = new Simditor({
+            textarea: $('#EmployDesc'),
+            toolbar: ['ol', 'ul']
+        });
+        var editor_atract = new Simditor({
+            textarea: $('#EmployAtract'),
+            toolbar: ['ol', 'ul']
+        });
+    });
+
+
+
+
+    function initControl() {
+        $("#Title").bindSelect({
+            url: "/Employ/GetSelectJson",
+            minimumResultsForSearch: 1,
+            search: true
+        });
+    }
+
+
+
+
+</script>
+<input type="hidden" id="hid_orgname" />
+<input type="hidden" id="hid_orgid" />
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">招聘单位</th>
+                    <td class="formValue" colspan="3">
+                        <input id="CompanyName" name="CompanyName" type="text" class="form-control required" />
+                    </td>
+                <tr>
+                    <th class="formTitle">工作类型</th>
+                    <td class="formValue">
+                        <select class="form-control filled" id="TypeID" name="TypeID">
+                            <option value="0">全职</option>
+                            <option value="1">兼职</option>
+                            <option value="2">项目</option>
+                            <option value="3">实习</option>
+                        </select>
+                    </td>
+                    <th class="formTitle">招聘岗位</th>
+                    <td class="formValue" style="width:207px;display:inline-flex">
+                        <select class="form-control" id="Title" name="Title"></select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th class="formTitle">招聘人数</th>
+                    <td class="formValue">
+                        <input id="PeopleCount" name="PeopleCount" type="number" min="1" class="form-control required" />
+                    </td>
+                    <th class="formTitle">薪资水平</th>
+                    <td class="formValue">
+                        <input id="Salary" name="Salary" type="text" class="form-control required" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="formTitle">学历要求</th>
+                    <td class="formValue">
+                        <select id="EduRequire" name="EduRequire" class="form-control">
+                            <option value="0">不限学历</option>
+                            <option value="1">大专及以上</option>
+                            <option value="2">本科及以上</option>
+                        </select>
+                    </td>
+                    <th class="formTitle">工作经验</th>
+                    <td class="formValue">
+                        <select class="form-control filled" id="WorkExperience" name="WorkExperience">
+                            <option value="0">不限经验</option>
+                            <option value="1">一年以上</option>
+                            <option value="2">一年至三年</option>
+                            <option value="3">三年以上</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">工作地点</th>
+                    <td class="formValue" colspan="3">
+                        <input type="text" class="form-control required" name="Address" id="Address" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">岗位要求</th>
+                    <td class="formValue" colspan="3">
+                        <textarea id="EmployDesc" name="EmployDesc" style="width:373px;"></textarea>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">工作职责</th>
+                    <td class="formValue" colspan="3">
+                        <textarea id="JobResp" name="JobResp" style="width:373px;"></textarea>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">职位福利</th>
+                    <td class="formValue" colspan="3">
+                        <textarea id="EmployAtract" name="EmployAtract" style="width:373px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle" style="height: 35px;">信息有效期</th>
+                    <td class="formValue" colspan="3">
+                        <input id="StartTime" name="StartTime" class="form-control required" />
+                        <input id="EndTime" name="EndTime" class="form-control required" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">面向机构</th>
+                    <td colspan="2">
+                        <div class="ckbox" id="choicebox">
+                            <input id="AllOrg" name="AllOrg" type="checkbox" onchange="IsAll(this)"><label for="AllOrg">全部机构</label>
+                        </div>
+                        <div id="orglist">
+                       
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+
+
+

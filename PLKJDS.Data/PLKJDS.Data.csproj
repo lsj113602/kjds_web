@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DA79B1AE-6688-4D30-8C28-FEBD529C6D61}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PLKJDS.Data</RootNamespace>
+    <AssemblyName>PLKJDS.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PLKJDS.Reference\EntityFramework.6.1.3\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DBContext\PLYLDbContext.cs" />
+    <Compile Include="Infrastructure\IRepositoryBase.cs" />
+    <Compile Include="Infrastructure\IRepositoryBase.T.cs" />
+    <Compile Include="Infrastructure\RepositoryBase.cs" />
+    <Compile Include="Infrastructure\RepositoryBase.T.cs" />
+    <Compile Include="IRepositories\Customize\IRoleRepository.cs" />
+    <Compile Include="IRepositories\Generate\IAccountTypeRepository.cs" />
+    <Compile Include="IRepositories\Generate\IAreaRepository.cs" />
+    <Compile Include="IRepositories\Generate\IAuthorizeRepository.cs" />
+    <Compile Include="IRepositories\Generate\IBannerRepository.cs" />
+    <Compile Include="IRepositories\Generate\IChapterContentRepository.cs" />
+    <Compile Include="IRepositories\Generate\IChapterContentTypeRepository.cs" />
+    <Compile Include="IRepositories\Generate\IChapterQuestionSelectRepository.cs" />
+    <Compile Include="IRepositories\Generate\IChapterQuestionTRRepository.cs" />
+    <Compile Include="IRepositories\Generate\ICooperateOrgRecordRepository.cs" />
+    <Compile Include="IRepositories\Generate\ICooperateOrgRepository.cs" />
+    <Compile Include="IRepositories\Generate\ICourseChapterRepository.cs" />
+    <Compile Include="IRepositories\Generate\ICourseLevelRepository.cs" />
+    <Compile Include="IRepositories\Generate\ICourseOrgRepository.cs" />
+    <Compile Include="IRepositories\Generate\ICourseParterRepository.cs" />
+    <Compile Include="IRepositories\Generate\ICourseRepository.cs" />
+    <Compile Include="IRepositories\Generate\ICustomerResumeRepository.cs" />
+    <Compile Include="IRepositories\Generate\IEducationRepository.cs" />
+    <Compile Include="IRepositories\Generate\IEmployPartRepository.cs" />
+    <Compile Include="IRepositories\Generate\IEmployPositionRepository.cs" />
+    <Compile Include="IRepositories\Generate\IEmployPublishRepository.cs" />
+    <Compile Include="IRepositories\Generate\IJobapplicationRepository.cs" />
+    <Compile Include="IRepositories\Generate\IEmployRepository.cs" />
+    <Compile Include="IRepositories\Generate\IEmployTypeRepository.cs" />
+    <Compile Include="IRepositories\Generate\IExaminationPaperDetailRepository.cs" />
+    <Compile Include="IRepositories\Generate\IExaminationPaperRepository.cs" />
+    <Compile Include="IRepositories\Generate\IExaminationPaperUserRepository.cs" />
+    <Compile Include="IRepositories\Generate\IExaminationUserRepository.cs" />
+    <Compile Include="IRepositories\Generate\IFileRepository.cs" />
+    <Compile Include="IRepositories\Generate\IFileTypeRepository.cs" />
+    <Compile Include="IRepositories\Generate\IMessageReceivedRepository.cs" />
+    <Compile Include="IRepositories\Generate\IMessageSendRepository.cs" />
+    <Compile Include="IRepositories\Generate\IOrganizeRepository.cs" />
+    <Compile Include="IRepositories\Generate\IQsBankRepository.cs" />
+    <Compile Include="IRepositories\Generate\IResumeWorkExpRepository.cs" />
+    <Compile Include="IRepositories\Generate\IResumeTrainExpRepository.cs" />
+    <Compile Include="IRepositories\Generate\IResumeEduBackRepository.cs" />
+    <Compile Include="IRepositories\Generate\IResumeCerRepository.cs" />
+    <Compile Include="IRepositories\Generate\IResumeBaseInfoRepository.cs" />
+    <Compile Include="IRepositories\Generate\IResumeConfigRepository.cs" />
+    <Compile Include="IRepositories\Generate\IRoleAuthorizeRepository.cs" />
+    <Compile Include="IRepositories\Generate\IRoleRepository.cs" />
+    <Compile Include="IRepositories\Generate\ISkill2Repository.cs" />
+    <Compile Include="IRepositories\Generate\ISkillRepository.cs" />
+    <Compile Include="IRepositories\Generate\ITeacherGroupRepository.cs" />
+    <Compile Include="IRepositories\Generate\ITeacherGroupUserRepository.cs" />
+    <Compile Include="IRepositories\Generate\ITestMaterialsRepository.cs" />
+    <Compile Include="IRepositories\Generate\ITrainDataRepository.cs" />
+    <Compile Include="IRepositories\Generate\ITrainExperienceRepository.cs" />
+    <Compile Include="IRepositories\Generate\ITrainInfoRepository.cs" />
+    <Compile Include="IRepositories\Generate\ITrainParterRepository.cs" />
+    <Compile Include="IRepositories\Generate\IUserCollectRepository.cs" />
+    <Compile Include="IRepositories\Generate\IUserDataRepository.cs" />
+    <Compile Include="IRepositories\Generate\IUserCourseRepository.cs" />
+    <Compile Include="IRepositories\Generate\IUserRepository.cs" />
+    <Compile Include="IRepositories\Generate\IWorkExperienceRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Customize\RoleRepository.cs" />
+    <Compile Include="Repositories\Generate\AccountTypeRepository.cs" />
+    <Compile Include="Repositories\Generate\AreaRepository.cs" />
+    <Compile Include="Repositories\Generate\AuthorizeRepository.cs" />
+    <Compile Include="Repositories\Generate\BannerRepository.cs" />
+    <Compile Include="Repositories\Generate\ChapterContentRepository.cs" />
+    <Compile Include="Repositories\Generate\ChapterContentTypeRepository.cs" />
+    <Compile Include="Repositories\Generate\ChapterQuestionSelectRepository.cs" />
+    <Compile Include="Repositories\Generate\ChapterQuestionTRRepository.cs" />
+    <Compile Include="Repositories\Generate\CooperateOrgRecordRepository.cs" />
+    <Compile Include="Repositories\Generate\CooperateOrgRepository.cs" />
+    <Compile Include="Repositories\Generate\CourseChapterRepository.cs" />
+    <Compile Include="Repositories\Generate\CourseLevelRepository.cs" />
+    <Compile Include="Repositories\Generate\CourseOrgRepository.cs" />
+    <Compile Include="Repositories\Generate\CourseParterRepository.cs" />
+    <Compile Include="Repositories\Generate\CourseRepository.cs" />
+    <Compile Include="Repositories\Generate\CustomerResumeRepository.cs" />
+    <Compile Include="Repositories\Generate\EducationRepository.cs" />
+    <Compile Include="Repositories\Generate\EmployPartRepository.cs" />
+    <Compile Include="Repositories\Generate\EmployPositionRepository.cs" />
+    <Compile Include="Repositories\Generate\EmployPublishRepository.cs" />
+    <Compile Include="Repositories\Generate\JobapplicationRepository.cs" />
+    <Compile Include="Repositories\Generate\EmployRepository.cs" />
+    <Compile Include="Repositories\Generate\EmployTypeRepository.cs" />
+    <Compile Include="Repositories\Generate\ExaminationPaperDetailRepository.cs" />
+    <Compile Include="Repositories\Generate\ExaminationPaperRepository.cs" />
+    <Compile Include="Repositories\Generate\ExaminationPaperUserRepository.cs" />
+    <Compile Include="Repositories\Generate\ExaminationUserRepository.cs" />
+    <Compile Include="Repositories\Generate\FileRepository.cs" />
+    <Compile Include="Repositories\Generate\FileTypeRepository.cs" />
+    <Compile Include="Repositories\Generate\MessageReceivedRepository.cs" />
+    <Compile Include="Repositories\Generate\MessageSendRepository.cs" />
+    <Compile Include="Repositories\Generate\OrganizeRepository.cs" />
+    <Compile Include="Repositories\Generate\ResumeTrainExpRepository.cs" />
+    <Compile Include="Repositories\Generate\QsBankRepository.cs" />
+    <Compile Include="Repositories\Generate\ResumeWorkExpRepository.cs" />
+    <Compile Include="Repositories\Generate\ResumeEduBackRepository.cs" />
+    <Compile Include="Repositories\Generate\ResumeCerRepository.cs" />
+    <Compile Include="Repositories\Generate\ResumeBaseInfoRepository.cs" />
+    <Compile Include="Repositories\Generate\ResumeConfigRepository.cs" />
+    <Compile Include="Repositories\Generate\RoleAuthorizeRepository.cs" />
+    <Compile Include="Repositories\Generate\RoleRepository.cs" />
+    <Compile Include="Repositories\Generate\Skill2Repository.cs" />
+    <Compile Include="Repositories\Generate\SkillRepository.cs" />
+    <Compile Include="Repositories\Generate\TeacherGroupRepository.cs" />
+    <Compile Include="Repositories\Generate\TeacherGroupUserRepository.cs" />
+    <Compile Include="Repositories\Generate\TestMaterialsRepository.cs" />
+    <Compile Include="Repositories\Generate\TrainDataRepository.cs" />
+    <Compile Include="Repositories\Generate\TrainExperienceRepository.cs" />
+    <Compile Include="Repositories\Generate\TrainInfoRepository.cs" />
+    <Compile Include="Repositories\Generate\TrainParterRepository.cs" />
+    <Compile Include="Repositories\Generate\UserCollectRepository.cs" />
+    <Compile Include="Repositories\Generate\UserDataRepository.cs" />
+    <Compile Include="Repositories\Generate\UserCourseRepository.cs" />
+    <Compile Include="Repositories\Generate\UserRepository.cs" />
+    <Compile Include="Repositories\Generate\WorkExperienceRepository.cs" />
+    <Compile Include="T4\Exec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Exec.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PLKJDS.Common\PLKJDS.Common.csproj">
+      <Project>{5dcb78bc-4bfa-46bf-8333-885356b68eca}</Project>
+      <Name>PLKJDS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PLKJDS.Entity\PLKJDS.Entity.csproj">
+      <Project>{dd824908-5480-4d78-855a-bf8d8094301d}</Project>
+      <Name>PLKJDS.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PLKJDS.Mapping\PLKJDS.Mapping.csproj">
+      <Project>{8eb5a2db-485f-423f-abf5-ff213ef32d65}</Project>
+      <Name>PLKJDS.Mapping</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="T4\Exec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Exec.cs</LastGenOutput>
+      <LastOutputs>
+..\IRepositories\Generate\IAccountTypeRepository.cs
+..\IRepositories\Generate\IAreaRepository.cs
+..\IRepositories\Generate\IAuthorizeRepository.cs
+..\IRepositories\Generate\IBannerRepository.cs
+..\IRepositories\Generate\IChapterContentRepository.cs
+..\IRepositories\Generate\IChapterContentTypeRepository.cs
+..\IRepositories\Generate\IChapterQuestionSelectRepository.cs
+..\IRepositories\Generate\IChapterQuestionTRRepository.cs
+..\IRepositories\Generate\ICooperateOrgRecordRepository.cs
+..\IRepositories\Generate\ICooperateOrgRepository.cs
+..\IRepositories\Generate\ICourseChapterRepository.cs
+..\IRepositories\Generate\ICourseLevelRepository.cs
+..\IRepositories\Generate\ICourseOrgRepository.cs
+..\IRepositories\Generate\ICourseParterRepository.cs
+..\IRepositories\Generate\ICourseRepository.cs
+..\IRepositories\Generate\ICustomerResumeRepository.cs
+..\IRepositories\Generate\IEducationRepository.cs
+..\IRepositories\Generate\IEmployPartRepository.cs
+..\IRepositories\Generate\IEmployPositionRepository.cs
+..\IRepositories\Generate\IEmployPublishRepository.cs
+..\IRepositories\Generate\IEmployRepository.cs
+..\IRepositories\Generate\IEmployTypeRepository.cs
+..\IRepositories\Generate\IExaminationPaperDetailRepository.cs
+..\IRepositories\Generate\IExaminationPaperRepository.cs
+..\IRepositories\Generate\IExaminationPaperUserRepository.cs
+..\IRepositories\Generate\IExaminationUserRepository.cs
+..\IRepositories\Generate\IFileRepository.cs
+..\IRepositories\Generate\IFileTypeRepository.cs
+..\IRepositories\Generate\IMessageReceivedRepository.cs
+..\IRepositories\Generate\IMessageSendRepository.cs
+..\IRepositories\Generate\IOrganizeRepository.cs
+..\IRepositories\Generate\IResumeBaseInfoRepository.cs
+..\IRepositories\Generate\IResumeConfigRepository.cs
+..\IRepositories\Generate\IRoleAuthorizeRepository.cs
+..\IRepositories\Generate\IRoleRepository.cs
+..\IRepositories\Generate\ISkill2Repository.cs
+..\IRepositories\Generate\ISkillRepository.cs
+..\IRepositories\Generate\ITeacherGroupRepository.cs
+..\IRepositories\Generate\ITeacherGroupUserRepository.cs
+..\IRepositories\Generate\ITestMaterialsRepository.cs
+..\IRepositories\Generate\ITrainDataRepository.cs
+..\IRepositories\Generate\ITrainExperienceRepository.cs
+..\IRepositories\Generate\ITrainInfoRepository.cs
+..\IRepositories\Generate\ITrainParterRepository.cs
+..\IRepositories\Generate\IUserCollectRepository.cs
+..\IRepositories\Generate\IUserDataRepository.cs
+..\IRepositories\Generate\IUserRepository.cs
+..\IRepositories\Generate\IWorkExperienceRepository.cs
+..\Repositories\Generate\AccountTypeRepository.cs
+..\Repositories\Generate\AreaRepository.cs
+..\Repositories\Generate\AuthorizeRepository.cs
+..\Repositories\Generate\BannerRepository.cs
+..\Repositories\Generate\ChapterContentRepository.cs
+..\Repositories\Generate\ChapterContentTypeRepository.cs
+..\Repositories\Generate\ChapterQuestionSelectRepository.cs
+..\Repositories\Generate\ChapterQuestionTRRepository.cs
+..\Repositories\Generate\CooperateOrgRecordRepository.cs
+..\Repositories\Generate\CooperateOrgRepository.cs
+..\Repositories\Generate\CourseChapterRepository.cs
+..\Repositories\Generate\CourseLevelRepository.cs
+..\Repositories\Generate\CourseOrgRepository.cs
+..\Repositories\Generate\CourseParterRepository.cs
+..\Repositories\Generate\CourseRepository.cs
+..\Repositories\Generate\CustomerResumeRepository.cs
+..\Repositories\Generate\EducationRepository.cs
+..\Repositories\Generate\EmployPartRepository.cs
+..\Repositories\Generate\EmployPositionRepository.cs
+..\Repositories\Generate\EmployPublishRepository.cs
+..\Repositories\Generate\EmployRepository.cs
+..\Repositories\Generate\EmployTypeRepository.cs
+..\Repositories\Generate\ExaminationPaperDetailRepository.cs
+..\Repositories\Generate\ExaminationPaperRepository.cs
+..\Repositories\Generate\ExaminationPaperUserRepository.cs
+..\Repositories\Generate\ExaminationUserRepository.cs
+..\Repositories\Generate\FileRepository.cs
+..\Repositories\Generate\FileTypeRepository.cs
+..\Repositories\Generate\MessageReceivedRepository.cs
+..\Repositories\Generate\MessageSendRepository.cs
+..\Repositories\Generate\OrganizeRepository.cs
+..\Repositories\Generate\ResumeBaseInfoRepository.cs
+..\Repositories\Generate\ResumeConfigRepository.cs
+..\Repositories\Generate\RoleAuthorizeRepository.cs
+..\Repositories\Generate\RoleRepository.cs
+..\Repositories\Generate\Skill2Repository.cs
+..\Repositories\Generate\SkillRepository.cs
+..\Repositories\Generate\TeacherGroupRepository.cs
+..\Repositories\Generate\TeacherGroupUserRepository.cs
+..\Repositories\Generate\TestMaterialsRepository.cs
+..\Repositories\Generate\TrainDataRepository.cs
+..\Repositories\Generate\TrainExperienceRepository.cs
+..\Repositories\Generate\TrainInfoRepository.cs
+..\Repositories\Generate\TrainParterRepository.cs
+..\Repositories\Generate\UserCollectRepository.cs
+..\Repositories\Generate\UserDataRepository.cs
+..\Repositories\Generate\UserRepository.cs
+..\Repositories\Generate\WorkExperienceRepository.cs
+.\Exec.cs
+</LastOutputs>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="T4\IRepository.ttinclude" />
+    <None Include="T4\Repository.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

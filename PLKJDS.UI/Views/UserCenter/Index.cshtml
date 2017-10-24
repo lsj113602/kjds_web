@@ -1,0 +1,913 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "跨境电商产学研平台";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+     <!--内容填充-->
+    <style>
+        body {
+            background-color: #eee;
+        }
+    </style>
+    <div style="background-color: #eee">
+        <section class="container">
+            <div class="height30"></div>
+            <div class="row">
+                <!--左侧导航-->
+                <div class="col-md-3">
+                    <div class="userLeft">
+                        <!--用户头像-->
+                        <img src="~/Content/img/ccsu.jpg" height="60px" class="img-circle" alt="" />
+                        <p class="userSchool">长沙学院经济管理学院2015级</p>
+                        <hr style="border-color: #ddd;margin-top: 10px">
+                        <div class="height30"></div>
+                        <div class="leftNavContent">
+                            <!--当前页面请加navActive-->
+                            <div class="userNav ">
+                                <a href="user-course.html">
+                                    <span class="navLogo fa fa-tasks"></span>
+                                    <span class="navTitle">我的课程</span>
+                                    <span class="arrowRight  fa fa-caret-right "></span>
+                                    <hr>
+                                </a>
+                            </div>
+
+                            <div class="userNav ">
+                                <a href="user-train.html">
+                                    <span class="navLogo fa fa-cloud"></span>
+                                    <span class="navTitle">我的培训</span>
+                                    <span class="arrowRight  fa fa-caret-right "></span>
+                                    <hr>
+                                </a>
+                            </div>
+
+                            <div class="userNav navActive">
+                                <a href="user-cv.html">
+                                    <span class="navLogo fa fa-file-text"></span>
+                                    <span class="navTitle">我的简历</span>
+                                    <span class="arrowRight  fa fa-caret-right "></span>
+                                    <hr>
+                                </a>
+                            </div>
+
+                            <div class="userNav">
+                                <a href="user-info.html">
+                                    <span class="navLogo fa fa-dashcube"></span>
+                                    <span class="navTitle">我的资料</span>
+                                    <span class="arrowRight  fa fa-caret-right "></span>
+                                    <hr>
+                                </a>
+                            </div>
+
+                            <div class="userNav">
+                                <a href="user-message.html">
+                                    <span class="navLogo fa fa-envelope"></span>
+                                    <span class="navTitle">消息通知</span>
+                                    <span class="arrowRight  fa fa-caret-right "></span>
+                                    <hr>
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--右侧正文-->
+                <div class="col-md-9">
+                    <div class="rightContent">
+                        <div class="previewCv text-center">
+                            <a class="btn btn-default" href="user-cv-preview.html"><i class="fa fa-eye"></i> 预览简历</a>
+                        </div>
+                        <hr>
+                        <div class="cvBox">
+                            <div class="sepDiv">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 style="line-height: 32px">基本信息</h3>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: right">
+                                        <a class="btn btn-default" href="javascript:void(0)" onclick="changeCvEdit()"><i class="fa fa-edit"></i> 编辑</a>
+                                        <a class="btn btn-default" href="javascript:void(0)" onclick="removeCvEdit()"><i class="fa fa-refresh"></i> 保存</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cvUserInfo">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <span class="userCvName"><input id="cvUsername" class="changeInput" type="text" value="琳琳" placeholder="姓名"></span>
+                                        <span class="font555 fontSize14 marginLeft10"><input id="cvUserSex" class="changeInput" type="text" value="女" style="width: 60px" placeholder="性别"></span>
+                                        <span class="font555 fontSize14 marginLeft10"><input id="cvUserAge" class="changeInput" type="text" value="21" style="width: 60px" placeholder="年龄"> 岁</span>
+                                        <div>
+                                            <div class="height10"></div>
+                                            <span class="font555 fontSize14">在校大学生</span>
+                                            <span class="sepLine font555 fontSize14">|</span>
+                                            <span class="font555 fontSize14">现居于</span>
+                                            <span class="font555 fontSize14"><input id="cvUserAddress" class="changeInput" type="text" value="湖南长沙" placeholder="填写住址如:湖南长沙"></span>
+                                        </div>
+                                        <div>
+                                            <div class="height10"></div>
+                                            <span class="font555 fontSize14">手机：<input id="cvUserTel" class="changeInput" type="text" value="13800000000" placeholder="请填写手机号码"></span>
+                                            <div class="height10"></div>
+                                            <span class="font555 fontSize14">邮箱：<input id="cvUserEmail" class="changeInput" type="text" value="1139717977@qq.com" placeholder="填写住邮箱地址"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right">
+                                        <div>
+                                            <!--如果用户没有头像，请判断之后渲染 img/images/plus.jpg-->
+                                            <img id="cover_img" src="img/images/plus.jpg" width="100px" height="100px" class="img-rounded img-responsive" style="position:absolute;right: 10px" alt="">
+                                            <!--上传头像按钮由js动态生成在此位置-->
+                                            <div id="uploadImage" style="position:absolute;right: 10px;top:110px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sepDiv">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 style="line-height: 32px">工作经验</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cvJobExp">
+                                <!--工作经验渲染 begin-->
+                                <!--此处请传入唯一Id,同deleteExp删除按钮-->
+                                <div class="row expPreview" id="expId">
+                                    <div class="col-md-9">
+                                        <h3>跨进进出口贸易有限公司</h3>
+                                        <div class="height8"></div>
+                                        <span class="font555 fontSize14">职务：销售代表</span>
+                                        <div class="height8"></div>
+                                        <span class="font555 fontSize14">工作内容：做一些简单的工作，后来当上总经理出任CEO，迎娶白富美，现在我是人生赢家...</span>
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right">
+                                        <span class="font555 fontSize14">2014-12 ~ 2015-6</span>
+                                        <div style="margin-top: 30px">
+                                            <!--此处deleteExp为无刷新删除的函数，请传入唯一Id-->
+                                            <button onclick="deleteExp('expId')" class="btn btn-danger" style="background-color: #fff;color:#e35b5a">
+                                                <i class="fa fa-trash"></i> 删除
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <!--工作经验渲染 end-->
+                                <div id="appendExpEdit"></div>
+                                <!--js自动生成表单位置，调试请打开浏览器调试工具-->
+                                <div id="newExpEdit">
+                                </div>
+                                <div style="text-align: center;margin-top: 20px">
+                                    <a class="btn btn-default" href="javascript:void(0)" onclick="addExpEdit()"><i class="fa fa-plus"></i> 添加</a>
+                                </div>
+                            </div>
+                            <div class="sepDiv">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 style="line-height: 32px">培训经历</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cvTrainExp">
+                                <!--培训经历渲染 begin-->
+                                <!--此处请传入train拼接唯一Id,同deleteExp删除按钮-->
+                                <div class="row" id="train_expId">
+                                    <div class="col-md-9">
+                                        <h3>跨进电商人才培训机构</h3>
+                                        <div class="height8"></div>
+                                        <span class="font555 fontSize14">培训岗位：会计</span>
+                                        <div class="height8"></div>
+                                        <span class="font555 fontSize14">培训内容：做一些简单的工作，后来当上总经理出任CEO，迎娶白富美，现在我是人生赢家...</span>
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right">
+                                        <span class="font555 fontSize14">2014-12 ~ 2015-6</span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <!--培训经历渲染 end-->
+                                <div id="appendTrainEdit"></div>
+                                <!--js自动生成表单位置，调试请打开浏览器调试工具-->
+                                <div id="newTrainEdit">
+                                </div>
+                                <div style="text-align: center;margin-top: 20px">
+                                    <a class="btn btn-default" href="javascript:void(0)" onclick="addTrainEdit()"><i class="fa fa-plus"></i> 添加</a>
+                                </div>
+                            </div>
+                            <div class="sepDiv">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 style="line-height: 32px">教育背景</h3>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: right">
+                                        <a class="btn btn-default" href="javascript:void(0)" onclick="changeEduEdit()"><i class="fa fa-edit"></i> 编辑</a>
+                                        <a class="btn btn-default" href="javascript:void(0)" onclick="removeEduEdit()"><i class="fa fa-refresh"></i> 保存</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cvEdu">
+                                <!--教育背景只有一项！-->
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div>
+                                            <span class="font555 fontSize14"><input id="cvSchool" class="changeInput2" type="text" value="长沙学院" placeholder="毕业学校"></span>
+                                            <span class="font555 fontSize14 marginLeft10"><input id="cvPart" class="changeInput2" type="text" value="计算机与应用数学学院" placeholder="院系" style="margin-bottom: 10px"></span>
+                                            <span class="sepLine font555 fontSize14">|</span>
+                                            <span class="font555 fontSize14"><input id="cvMajor" class="changeInput2" type="text" value="软件工程" placeholder="专业"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right">
+                                        <span class="font555 fontSize14"><input id="cvEduTime" class="changeInput2" type="text" value="2015-06" placeholder="入学时间 如2015-06"> ~ 至今</span>
+                                    </div>
+                                </div>
+                                <!--end-->
+                            </div>
+                            <div class="sepDiv">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 style="line-height: 32px">证书</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="certificate">
+                                <div class="height10"></div>
+                                <div class="height10"></div>
+                                <!--证书渲染 begin-->
+                                <!--此处请传入certificate_拼接唯一Id,同deleteExp删除按钮-->
+                                <div class="row" style="margin-bottom: 20px" id="certificate_expId">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <span class=fontSize14">湖南省程序设计大赛一等奖</span>
+                                            <span class="font555 fontSize14 marginLeft10">省级</span>
+                                            <!--此处请传入certificate_拼接唯一Id,删除按钮-->
+                                            <span class="marginLeft10"><a href="javascript:void(0)" onclick="deleteCertificate('expId')">删除</a></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--证书渲染 end-->
+
+                                <div id="appendCertificateEdit">
+                                </div>
+                                <div id="certificateEdit">
+                                </div>
+                                <div style="text-align: center;margin-top: 20px">
+                                    <a class="btn btn-default" href="javascript:void(0)" onclick="addCertificateEdit()"><i class="fa fa-plus"></i> 添加</a>
+                                </div>
+                            </div>
+                            <div class="sepDiv">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 style="line-height: 32px">专业技能</h3>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: right">
+                                        <a class="btn btn-default" href="javascript:void(0)" onclick="saveSkillEdit()"><i class="fa fa-refresh"></i> 保存</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <span class="fontSize14 font555">
+                                                <!--专业技能内容请渲染在这里 请勿换行-->
+                                                <textarea class="form-control" rows="10" cols="20" id="skillContent" placeholder="请填写专业技能" style="width: 100%">熟练使用Office软件，能熟练运用基础会计知识.........</textarea>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sepDiv">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 style="line-height: 32px">自我评价</h3>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: right">
+                                        <a class="btn btn-default" href="javascript:void(0)" onclick="saveSelfEdit()"><i class="fa fa-refresh"></i> 保存</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="selfComment">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <span class="fontSize14 font555">
+                                                <!--自我评价内容请渲染在这里 请勿换行-->
+                                                <textarea id="selfContent" class="form-control" rows="10" cols="20" placeholder="请填写自我评价" style="width: 100%">我认为我比较牛逼，就是特别牛逼，熟练使用Office软件，能熟练运用基础会计知识.........</textarea>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="height30"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="height30"></div>
+        </section>
+        <div class="height30"></div>
+    </div>
+    <!--内容填充-->
+
+    <footer id="footer" class="navbar-static-bottom" style="bottom:0px;left:0px;width: 100%">
+        <div class="footer text-center">
+            <div class="copyright">
+                <p class="text-center">
+                    <a class="footerTextTop" href="#"> 关于我们 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 常见问题 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 意见反馈 </a>
+                    <span class="footerLineStyle">|</span>
+                    <a class="footerTextTop" href="#"> 练习我们 </a>
+                </p>
+                <div class="height40"></div>
+                <p class="text-center">
+                    <span class="footerTextBottom"> 湘B2-20090191-26 </span>|
+                    <span class="footerTextBottom"> 京ICP备12020869号-2 </span>|
+                    <span class="footerTextBottom"> 京公网安备44010602000207 </span>
+                </p>
+                <div class="height20"></div>
+                <p class="text-center"><span class="footerTextBottom">&copy;2014-2016 www.ccsu.cn</span>
+            </div>
+        </div>
+    </footer>
+    <!--登录模态框 begin-->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="max-width:500px;margin-top: 18.5% ">
+            <div class="modal-content" style="max-width: 500px;">
+                <div class="modal-header" style="text-align: center;border-bottom: 0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body" style="padding: 20px 55px 20px 55px">
+                    <div class="loginText">登录</div>
+                    <div class="height40"></div>
+                    <!--用户登录表单-->
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control loginInput" id="username" placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control loginInput" id="password" placeholder="请输入密码">
+                        </div>
+                        <button type="button" class="btn btn-primary loginButton">登录</button>
+                        <div class="checkbox checkboxStyle">
+                            <label>
+                                <input type="checkbox" width="20px" style="border-radius: 0">
+                                下次自动登录 | <a href="javascript:void(0)">忘记密码</a>
+                            </label>
+                        </div>
+                    </form>
+                    <div class="height40"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--登录模态框 end-->
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/yifanToast.js"></script>
+<script>
+    function ct(){
+        return document.compatMode == "BackCompat"? document.body.clientHeight:document.documentElement.clientHeight;
+    }
+    var f=document.getElementById('footer');
+    (window.onresize=function(){
+        f.style.position=document.body.scrollHeight>ct()?'':'absolute';
+    })();
+</script>
+<!--私有js-->
+
+<script>
+    //动态上传头像js
+    function changeCvEdit() {
+        var btn = '<a href="javascript:void(0)" class="file" style="margin-right: 5px">上传头像 <input type="file" id="file" onchange="coverUpload()"> </a> <input type="text" class="hidden" id="cover">';
+        $(".changeInput").addClass("editInput");
+        $("#uploadImage").append(btn)
+    }
+    //保存用户基本信息js
+    function removeCvEdit() {
+        var cvUsername = $("#cvUsername").val();
+        var cvUserSex = $("#cvUserSex").val();
+        var cvUserAge = $("#cvUserAge").val();
+        var cvUserAddress = $("#cvUserAddress").val();
+        var cvUserTel = $("#cvUserTel").val();
+        var cvUserEmail = $("#cvUserEmail").val();
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写保存用户基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'cvUsername':cvUsername,
+                'cvUserSex':cvUserSex,
+                'cvUserAge':cvUserAge,
+                'cvUserAddress':cvUserAddress,
+                'cvUserTel':cvUserTel,
+                'cvUserEmail':cvUserEmail
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    $(".changeInput").removeClass("editInput");
+                    $("#uploadImage").html("");
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+    function changeEduEdit() {
+        $(".changeInput2").addClass("editInput");
+    }
+    //保存教育背景信息
+    function removeEduEdit() {
+        var cvSchool = $("#cvSchool").val();//学校
+        var cvPart = $("#cvPart").val();//系部
+        var cvMajor = $("#cvMajor").val();//专业
+        var cvEduTime = $("#cvEduTime").val();//入学时间
+
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写保存用户教育背景信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'cvSchool':cvSchool,
+                'cvPart':cvPart,
+                'cvMajor':cvMajor,
+                'cvEduTime':cvEduTime
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    $(".changeInput2").removeClass("editInput");
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+    function addExpEdit() {
+        var form = '  <div style="border:1px solid #ddd;padding: 15px">'+
+                '                                    <form class="form-horizontal">'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">实习公司</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="company" placeholder="请填写实习公司">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">所任职务</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="position" placeholder="请填写实习期间所任职务">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">工作内容</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="work" placeholder="请简述实习期间所做的工作">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">开始时间</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="jobStartTime" placeholder="开始时间 :如2015-06">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">结束时间</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="jobEndTime" placeholder="结束时间 :如2015-06">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div style="text-align: center;margin-top: 10px">'+
+                '                                            <a class="btn btn-default confirmButton" style="width: 60px" href="javascript:void(0)" onclick="saveEdit()">确定</a>'+
+                '                                        </div>'+
+                '                                    </form>'+
+                '                                </div>';
+        $('#newExpEdit').html(form);
+
+    }
+
+    //工作经验上传js
+    function saveEdit() {
+        var company = $("#company").val();
+        var position = $("#position").val();
+        var work = $("#work").val();
+        var jobStartTime = $("#jobStartTime").val();
+        var jobEndTime = $("#jobEndTime").val();
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写保存工作经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'company':company,
+                'position':position,
+                'work':work,
+                'jobStartTime':jobStartTime,
+                'jobEndTime':jobEndTime
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    //向页面中动态免刷新添加上传成功的内容,返回该数据的Id！！！！！！！！！！！！！！！！！！
+
+                    var uploadHtml = '<div class="row expPreview" id="'+data.id+'">'+
+                            '                                <div class="col-md-9">'+
+                            '                                    <h3>'+company+'</h3>'+
+                            '                                    <div class="height8"></div>'+
+                            '                                    <span class="font555 fontSize14">职务：'+position+'</span>'+
+                            '                                    <div class="height8"></div>'+
+                            '                                    <span class="font555 fontSize14">工作内容：'+work+'</span>'+
+                            '                                </div>'+
+                            '                                <div class="col-md-3" style="text-align: right">'+
+                            '                                    <span class="font555 fontSize14">'+jobStartTime+' ~ '+jobEndTime+'</span>'+
+                            '                                    <div style="margin-top: 30px">'+
+                            '                                        <button onclick="deleteExp('+state.id+')" class="btn btn-danger" style="background-color: #fff;color:#e35b5a">'+
+                            '                                            <i class="fa fa-trash"></i> 删除'+
+                            '                                        </button>'+
+                            '                                    </div>'+
+                            '                                </div>'+
+                            '                            </div>'+
+                            '                            <hr>';
+
+                    $("#appendExpEdit").append(uploadHtml);
+                    $('#newExpEdit').html("");
+
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+
+
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+    //根据Id删除某条工作经验
+    function deleteExp(id) {
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写保存工作经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'id':id
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    //如果在后端删除成功，那么前端也会删除相应的div
+                    $('#'+id).remove()
+
+                }else{
+                    yifanToast("删除失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+
+
+
+
+    function addTrainEdit() {
+        var form = '  <div style="border:1px solid #ddd;padding: 15px">'+
+                '                                    <form class="form-horizontal">'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">培训公司</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainCompany" placeholder="请填写培训公司">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">培训岗位</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainPosition" placeholder="请填写培训岗位">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">培训内容</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainContent" placeholder="请简述培训内容">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">开始时间</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainStartTime" placeholder="开始时间 :如2015-06">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">结束时间</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainEndTime" placeholder="结束时间 :如2015-06">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div style="text-align: center;margin-top: 10px">'+
+                '                                            <a class="btn btn-default confirmButton" style="width: 60px" href="javascript:void(0)" onclick="saveTrainEdit()">确定</a>'+
+                '                                        </div>'+
+                '                                    </form>'+
+                '                                </div>';
+        $('#newTrainEdit').html(form);
+
+    }
+
+    //保存培训经验js
+    function saveTrainEdit() {
+        var trainCompany = $("#trainCompany").val();
+        var trainPosition = $("#trainPosition").val();
+        var trainContent = $("#trainContent").val();
+        var trainStartTime = $("#trainStartTime").val();
+        var trainEndTime = $("#trainEndTime").val();
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写保存培训经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'trainCompany':trainCompany,
+                'trainPosition':trainPosition,
+                'trainContent':trainContent,
+                'trainStartTime':trainStartTime,
+                'trainEndTime':trainEndTime
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    //向页面中动态免刷新添加上传成功的内容,返回该数据的Id！！！！！！！！！！！！！！！！！！
+
+                    var uploadHtml = '<div class="row expPreview" id="train_'+data.id+'">'+
+                            '                                <div class="col-md-9">'+
+                            '                                    <h3>'+trainCompany+'</h3>'+
+                            '                                    <div class="height8"></div>'+
+                            '                                    <span class="font555 fontSize14">培训岗位：'+trainPosition+'</span>'+
+                            '                                    <div class="height8"></div>'+
+                            '                                    <span class="font555 fontSize14">培训内容：'+trainContent+'</span>'+
+                            '                                </div>'+
+                            '                                <div class="col-md-3" style="text-align: right">'+
+                            '                                    <span class="font555 fontSize14">'+trainStartTime+' ~ '+trainEndTime+'</span>'+
+                            '                                    <div style="margin-top: 30px">'+
+                            '                                        <button onclick="deleteTrain('+state.id+')" class="btn btn-danger" style="background-color: #fff;color:#e35b5a">'+
+                            '                                            <i class="fa fa-trash"></i> 删除'+
+                            '                                        </button>'+
+                            '                                    </div>'+
+                            '                                </div>'+
+                            '                            </div>'+
+                            '                            <hr>';
+
+                    $("#appendTrainEdit").append(uploadHtml);
+                    $('#newTrainEdit').html("");
+
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+
+
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+
+    }
+
+    //根据Id删除某条培训经验
+    function deleteTrain(id) {
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写删除培训经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'id':id
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    //如果在后端删除成功，那么前端也会删除相应的div
+                    $('#train_'+id).remove()
+
+                }else{
+                    yifanToast("删除失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+
+
+
+    function addCertificateEdit() {
+        var form = '  <div style="border:1px solid #ddd;padding: 15px">'+
+                '                                    <form class="form-horizontal">'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">证书名称</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="certificateName" placeholder="请填写证书等级">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">证书等级</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="certificateLevel" placeholder="请填写证书等级">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div style="text-align: center;margin-top: 10px">'+
+                '                                            <a class="btn btn-default confirmButton" style="width: 60px" href="javascript:void(0)" onclick="saveCertificateEdit()">确定</a>'+
+                '                                        </div>'+
+                '                                    </form>'+
+                '                                </div>';
+        $('#certificateEdit').html(form);
+
+    }
+
+    function saveCertificateEdit() {
+
+        var certificateName = $("#certificateName").val();
+        var certificateLevel = $("#certificateLevel").val();
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写保存培训经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'certificateName':certificateName,
+                'certificateLevel':certificateLevel
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    //向页面中动态免刷新添加上传成功的内容,返回该数据的Id！！！！！！！！！！！！！！！！！！
+
+                    var uploadHtml = '<div class="row" style="margin-bottom: 20px" id="certificate_'+data.id+'">'+
+                            '                                <div class="col-md-12">'+
+                            '                                    <div>'+
+                            '                                        <span class=fontSize14">'+certificateName+'</span>'+
+                            '                                        <span class="font555 fontSize14 marginLeft10">'+certificateLevel+'</span>'+
+                            '                                        <!--此处请传入certificate_拼接唯一Id,删除按钮-->'+
+                            '                                        <span class="marginLeft10"><a href="javascript:void(0)" onclick="deleteCertificate(\'expId\')">删除</a></span>'+
+                            '                                    </div>'+
+                            '                                </div>'+
+                            '                            </div>';
+
+                    $("#appendCertificateEdit").append(uploadHtml);
+                    $('#certificateEdit').html("");
+
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+
+
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+
+    function deleteCertificate(id) {
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写删除证书接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'id':id
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    //如果在后端删除成功，那么前端也会删除相应的div
+                    $('#certificate_'+id).remove()
+
+                }else{
+                    yifanToast("删除失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+
+
+
+    function saveSkillEdit() {
+        var skillContent = $("#skillContent").val();
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写保存专业技能接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'skillContent':skillContent
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    //如果在后端删除成功，那么前端也会删除相应的div
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+    }
+
+    function saveSelfEdit() {
+        var selfContent = $("#selfContent").val()
+        $.ajax({
+            type: "POST",
+            url: 'https://127.0.0.1/api/',//填写保存自我评价接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'selfContent':selfContent
+            },
+            success:function(data) {
+                if(data.state==10000){
+                    //如果在后端删除成功，那么前端也会删除相应的div
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+
+    <!--照片异步上传，后端写好图片处理逻辑，并且返回成功状态码10000和正确的url地址-->
+    function coverUpload() {
+        var form_data = new FormData();
+        var file = $("#file").prop("files")[0];
+        if (!file){
+            return;
+        }
+        form_data.append("file", file);
+        $.ajax({
+            type: "POST",
+            url: '/file/upload',
+            dataType : "json",
+            processData:false,
+            contentType:false,
+            data:form_data,
+            success:function(data) {
+                if(data.state==10000){
+                    $("#cover").val(data.src);
+                    $("#cover_img").attr("src",data.src)
+                }else{
+                    yifanToast("上传图片错误，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        })
+
+    }
+
+
+
+</script>
+
+</html>

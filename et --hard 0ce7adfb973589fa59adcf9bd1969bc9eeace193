@@ -1,0 +1,302 @@
+[33mcommit 0ce7adfb973589fa59adcf9bd1969bc9eeace193[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Jun 23 11:05:45 2017 +0800
+
+    ...
+
+[33mcommit f64fa2605c64a16b457e75b42855f3cc8f1f2b3e[m
+Merge: de336ef 8fe41fc
+Author: yinwen <yinwen@163.com>
+Date:   Fri Jun 23 09:40:51 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit de336ef3d456458ac34c249bae78a5baab7a6786[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Jun 23 09:39:06 2017 +0800
+
+    后台用户管理、培训管理bug修复
+
+[33mcommit 8fe41fc21f5c4ab3c33c9adaa74d9554c0d98f74[m
+Author: cxp <Chenxiping@xiyundata.com>
+Date:   Thu Jun 22 18:35:09 2017 +0800
+
+    完善就业模块
+
+[33mcommit 32f437581c58157007fc54ed2bc1a59bbea3656d[m
+Merge: b82e909 02c832c
+Author: cxp <Chenxiping@xiyundata.com>
+Date:   Thu Jun 22 15:49:43 2017 +0800
+
+    用户端就业模块
+
+[33mcommit b82e9096c80271820349e830ac714e51517f0cf1[m
+Author: cxp <Chenxiping@xiyundata.com>
+Date:   Thu Jun 22 15:48:44 2017 +0800
+
+    用户端就业模块
+
+[33mcommit 02c832c046d91f9f50dca2fdd00b1a72a59bf561[m
+Merge: 02204de ed1219f
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 21 16:08:53 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 02204dec5ad482471885b30c16461519e0f1c576[m
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 21 16:05:13 2017 +0800
+
+    无修改
+
+[33mcommit cca25aeb61fa52b4be8ec095fa5ae5261e468359[m
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 21 15:48:16 2017 +0800
+
+    注销按钮位置移动
+
+[33mcommit ed1219f1a9a15dea5bb22731434343245be69e44[m
+Merge: cfe3745 00d2023
+Author: lsj113602 <1046928300@qq.com>
+Date:   Wed Jun 21 15:45:04 2017 +0800
+
+    合并
+
+[33mcommit cfe3745d098320c2724e51dade2127e354803d0d[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Wed Jun 21 15:35:11 2017 +0800
+
+    BUG修改
+
+[33mcommit 00d2023d56c24f58fa9a351be367f7cc749ca9dc[m
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 21 15:24:40 2017 +0800
+
+    登录注册、培训模块bug修改
+
+[33mcommit 2664024074326b24c131dfb41a4728f947fce1bc[m
+Merge: 7334483 bfab2b4
+Author: lsj113602 <1046928300@qq.com>
+Date:   Mon Jun 19 09:23:27 2017 +0800
+
+    合并
+
+[33mcommit 7334483bfa8c2db8b77b10c17a10ab8148282473[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Mon Jun 19 09:11:57 2017 +0800
+
+    后台课程大纲修改
+
+[33mcommit bfab2b46b4583e4f508eccfb17d143be73f711f6[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Jun 16 17:00:06 2017 +0800
+
+    修改培训模块bug
+
+[33mcommit 665864395890b29015c0fd72cf577621eb51442e[m
+Merge: ec8c483 68cd0f4
+Author: lsj113602 <1046928300@qq.com>
+Date:   Thu Jun 15 18:11:49 2017 +0800
+
+    Merge branch 'master' of http://lishanjun@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit ec8c48326d3604e1f24913747b0922353600a6df[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Thu Jun 15 18:11:44 2017 +0800
+
+    课程详情
+
+[33mcommit 68cd0f473abe6747b2999e24d990bc016abec21e[m
+Merge: 1f0207f 2e6021b
+Author: yinwen <yinwen@163.com>
+Date:   Thu Jun 15 15:50:20 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 1f0207fef0d9bee1b9f76efa3db500e4c8f501b0[m
+Author: yinwen <yinwen@163.com>
+Date:   Thu Jun 15 15:47:40 2017 +0800
+
+    后台路径修改
+
+[33mcommit 2e6021b212c3ea77663afd332e105c5dbd71700a[m
+Merge: 0d424b1 01805f9
+Author: lsj113602 <1046928300@qq.com>
+Date:   Thu Jun 15 15:46:01 2017 +0800
+
+    Merge branch 'master' of http://lishanjun@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 0d424b1f7d0ff6e7328e901327ddd5ce5d365a72[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Thu Jun 15 15:45:55 2017 +0800
+
+    首页培训和课程添加
+
+[33mcommit 01805f946f51bb9d50400ffa1cc31c1a6e8eaf61[m
+Merge: abe3375 62097d3
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 14 16:11:54 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit abe33751bdaaf808defd23a0444e8a203ab6a31b[m
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 14 16:11:47 2017 +0800
+
+    后台加入登录页面
+
+[33mcommit 62097d3251fd135442fb467dca26d049be9c32c5[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Wed Jun 14 16:06:46 2017 +0800
+
+    课程页面修改
+
+[33mcommit 8e1faa05a0fd6505ea51d2e46cb7d32e427e165b[m
+Author: yinwen <yinwen@163.com>
+Date:   Wed Jun 14 14:47:25 2017 +0800
+
+    回滚
+
+[33mcommit 51c43d7028f001791af19869825c0c35ec45fd5f[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Wed Jun 14 11:19:05 2017 +0800
+
+    222
+
+[33mcommit d202a86e2066bdfa97d88498f49f1ab54e8a2d72[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Wed Jun 14 09:52:10 2017 +0800
+
+    111
+
+[33mcommit dd97fe759422570e05be8176eb68f64c23d4129f[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Mon Jun 12 09:14:02 2017 +0800
+
+    111
+
+[33mcommit e15bab651ddeaa9b7baf9153c13639626691fa3d[m
+Author: lsj113602 <1046928300@qq.com>
+Date:   Fri Jun 9 14:37:26 2017 +0800
+
+    1111
+
+[33mcommit 9aa389fe655cbae391a72348aa88cdb04b5cad3f[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Apr 28 17:13:45 2017 +0800
+
+    course
+
+[33mcommit 1b2d1e20f1105ed8af10428d6fff080a151a5b1f[m
+Author: dhm <472646405@qq.com>
+Date:   Thu Apr 27 11:15:42 2017 +0800
+
+    登录注册整合完成
+
+[33mcommit 1ab118da58f50c2eca9576e3ec37512b05474759[m
+Author: dhm <472646405@qq.com>
+Date:   Thu Apr 20 09:16:20 2017 +0800
+
+    Interface
+
+[33mcommit 03d1d4e8b99db4de15b618b31e68af6c99163f9f[m
+Author: dhm <472646405@qq.com>
+Date:   Mon Apr 17 14:19:33 2017 +0800
+
+    Add TestMatreials Table
+
+[33mcommit 1de0eb22be0baba543d13a1b2c2654925d7cba6e[m
+Author: dhm <472646405@qq.com>
+Date:   Mon Apr 17 14:16:11 2017 +0800
+
+    合并
+
+[33mcommit bb123a9cfc59c81a2f62cf3d7e55cef92b6896e2[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 17 15:38:05 2017 +0800
+
+    ...
+
+[33mcommit 4e8a01afe7697481579754a739d136f55ef467d8[m
+Merge: 38530fc 5ade8cc
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 17 15:36:05 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 38530fc51e85ba39fadda5712082a09c7ef9f171[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 17 15:35:30 2017 +0800
+
+    加载试卷详�
+
+[33mcommit 5ade8cc1173d685569270c253cf043f4b2e4b19d[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 17 15:32:51 2017 +0800
+
+    hebing
+
+[33mcommit 39792381a75f592e514cb3326d6f4dd9a142c0bc[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 17 11:03:17 2017 +0800
+
+    ..
+
+[33mcommit d8bf2c96c237392455e613c6700d93afb6116a8e[m
+Merge: b75d634 f8292d7
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 17 10:54:19 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit f8292d72e5f4d604bf2e7567880da4cc3e429c53[m
+Author: dhm <472646405@qq.com>
+Date:   Thu Mar 16 11:16:29 2017 +0800
+
+    添加UI框架
+
+[33mcommit b75d63479e680bc594d94df6a077585df55cbc0a[m
+Merge: c695cd1 e6fcb8c
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 17:55:57 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit c695cd141d3a8e702297e105dc6195f5905aa0ba[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 17:55:09 2017 +0800
+
+    修改试卷布局
+
+[33mcommit e6fcb8c29e7f97ba51e86622b5f7dfc29bbe1bbb[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 10 17:50:59 2017 +0800
+
+    用户管理调整，添加sql语句查询条件查询，应聘者管理列表
+
+[33mcommit 1f8b16b34b7b3c0c8e871b2988b0f201503cf050[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 10 09:26:34 2017 +0800
+
+    ...
+
+[33mcommit 3502342a21de9f82c005b8bd9ee44f0ae9679557[m
+Merge: 2199f76 be58c64
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 09:24:18 2017 +0800
+
+    Merge branch 'master' of http://yinwen@121.42.149.112:8080/r/HNPL.KJDS.git
+
+[33mcommit 2199f76821ab56174be52fbde95facd8e9eb54da[m
+Author: yinwen <yinwen@163.com>
+Date:   Fri Mar 10 09:24:13 2017 +0800
+
+    删除不用的类
+
+[33mcommit be58c64909bcd0e022717cc2a36b8dc5876a932b[m
+Author: dhm <472646405@qq.com>
+Date:   Fri Mar 10 09:13:27 2017 +0800
+
+    ...
+
+[33mcommit 9fd037be0b1acca81de0093a796

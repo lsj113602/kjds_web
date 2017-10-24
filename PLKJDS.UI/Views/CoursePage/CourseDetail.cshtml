@@ -1,0 +1,451 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "跨境电商产学研平台";
+}
+@using PLKJDS.Entity;
+@using PLKJDS.UIEntity.UI;
+<style>
+    ul {
+        list-style-type: none;
+    }
+
+    a {
+        color: #b63b4d;
+        text-decoration: none;
+    }
+
+    /** =======================
+     * Contenedor Principal
+     ===========================*/
+    h1 {
+        color: #FFF;
+        font-size: 24px;
+        font-weight: 400;
+        text-align: center;
+        margin-top: 80px;
+    }
+
+        h1 a {
+            color: #c12c42;
+            font-size: 16px;
+        }
+
+    .accordion {
+        width: 100%;
+        margin: 0;
+        background: #FFF;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+
+        .accordion .link {
+            cursor: pointer;
+            display: block;
+            padding: 15px 15px 15px 42px;
+            color: #666;
+            font-size: 16px;
+            font-weight: 500;
+            border-bottom: 1px solid #CCC;
+            position: relative;
+            -webkit-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+        .accordion li:last-child .link {
+            border-bottom: 0;
+        }
+
+        .accordion li i {
+            position: absolute;
+            top: 16px;
+            left: 12px;
+            font-size: 16px;
+            color: #595959;
+            -webkit-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+            .accordion li i.fa-chevron-down {
+                left: 12px;
+                right: auto;
+                font-size: 16px;
+            }
+
+        .accordion li.open .link {
+            color: #999;
+        }
+
+        .accordion li.open i {
+            color: #999;
+        }
+
+            .accordion li.open i.fa-chevron-down {
+                -webkit-transform: rotate(180deg);
+                -ms-transform: rotate(180deg);
+                -o-transform: rotate(180deg);
+                transform: rotate(180deg);
+            }
+
+    /**
+     * Submenu
+     -----------------------------*/
+    .submenu {
+        display: none;
+        background: #fff;
+        font-size: 14px;
+    }
+
+        .submenu li {
+            border-bottom: 1px solid #eee;
+            line-height:40px;
+        }
+
+        .submenu a {
+            display: block;
+            text-decoration: none;
+            color: #d9d9d9;
+            padding: 20px;
+            padding-left: 42px;
+            -webkit-transition: all 0.25s ease;
+            -o-transition: all 0.25s ease;
+            transition: all 0.25s ease;
+        }
+
+        .submenu a {
+            color: #666 !important;
+        }
+
+    .Visible {
+        position: absolute;
+        right: 75px;
+        top: 90px;
+    }
+    .clearSee {
+        position: absolute;
+        right: 25px;
+        top: 90px;
+    }
+
+</style>
+<script src="~/UIContent/js/index.js"></script>
+<div style="background-color: #eee">
+    <div class="height30"></div>
+    <!--课程详情模块 begin-->
+    <section class="courseDetail container">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="row" style="padding: 0px" id="introduce">
+                    <div class="col-md-4 col-xs-4">
+                        <div>
+                            <!--此处背景图片为课程图片-->
+                            <div id="courseImg" class="hidden-xs" style=" background-size: cover; background-position: center; width: 100%; max-height: 200px">
+                                <img src="img/tm.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-xs-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h2 id="courseName">课程名称</h2>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="height8"></div>
+                            <span class="textPeople" id="schoolName">长沙学院</span>
+                            <span class="textPeople" style="margin-left: 10px" id="teacherName"></span>
+                            <div class="height20"></div>
+                        </div>
+                        <div class="courseContent" id="courseContent">
+                        </div>
+                        <div class="height8"></div>
+                        <div>
+                            <span style="color: rgba(87,176,233,1)"><i class="fa fa-user-o"></i>&nbsp;<span style="color:#24cad5;font-size:14px" id="courseStatu"></span></span>
+                            <span class="marginLeft10 textSize12" id="startTime">
+                                开课：
+                            </span>
+                            <span class="marginLeft10 textSize12" id="endTime">
+                                结束：
+                            </span>
+                        </div>
+                        <div class="height8"></div>
+                        <div>
+                            <div class="row" style="background-color: #eee;text-align: center;padding: 14px;max-width: 744px;margin: 0 auto">
+                                <div class="col-md-3">
+                                    <p id="personSum">100人</p>
+                                    <div style="height: 4px"></div>
+                                    <p class="textSize12">学习人数</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p id="courseLevel">初级</p>
+                                    <div style="height: 4px"></div>
+                                    <p class="textSize12">难度级别</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p id="serialNum">0</p>
+                                    <div style="height: 4px"></div>
+                                    <p class="textSize12">已开课期数</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!--课程详情模块 end-->
+
+    <div class="height30"></div>
+
+    <section class="container">
+        <div class="row">
+            <div class="col-md-9" style="padding-left: 0">
+                <!--栏目导航 begin-->
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist" style="background-color: #ddd">
+                        <li role="presentation" class="presentation active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">课件</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content" style="background-color: #fff;min-height: 700px">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <div class="height20"></div>
+                            <!--课件html模板 begin-->
+                            <ul id="mycourse" class="accordion">
+                                <li style="display:none">
+                                    <div class="link">[#章名称#]<i class="fa fa-chevron-down"></i></div>
+                                    <ul class="submenu" id="Exid"></ul>
+                                </li>
+                            </ul>
+                            <!--课件html模板 end-->
+                            <!--课件真实数据填充 begin-->
+                            <ul id="accordion" class="accordion"></ul>
+                            <!--课件真实数据填充 end-->
+                        </div>
+                    </div>
+                </div>
+                <!--栏目导航 end-->
+            </div>
+
+            <div id="filehtml" style="display:none;">
+                <span style="margin-left:5%"> [#节名称#]</span>
+                <a class="Visible" style="display:inline" role="button" href="FilePath"> 
+                    <span class="fa fa-file-text-o textfile"></span>
+                </a>
+                <a class="clearSee" style="display:block;width:15px;" href="/CoursePage/CourseVideo?id=videoID">
+                    <span class="fa fa-play-circle-o videofile"></span>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <div style="background-color: #fff;padding: 18px;">
+                    <h2>课程概述</h2>
+                    <div class="height20"></div>
+                    <span class="fa fa-thumb-tack" style="color: #777"></span>
+                    <span style="margin-left: 15px;color: #777">内容类型：视频、文档</span>
+                    <div class="height20"></div>
+                    <div class="height20"></div>
+                </div>
+                <div class="height30"></div>
+                <div style="background-color: #fff;padding: 18px;">
+                    <h2>授课老师</h2>
+                    <!--授课老师 begin-->
+                  
+                    <div class="studentInfoBox" style="margin-top: 30px">
+                        <img id="teacherImg" src="~/Content/img/userPhoto.png" class="img-circle floatLeft" style="border:2px solid #999;height:60px;width:60px;"/>
+                        <div class="studentInfo">
+                            <span class="studentName" id="CourseCreator"></span>
+                            <div class="message">
+                                <p id="orgname"></p>
+                                <p>经济管理学院教授</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <!--end-->
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="height50"></div>
+
+</div>
+<script type="text/javascript">
+
+    var courseid = '@ViewBag.CourseID';
+    
+    //课程简介部分
+    var courseIntrduce=function(data)
+    {
+        if(data!=null&&data!="undefined")
+        {
+            $("#courseImg").css("background-image", "url("+ data.PhotoID+")");
+            loadInfo("courseName", data.CourseName);
+            loadInfo("schoolName", data.OrgName);
+            loadInfo("teacherName", data.TeacherName);
+            loadInfo("CourseCreator", data.OrgName);
+            loadInfo("orgname", data.TeacherName);
+            //if (!data.TeacherImg == "" && data.TeacherImg == null)
+            //{
+               // $("#teacherImg").attr("src", data.TeacherImg);
+            //}
+            //else
+            //{
+            //    
+            //}
+            var content = data.Desc == null ? "暂无课程简介" : data.Desc;
+            loadInfo("courseContent", content);
+           
+            var level = "",statu="";
+            switch (data.LevelID)
+            {
+                case "0": level = "初级"; break;
+                case "1": level = "中级"; break;
+                case "2": level = "高级"; break;
+            }
+            loadInfo("courseLevel", level);//课程级别
+
+            switch (data.StatusCode) {
+                case 0: statu = "即将开课"; break;
+                case 1: statu = "开课中"; break;
+                case 2: statu = "已结课"; break;
+            }
+            loadInfo("courseStatu", statu);//课程级别
+     
+            loadInfo("serialNum", data.SerialNum);
+
+            var starttime = data.StartTime;
+            starttime =starttime==null?"":starttime.split(' ')[0]
+            var endtime =endtime==null?"": data.EndTime;
+            endtime = endtime.split(' ')[0];
+            loadInfo("startTime", "开课："+starttime);
+            loadInfo("endTime", "结课：" + endtime);
+
+            loadInfo("personSum", data.PartnerCount + " 人");
+        }
+    }
+
+    //课件部分 
+    var courseFile=function(data)
+    {
+        console.log(data);
+        var id = "";
+        var htmlStr = $("#mycourse").html();
+        $.each(data, function (index, item) {
+            if (item.PID == "0")
+            {
+                 id = item.ID;
+            }
+            if(id!="")
+            {
+                if (item.PID == id)
+                {
+                    var htmlCode = htmlStr;
+                    htmlCode = htmlCode.replace("[#章名称#]", item.ChapterName);
+                    htmlCode = htmlCode.replace("display:none", " ");
+                    htmlCode = htmlCode.replace("Exid", item.ID);
+                    $("#accordion").append(htmlCode);
+                    $.each(data, function (num, key)
+                    {
+                        if(key.PID==item.ID)
+                        {
+                            chpaterContent(item.ID, key);
+                        }
+                    })
+                }
+            }
+          
+        })
+    }
+
+    var chpaterContent=function(pid,data)
+    {
+        var obj = $(".submenu");
+        var contentHtml =$("#filehtml").html();
+        $.each(obj, function (index, item) {
+            var id = $(this).attr("id");
+            if(pid==id)
+            {
+                var myhtml = "<li style='postion:relative'>" + contentHtml;
+                myhtml = myhtml.replace("[#节名称#]", data.ChapterName);
+                if (data.FileID == null || data.FileID == "")
+                {
+                    myhtml = myhtml.replace("display:inline", "display:none");
+                }
+                else
+                {
+                    myhtml = myhtml.replace("FilePath", data.FileID);
+                }
+                if (data.VideoID == null || data.VideoID == "")
+                {
+                    myhtml = myhtml.replace("display:block", "display:none");
+                }
+                else
+                {
+                    myhtml = myhtml.replace("videoID", data.VideoID);
+                }
+                myhtml = myhtml + "</li>";
+                $("#" + id).append(myhtml);
+            }
+        })
+    }
+
+    function loadInfo( id, content)
+    {
+        if(id==""||id==null||id=="undefined")
+        {
+            return;
+        }
+        else
+        {
+            if(content!=null&&content!="null")
+            {
+                $("#" + id).text(content);
+            }
+            else
+            {
+                $("#" + id).text('');
+            }
+        }
+    }
+
+    function  initCourseInfo()
+    {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetCourseDetailModel", "CoursePage")",
+            data:{courseID:courseid},
+            dataType: "Json",
+            success:function(result)
+            {
+                var data = JSON.parse(result);
+                var coursedetail = data.coursemodel;
+                var chapterlist = data.chapter;
+                console.log(data);
+                courseIntrduce(coursedetail);
+                courseFile(chapterlist);
+
+            }
+        })
+    }
+
+    //下载课件
+    function  downloadFile()
+    {
+       // alert(1);
+      //  window.Location.href = "@Url.Action("Index", "Home")";
+    }
+
+    function openVideo(fileID)
+    {
+       // alert(fileID);
+        window.Location.href = "@Url.Action("CourseVideo", "CoursePage")?fileID=" + fileID;
+    }
+
+    $(function () {
+        initCourseInfo();
+    })
+</script>

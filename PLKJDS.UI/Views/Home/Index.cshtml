@@ -1,0 +1,508 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "跨境电商产学研平台";
+}
+@using PLKJDS.UIEntity.UI;
+@using PLKJDS.Entity;
+<link href="~/Content/css/homeindex.css" rel="stylesheet" />
+<!--内容填充-->
+<!--轮播图 begin-->
+<section class="maxSize hidden-xs">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <div style="background-image: url(/UIContent/img/banner1.jpg);height: 450px;background-size: cover;background-position: center top;background-repeat: no-repeat"></div>
+                <div class="carousel-caption">
+                </div>
+            </div>
+            <div class="item">
+                <div style="background-image: url(/UIContent/img/banner1.jpg);height: 450px;background-size: cover;background-position: center top;background-repeat: no-repeat">
+                    <div class="carousel-caption">
+                    </div>
+                </div>
+            </div>
+            <!-- Controls -->
+
+        </div>
+    </div>
+</section>
+<!--轮播图 end-->
+<!--免费培训 begin-->
+<section class="container freeTraining">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>培训活动</h3>
+        </div>
+        <div class="col-md-6 text-right">
+            <a href='@Url.Action("Index", "TrainPage")' class="more">更多 ></a>
+        </div>
+    </div>
+    <hr class="mailHr">
+    <div class="row">
+
+       @foreach (TrainInfo train in ViewBag.trainList as List<TrainInfo>)
+       {
+           var timeStr = train.EndTime.ToString();
+           String[] timeArr = timeStr.Split(' ');
+           var endtime = timeArr[1].Substring(0,timeArr[1].Length-3);
+           var starttime = train.StartTime.ToString();
+           starttime = starttime.Substring(0,starttime.Length - 3);
+        <!--课程 begin ×4-->
+        <div class="col-md-3 col-xs-12 bottom15">
+            <a href="@Url.Action("TrainDetail", "TrainPage")?trainID=@train.ID" class="textA">
+                <div class="textBox evenflow_scale">
+                    <div class="textImg" style="background-image: url(@train.PhotoID);height: 148px;width: 265px;background-position: center;background-size: cover">
+                        <!--底部黑色半透明div begin-->
+                        <div class="bottomText">
+                            <div class="row">
+                                <div class="col-md-6 imgContent">@train.TrainTitle</div>
+                                @*<div class="col-md-6 imgContent text-right">主讲人：李建利</div>*@
+                            </div>
+                        </div>
+                        <!--底部黑色半透明div end-->
+                    </div>
+                    <!--课程详情 begin-->
+                    <div class="textDetail">
+                        <div class="textTime"><i class="fa fa-calendar-minus-o colorFont"></i> <span> @starttime—@endtime</span></div>
+                        <div class="textLocation"><i class="fa fa-map-marker colorFont  fontBig"></i> <span>@train.Address</span></div>
+                    </div>
+                    <div class="signUp">
+                        <div class="row">
+                            @*<div class="col-md-6 "><span class="numColor">52</span>人已报名</div>
+                            <div class="col-md-6 colorFont text-right">限额100人</div>*@
+                            <div class="col-md-6 ">主办方：@train.Host</div>
+                        </div>
+
+                    </div>
+                    <!--课程详情 end-->
+                </div>
+            </a>
+
+        </div>
+       }
+        <!--课程 end ×4-->
+    </div>
+</section>
+<!--免费培训 end-->
+<!--推荐课程 begin-->
+<section class="hotClass hidden-xs">
+    <div class="height30"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>推荐课程</h3>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href='@Url.Action("Index", "CoursePage")' class="more">更多 ></a>
+            </div>
+        </div>
+        <hr class="mailHr">
+        <div class="row">
+            <!--课程 begin ×4-->
+@foreach (CourseModel item in ViewBag.courseList as List<CourseModel>)
+{
+     String endtime="",starttime="";
+     if (item.StartTime != null && item.EndTime != null)
+     {
+         endtime = item.EndTime.ToString().Split(' ')[0];
+         starttime = item.StartTime.ToString().Split(' ')[0];
+     }
+
+    
+            <div class="col-md-3 col-xs-6">
+                <a href="@Url.Action("CourseDetail", "CoursePage")?courseID=@item.ID" class="textA">
+                    <div class="textBox evenflow_scale">
+                        <div class="textImg" style="background-image: url(@item.PhotoID);height: 148px;width: 265px;background-position: center;background-size: cover">
+                            <!--底部黑色半透明div begin-->
+                            <div class="bottomText">
+                                <div class="row">
+                                    <div class="col-md-6 imgContent">@item.CourseName</div>
+                                    <div class="col-md-6 imgContent text-right">主讲人：@item.CourseUserName</div>
+                                </div>
+                            </div>
+                            <!--底部黑色半透明div end-->
+                        </div>
+                        <!--课程详情 begin-->
+                        <div class="textDetail">
+                            <div class="courseName">
+                                @{
+                                    if (item.LevelID == "0")
+                                    {
+                                        <div class="levelTag">初级</div>
+                                    }
+                                    else if(item.LevelID == "1")
+                                    {
+                                        <div class="levelTag">中级</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="levelTag">高级</div>
+                                    }
+                                }                              
+                                <div class="levelText">@item.CourseName</div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="height8"></div>
+                            <div class="textTime"><i class="fa fa-calendar-minus-o colorFont"></i> <span> @starttime—@endtime</span></div>
+                        </div>
+                        <div class="signUp">
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6 text-right"><span class="numColor">@item.PartNumber</span>人已报名</div>
+                            </div>
+
+                        </div>
+                        <!--课程详情 end-->
+                    </div>
+                </a>
+            </div>
+}
+            <!--课程 end ×4-->            
+        </div>
+    </div>
+    <div class="height30"></div>
+</section>
+<!--推荐课程 end-->
+<!--企业热聘 begin-->
+<section class="container">
+    <div class="height30"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>企业热聘</h3>
+        </div>
+        <div class="col-md-6 text-right">
+            <a href="@Url.Action("Index","JobPage")" class="more">更多 ></a>
+        </div>
+    </div>
+    <div class="bottom20"></div>
+    <div class="recruit">
+        <div class="height40"></div>
+
+        <div class="row" id="jobArea">
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+
+</section>
+<!--企业热聘 end-->
+<!--导师团队 begin-->
+<section class="container">
+    <div class="height30"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>导师团队</h3>
+        </div>
+        <div class="col-md-6 text-right">
+            <a href="#" class="more">更多 ></a>
+        </div>
+    </div>
+    <div class="bottom20"></div>
+    <div class="row">
+        <!--导师团队 begin-->
+        <div class="col-md-4">
+            <div style="padding: 12px;border:1px solid #eee">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="~/Content/img/ccsu.jpg" style="margin-top: 30px" width="62px" height="62px" class="img-circle img-responsive" alt="" />
+                    </div>
+                    <div class="col-md-8" style="padding-left: 0">
+                        <div>
+                            <div class="btn btn-default oneButton">李健</div>
+                            <span class="fontSize14 font777 marginLeft4">经济学教授</span>
+                        </div>
+                        <div class="height8"></div>
+                        <div>
+                            <div class="btn btn-default twoButton">马东</div>
+                            <span class="fontSize14 font777 marginLeft4">上市企业CEO</span>
+                        </div>
+                        <div class="height8"></div>
+                        <div>
+                            <div class="btn btn-default threeButton">秦琴</div>
+                            <span class="fontSize14 font777 marginLeft4">职业经理人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="height15"></div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <span class="teamName">阿里团队</span>
+                    </div>
+                    <div class="col-md-7">
+                        <span class="fontSize14 font777">专注研究电商模式</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--导师团队 end-->
+        <!--导师团队 begin-->
+        <div class="col-md-4">
+            <div style="padding: 12px;border:1px solid #eee">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="~/Content/img/ccsu.jpg" style="margin-top: 30px" width="62px" height="62px" class="img-circle img-responsive" alt="" />
+                    </div>
+                    <div class="col-md-8" style="padding-left: 0">
+                        <div>
+                            <div class="btn btn-default oneButton">李健</div>
+                            <span class="fontSize14 font777 marginLeft4">经济学教授</span>
+                        </div>
+                        <div class="height8"></div>
+                        <div>
+                            <div class="btn btn-default twoButton">马东</div>
+                            <span class="fontSize14 font777 marginLeft4">上市企业CEO</span>
+                        </div>
+                        <div class="height8"></div>
+                        <div>
+                            <div class="btn btn-default threeButton">秦琴</div>
+                            <span class="fontSize14 font777 marginLeft4">职业经理人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="height15"></div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <span class="teamName">阿里团队</span>
+                    </div>
+                    <div class="col-md-7">
+                        <span class="fontSize14 font777">专注研究电商模式</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--导师团队 end-->
+        <!--导师团队 begin-->
+        <div class="col-md-4">
+            <div style="padding: 12px;border:1px solid #eee">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="~/Content/img/ccsu.jpg" style="margin-top: 30px" width="62px" height="62px" class="img-circle img-responsive" alt="" />
+                    </div>
+                    <div class="col-md-8" style="padding-left: 0">
+                        <div>
+                            <div class="btn btn-default oneButton">李健</div>
+                            <span class="fontSize14 font777 marginLeft4">经济学教授</span>
+                        </div>
+                        <div class="height8"></div>
+                        <div>
+                            <div class="btn btn-default twoButton">马东</div>
+                            <span class="fontSize14 font777 marginLeft4">上市企业CEO</span>
+                        </div>
+                        <div class="height8"></div>
+                        <div>
+                            <div class="btn btn-default threeButton">秦琴</div>
+                            <span class="fontSize14 font777 marginLeft4">职业经理人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="height15"></div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <span class="teamName">阿里团队</span>
+                    </div>
+                    <div class="col-md-7">
+                        <span class="fontSize14 font777">专注研究电商模式</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--导师团队 end-->
+
+    </div>
+</section>
+<!--导师团队 end-->
+<!--明星学员 begin-->
+<section class="hotClass hidden-xs">
+    <div class="height30"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>明星学员</h3>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="#" class="more">更多 ></a>
+            </div>
+        </div>
+        <hr class="mailHr">
+        <div class="height20"></div>
+        <div class="row">
+            <!--学习之星 begin ×4-->
+            <div class="col-md-3" style="position: relative">
+                <div class="popover top in" role="tooltip" id="popover67371" style="display: flex;position: absolute;left: 10px;top: 0;box-shadow: 0!important;border-color: #eee">
+                    <div class="arrow" style="left: 18%;"></div>
+                    <h3 class="popover-title" style="display: none;"></h3>
+                    <div class="popover-content" style="">
+                        <div class="starColor">
+                            <i class="fa fa-star starColor"> </i> 学习之星
+                        </div>
+                        <p class="text-indent">累计完成8门课程的学习.</p>
+                    </div>
+                </div>
+                <div class="studentInfoBox">
+                    <img src="~/UIContent/img/logo/ccsu.jpg" height="60px" class="img-circle floatLeft" alt="">
+                    <div class="studentInfo">
+                        <span class="studentName">黄景瑜</span>
+                        <div class="message">
+                            <p>长沙学院经管系</p>
+                            <p>2015级学生</p>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!--学习之星 end ×4-->
+            <!--学习之星 begin ×4-->
+            <div class="col-md-3" style="position: relative">
+                <div class="popover top in" role="tooltip" id="popover67371" style="display: flex;position: absolute;left: 10px;top: 0;box-shadow: 0!important;border-color: #eee">
+                    <div class="arrow" style="left: 18%;"></div>
+                    <h3 class="popover-title" style="display: none;"></h3>
+                    <div class="popover-content" style="">
+                        <div class="starColor">
+                            <i class="fa fa-star starColor"> </i> 学习之星
+                        </div>
+                        <p class="text-indent">累计完成8门课程的学习.</p>
+                    </div>
+                </div>
+                <div class="studentInfoBox">
+                    <img src="~/UIContent/img/logo/ccsu.jpg" height="60px" class="img-circle floatLeft" alt="">
+                    <div class="studentInfo">
+                        <span class="studentName">黄景瑜</span>
+                        <div class="message">
+                            <p>长沙学院经管系</p>
+                            <p>2015级学生</p>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!--学习之星 end ×4-->
+            <!--学习之星 begin ×4-->
+            <div class="col-md-3" style="position: relative">
+                <div class="popover top in" role="tooltip" id="popover67371" style="display: flex;position: absolute;left: 10px;top: 0;box-shadow: 0!important;border-color: #eee">
+                    <div class="arrow" style="left: 18%;"></div>
+                    <h3 class="popover-title" style="display: none;"></h3>
+                    <div class="popover-content" style="">
+                        <div class="starColor">
+                            <i class="fa fa-star starColor"> </i> 学习之星
+                        </div>
+                        <p class="text-indent">累计完成8门课程的学习.</p>
+                    </div>
+                </div>
+                <div class="studentInfoBox">
+                    <img src="~/UIContent/img/logo/ccsu.jpg" height="60px" class="img-circle floatLeft" alt="">
+                    <div class="studentInfo">
+                        <span class="studentName">黄景瑜</span>
+                        <div class="message">
+                            <p>长沙学院经管系</p>
+                            <p>2015级学生</p>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!--学习之星 end ×4-->
+            <!--学习之星 begin ×4-->
+            <div class="col-md-3" style="position: relative">
+                <div class="popover top in" role="tooltip" id="popover67371" style="display: flex;position: absolute;left: 10px;top: 0;box-shadow: 0!important;border-color: #eee">
+                    <div class="arrow" style="left: 18%;"></div>
+                    <h3 class="popover-title" style="display: none;"></h3>
+                    <div class="popover-content" style="">
+                        <div class="starColor">
+                            <i class="fa fa-star starColor"> </i> 学习之星
+                        </div>
+                        <p class="text-indent">累计完成8门课程的学习.</p>
+                    </div>
+                </div>
+                <div class="studentInfoBox">
+                    <img src="~/UIContent/img/logo/ccsu.jpg" height="60px" class="img-circle floatLeft" alt="">
+                    <div class="studentInfo">
+                        <span class="studentName">黄景瑜</span>
+                        <div class="message">
+                            <p>长沙学院经管系</p>
+                            <p>2015级学生</p>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!--学习之星 end ×4-->
+        </div>
+
+    </div>
+    <div class="height30"></div>
+</section>
+<!--明星学员 end-->
+<!--内容填充-->
+<script type="text/javascript">
+    //jobArea
+    var laodJobCondition = { jobPostId: null, jobTypeId: null, jobAreaId: null, pageNo: 1, pageSize: 4 };
+    var loadJobUrl = '@Url.Action("GetJobs", "JobPage")';
+    var jobDetailUrl = '@Url.Action("Detail", "JobPage")';
+    var loadJob = function () {
+        $.ajax({
+            type: "GET",
+            url: loadJobUrl,
+            data: laodJobCondition,
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var $jobArea = $('#jobArea');
+                $jobArea.empty();
+                if (data.List.length > 0) {
+                    for (var i = 0; i < data.List.length; i++) {
+                        var item = data.List[i];
+                        //Id, Name:市场推广, Type:兼职, Cpy:湖南纽曼数码科技有限公司, Address:工作地点, Count:招聘人数, PubDT:发布时间, Pay:薪资
+                        $jobArea.append('<div class="col-md-6 bottom50 jobItem" data-id="' + item.Id + '">\
+                            <div class="row bottom20">\
+                                <div class="col-md-4">\
+                                    <span class="recruitTitle">' + (item.Name||'') + '</span>\
+                                    <div class="btn btn-default jobButton">\
+                                        ' + (item.Type||'') + '\
+                                    </div>\
+                                </div>\
+                                <div class="col-md-8">\
+                                    <span class="comp">' + (item.Cpy||'') + '</span>\
+                                </div>\
+                            </div>\
+                            <div class="row bottom15">\
+                                <div class="col-md-5">\
+                                    <div class="textLocation"><i class="fa fa-map-marker colorFont2  fontBig2"></i> <span> 工作地点：' + (item.Address||'') + '</span></div>\
+                                </div>\
+                                <div class="col-md-7">\
+                                    <div class="textLocation"><i class="fa fa-user-circle colorFont2  fontBig2"></i> <span> 招聘人数：' + (item.Count||'') + '人</span></div>\
+                                </div>\
+                            </div>\
+                            <div class="row">\
+                                <div class="col-md-5">\
+                                    <div class="textLocation"><i class="fa fa-clock-o colorFont  fontBig"></i> <span> 发布时间：' + (item.PubDT||'') + '</span></div>\
+                                </div>\
+                                <div class="col-md-7">\
+                                    <div class="textLocation"><i class="fa fa-yen colorFont  fontBig"></i> <span> 薪资：' + (item.Pay||'') + '/天</span></div>\
+                                </div>\
+                            </div>\
+                        </div>');
+                    }
+
+                    $jobArea.find('.jobItem').click(function () {
+                        var jobId = $(this).attr('data-id');
+                        window.location.href = jobDetailUrl + '?id=' + jobId;
+                    });
+                } else {
+                    $jobArea.append('抱歉，暂无相关信息！');
+                }
+            }
+        });
+    };
+    $(function () {
+        loadJob();
+    });
+</script>

@@ -1,0 +1,125 @@
+﻿@{
+    Layout = "~/Views/Shared/_User.cshtml";
+    ViewBag.Title = "我的课程-跨境电商产学研平台";
+}
+<meta id="pageLabel" data-page="UserCourse" />
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+</style>
+
+<!--右侧正文-->
+<div class="col-md-9">
+    <div class="rightContent">
+        <div class="myCourseNav">
+            <!--当前请加courseNavActive-->
+            <a href="javascript:;" data-value="1" class="courseNavButton courseNavActive">
+                开课中
+            </a>
+            <a href="javascript:;" data-value="0" class="courseNavButton">
+                未开课
+            </a>
+            <a href="javascript:;" data-value="2" class="courseNavButton">
+                已结束
+            </a>
+        </div>
+        <div class="height30"></div>
+        <div class="height30"></div>
+
+        <div id="courseList">
+
+        </div>
+
+        <!--分页组件 begin-->
+        <div class="text-center">
+            <div class="page" id="page6"></div>
+        </div>
+        <!--分页组件 end-->
+
+        <div class="height30"></div>
+    </div>
+</div>
+
+<script>
+    function courseNavClick() {
+        var $this = $(this);
+        $('.myCourseNav .courseNavButton').removeClass('courseNavActive');
+        $this.addClass('courseNavActive');
+        var state = $this.attr('data-value');
+        laodCourseCondition.state = state;
+        laodCourseCondition.pageNo = 1;
+        loadCourse();
+    }
+
+    //加载数据
+    var laodCourseCondition = { state: "1", pageNo: 1, pageSize: 8 };
+    var loadCourseUrl = '@Url.Action("GetCourses", "UserCourse")';
+    var courseDetailUrl = '@Url.Action("CourseDetail", "CoursePage")';
+    var loadCourse = function () {
+        $.ajax({
+            type: "GET",
+            url: loadCourseUrl,
+            data: laodCourseCondition,
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var $courseList = $('#courseList');
+                $courseList.empty();
+                if (data.List.length > 0) {
+                    for (var i = 0; i < data.List.length; i++) {
+                        var item = data.List[i];
+                        //Id, Logo, Name, School, Teacher, Desc
+                        $courseList.append('<div class="row courseItem" data-id="'+item.Id+'">\
+                            <div class="col-md-12 col-xs-12">\
+                                <div class="row" style="padding: 0px">\
+                                    <div class="col-md-3 col-xs-4">\
+                                        <div>\
+                                            <div class="hidden-xs" style="background-image: url(' + item.Logo + ');background-size: cover;background-position: center;width: 100%;max-height: 120px">\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                    <div class="col-md-9 col-xs-8">\
+                                        <div class="row">\
+                                            <div class="col-md-6">\
+                                                <h2>'+(item.Name||'')+'</h2>\
+                                            </div>\
+                                        </div>\
+                                        <div>\
+                                            <div class="height8"></div>\
+                                            <span class="textPeople">'+(item.School||'')+'</span>\
+                                            <span class="textPeople" style="margin-left: 10px">'+(item.Teacher||'')+'</span>\
+                                            <div class="height20"></div>\
+                                        </div>\
+                                        <div class="courseContent">\
+                                            '+(item.Desc||'')+'\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <hr style="">\
+                            </div>\
+                        </div>');
+                    }
+
+                    $courseList.find('.courseItem').click(function () {
+                        var courseId = $(this).attr('data-id');
+                        window.location.href = courseDetailUrl + '?courseID=' + courseId;
+                    });
+                } else {
+                    $courseList.append('抱歉，暂无相关信息！');
+                }
+
+                $.mypage("page6", laodCourseCondition.pageNo, data.TotalPage, function (page) {
+                    laodCourseCondition.pageNo = page;
+                    loadCourse();
+                });
+            }
+        });
+    };
+
+    $(function () {
+        loadCourse();
+        $('.myCourseNav .courseNavButton').click(courseNavClick);
+    });
+</script>

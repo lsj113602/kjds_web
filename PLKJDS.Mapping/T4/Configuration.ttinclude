@@ -1,0 +1,69 @@
+﻿<#+
+public class Configuration : CSharpTemplate
+{
+    private string _modelName; //实体名称
+    private string _prefixName; //实体前缀名称，表示不同的数据库
+    private bool _purity; //是否为纯净的实体，若为纯净则表示无任何额外属性，不纯净则表示包含“创建、最后修改”等额外属性
+    public Configuration(string modelName, string prefixName, bool purity)
+    {
+        _modelName = modelName;
+        _prefixName = (prefixName == "" ? "" : "." + prefixName);
+        _purity = purity;
+    }
+
+	public override string TransformText()
+	{
+		base.TransformText();
+#>
+
+using System;
+using System.Data.Entity.ModelConfiguration;
+using System.Data.Entity.ModelConfiguration.Configuration;
+
+using PLKJDS.Entity<#= _prefixName #>;
+
+namespace PLKJDS.Mapping.Configurations<#= _prefixName #>
+{
+	/// <summary>
+    /// 数据表映射
+    /// </summary>
+    partial class <#= _modelName #>Configuration : EntityConfiguration<<#= _modelName #>>
+    {
+        /// <summary>
+        /// 数据表映射构造函数
+        /// </summary>
+        public <#= _modelName #>Configuration()
+        {
+            <#= _modelName #>ConfigurationDefault();
+            <#= _modelName #>ConfigurationAppend();
+        }
+
+        /// <summary>
+        /// 默认的数据映射
+        /// </summary>
+        public void <#= _modelName #>ConfigurationDefault()
+        {
+<#+
+        if(!this._purity)
+{
+#>          
+			this.ToTable("<#= _modelName #>");
+            this.HasKey(t => t.ID);
+            //this.Property(p => p.LastModifyUser).HasMaxLength(100);
+			//this.Property(p => p.CreateUser).IsRequired().HasMaxLength(100);
+<#+
+}
+#>
+        }
+
+        /// <summary>
+        /// 数据映射
+        /// </summary>
+        partial void <#= _modelName #>ConfigurationAppend();
+    }
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

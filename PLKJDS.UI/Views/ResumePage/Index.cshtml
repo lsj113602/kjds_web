@@ -1,0 +1,821 @@
+﻿@{
+    Layout = "~/Views/Shared/_User.cshtml";
+    ViewBag.Title = "我的简历-跨境电商产学研平台";
+}
+<meta id="pageLabel" data-page="ResumePage" />
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+</style>
+
+<!--右侧正文-->
+<div class="col-md-9">
+    <div class="rightContent">
+        <div class="previewCv text-center">
+            <a class="btn btn-default" href="@Url.Action("Detail", "ResumePage")"><i class="fa fa-eye"></i> 预览简历</a>
+        </div>
+        <hr>
+        <div class="cvBox">
+            <div class="sepDiv">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 style="line-height: 32px">基本信息</h3>
+                    </div>
+                    <div class="col-md-6" style="text-align: right">
+                        <a class="btn btn-default" href="javascript:void(0)" onclick="changeCvView()"><i class="fa fa-edit"></i> 编辑</a>
+                        <a class="btn btn-default" href="javascript:void(0)" onclick="saveCv()"><i class="fa fa-refresh"></i> 保存</a>
+                    </div>
+                </div>
+            </div>
+            <div class="cvUserInfo">
+                <div class="row">
+                    <div class="col-md-9">
+                        <span class="userCvName"><input id="cvUsername" class="changeInput" type="text" value="" placeholder="姓名"></span>
+                        <span class="font555 fontSize14 marginLeft10"><input id="cvUserSex" class="changeInput" type="text" value="" style="width: 60px" placeholder="性别"></span>
+                        <span class="font555 fontSize14 marginLeft10"><input id="cvUserAge" class="changeInput" type="text" value="" style="width: 60px" placeholder="年龄"> 岁</span>
+                        <div>
+                            <div class="height10"></div>
+                            <span class="font555 fontSize14">在校大学生</span>
+                            <span class="sepLine font555 fontSize14">|</span>
+                            <span class="font555 fontSize14">现居于</span>
+                            <span class="font555 fontSize14"><input id="cvUserAddress" class="changeInput" type="text" value="" placeholder="填写住址如:湖南长沙"></span>
+                        </div>
+                        <div>
+                            <div class="height10"></div>
+                            <span class="font555 fontSize14">手机：<input id="cvUserTel" class="changeInput" type="text" value="" placeholder="请填写手机号码"></span>
+                            <div class="height10"></div>
+                            <span class="font555 fontSize14">邮箱：<input id="cvUserEmail" class="changeInput" type="text" value="" placeholder="填写住邮箱地址"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="text-align: right">
+                        <div>
+                            <input id="cvLogo" type="hidden" />
+                            <!--如果用户没有头像，请判断之后渲染 img/images/plus.jpg-->
+                            <img id="cvLogoImg" width="100px" height="100px" class="img-rounded img-responsive" style="position:absolute;right: 10px" alt="">
+                            <!--上传头像按钮由js动态生成在此位置-->
+                            <div id="uploadImage" style="position:absolute;right: 10px;top:110px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sepDiv">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 style="line-height: 32px">工作经验</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="cvJobExp">
+                <div id="appendExpEdit"></div>
+                <!--js自动生成表单位置，调试请打开浏览器调试工具-->
+                <div id="newExpEdit"></div>
+                <div style="text-align: center;margin-top: 20px">
+                    <a class="btn btn-default" href="javascript:void(0)" onclick="addExp()"><i class="fa fa-plus"></i> 添加</a>
+                </div>
+            </div>
+
+            <div class="sepDiv">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 style="line-height: 32px">培训经历</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="cvTrainExp">
+                <div id="appendTrainEdit"></div>
+                <!--js自动生成表单位置，调试请打开浏览器调试工具-->
+                <div id="newTrainEdit"></div>
+                <div style="text-align: center;margin-top: 20px">
+                    <a class="btn btn-default" href="javascript:void(0)" onclick="addTrain()"><i class="fa fa-plus"></i> 添加</a>
+                </div>
+            </div>
+
+            <div class="sepDiv">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 style="line-height: 32px">教育背景</h3>
+                    </div>
+                    <div class="col-md-6" style="text-align: right">
+                        <a class="btn btn-default" href="javascript:void(0)" onclick="changeEduView()"><i class="fa fa-edit"></i> 编辑</a>
+                        <a class="btn btn-default" href="javascript:void(0)" onclick="saveEdu()"><i class="fa fa-refresh"></i> 保存</a>
+                    </div>
+                </div>
+            </div>
+            <div class="cvEdu">
+                <!--教育背景只有一项！-->
+                <div class="row">
+                    <div class="col-md-9">
+                        <div>
+                            <span class="font555 fontSize14"><input id="eduSchool" class="changeInput2" type="text" value="长沙学院" placeholder="毕业学校"></span>
+                            @*<span class="font555 fontSize14 marginLeft10"><input id="eduPart" class="changeInput2" type="text" value="计算机与应用数学学院" placeholder="院系" style="margin-bottom: 10px"></span>*@
+                            <span class="sepLine font555 fontSize14">|</span>
+                            <span class="font555 fontSize14"><input id="eduMajor" class="changeInput2" type="text" value="软件工程" placeholder="专业"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="text-align: right">
+                        <span class="font555 fontSize14"><input id="eduSDT" class="changeInput2" type="text" value="2015-06" placeholder="入学时间 如2015-06" style="width:80px;"> ~ 至今</span>
+                    </div>
+                </div>
+                <!--end-->
+            </div>
+
+            <div class="sepDiv">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 style="line-height: 32px">证书</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="cvCer">
+                <div class="height10"></div>
+                <div class="height10"></div>
+                            
+                <div id="appendCertificateEdit"></div>
+                <div id="certificateEdit"></div>
+                <div style="text-align: center;margin-top: 20px">
+                    <a class="btn btn-default" href="javascript:void(0)" onclick="addCer()"><i class="fa fa-plus"></i> 添加</a>
+                </div>
+            </div>
+
+            <div class="sepDiv">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 style="line-height: 32px">专业技能</h3>
+                    </div>
+                    <div class="col-md-6" style="text-align: right">
+                        <a class="btn btn-default" href="javascript:void(0)" onclick="saveSkill()"><i class="fa fa-refresh"></i> 保存</a>
+                    </div>
+                </div>
+            </div>
+            <div class="cvSkill">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <span class="fontSize14 font555">
+                                <!--专业技能内容请渲染在这里 请勿换行-->
+                                <textarea class="form-control" rows="10" cols="20" id="cvSkillContent" placeholder="请填写专业技能" style="width: 100%"></textarea>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sepDiv">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 style="line-height: 32px">自我评价</h3>
+                    </div>
+                    <div class="col-md-6" style="text-align: right">
+                        <a class="btn btn-default" href="javascript:void(0)" onclick="saveSelf()"><i class="fa fa-refresh"></i> 保存</a>
+                    </div>
+                </div>
+            </div>
+            <div class="cvSelfCom">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <span class="fontSize14 font555">
+                                <!--自我评价内容请渲染在这里 请勿换行-->
+                                <textarea id="cvSelfContent" class="form-control" rows="10" cols="20" placeholder="请填写自我评价" style="width: 100%"></textarea>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="height30"></div>
+    </div>
+</div>
+
+<script src="~/Content/js/yifanToast.js"></script>
+<script type="text/javascript">
+    var Id = '@ViewBag.Id';//简历id
+
+    //改变基本信息显示
+    function changeCvView() {
+        var btn = '<a href="javascript:void(0)" class="file" style="margin-right: 5px">上传头像 <input type="file" id="file" onchange="coverUpload()"> </a> ';//<input type="text" class="hidden" id="cover">
+        $(".changeInput").addClass("editInput");
+        $("#uploadImage").append(btn)
+    }
+    //保存基本信息
+    var saveCvUrl = '@Url.Action("SaveCv", "ResumePage")';
+    function saveCv() {
+        var cvUsername = $("#cvUsername").val();
+        var cvUserSex = $("#cvUserSex").val();
+        var cvUserAge = $("#cvUserAge").val();
+        var cvUserAddress = $("#cvUserAddress").val();
+        var cvUserTel = $("#cvUserTel").val();
+        var cvUserEmail = $("#cvUserEmail").val();
+        var cvLogo = $('#cvLogo').val();
+        $.ajax({
+            type: "POST",
+            url: saveCvUrl,//填写保存用户基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data: {
+                'Id':Id,
+                'Username':cvUsername,
+                'UserSex':cvUserSex,
+                'UserAge':cvUserAge,
+                'UserAddress':cvUserAddress,
+                'UserTel':cvUserTel,
+                'UserEmail': cvUserEmail,
+                'Logo':cvLogo,
+            },
+            success:function(data) {
+                if (data.state == "success") {
+                    $(".changeInput").removeClass("editInput");
+                    $("#uploadImage").html("");
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+
+    //照片异步上传，后端写好图片处理逻辑，并且返回成功状态码10000和正确的url地址
+    var coverUploadUrl = "@Url.Action("UploadFile", "File")";
+    function coverUpload() {
+        debugger;
+        var form_data = new FormData();
+        var file = $("#file").prop("files")[0];
+        if (!file) {
+            return;
+        }
+        form_data.append("file", file);
+        $.ajax({
+            type: "POST",
+            url: coverUploadUrl,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            data: form_data,
+            success: function (data) {
+                if (data.state == "success") {
+                    //$("#cover").val(data.src);
+                    $("#cvLogoImg").attr("src", data.data.url);
+                    $('#cvLogo').val(data.data.id);
+                } else {
+                    yifanToast("上传图片错误，请重试", 'toast-md');
+                }
+            },
+            error: function () {
+                yifanToast("无法连接服务器", 'toast-md');
+            }
+        })
+    }
+
+    //新增工作经验
+    function addExp() {
+        var form = '  <div style="border:1px solid #ddd;padding: 15px">'+
+                '                                    <form class="form-horizontal">'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">实习公司</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="expCpyName" placeholder="请填写实习公司">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">所任职务</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="expPost" placeholder="请填写实习期间所任职务">' +
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">工作内容</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="expJobDesc" placeholder="请简述实习期间所做的工作">' +
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">开始时间</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="expSDT" placeholder="开始时间 :如2015-06">' +
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">结束时间</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="expEDT" placeholder="结束时间 :如2015-06">' +
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div style="text-align: center;margin-top: 10px">'+
+                '                                            <a class="btn btn-default confirmButton" style="width: 60px" href="javascript:void(0)" onclick="saveExp()">确定</a>'+
+                '                                        </div>'+
+                '                                    </form>'+
+                '                                </div>';
+        $('#newExpEdit').html(form);
+
+    }
+    var saveExpUrl = '@Url.Action("SaveExp", "ResumePage")';
+    //保存工作经验
+    function saveExp() {
+        var $newExpEdit = $('#newExpEdit');
+        var cpyName = $newExpEdit.find("#expCpyName").val();
+        var post = $newExpEdit.find("#expPost").val();
+        var jobDesc = $newExpEdit.find("#expJobDesc").val();
+        var sDT = $newExpEdit.find("#expSDT").val();
+        var eDT = $newExpEdit.find("#expEDT").val();
+        $.ajax({
+            type: "POST",
+            url: saveExpUrl,//填写保存工作经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data: {
+                RId:Id,
+                CpyName: cpyName,
+                Post: post,
+                JobDesc: jobDesc,
+                SDT: sDT,
+                EDT: eDT
+            },
+            success:function(data) {
+                if (data.state == "success") {
+                    var data = data.data;
+                    var uploadHtml = '<div class="row expPreview" id="exp_'+data.Id+'">'+
+                            '                                <div class="col-md-9">'+
+                            '                                    <h3>' + cpyName + '</h3>' +
+                            '                                    <div class="height8"></div>'+
+                            '                                    <span class="font555 fontSize14">职务：' + post + '</span>' +
+                            '                                    <div class="height8"></div>'+
+                            '                                    <span class="font555 fontSize14">工作内容：' + jobDesc + '</span>' +
+                            '                                </div>'+
+                            '                                <div class="col-md-3" style="text-align: right">'+
+                            '                                    <span class="font555 fontSize14">' + sDT + ' ~ ' + eDT + '</span>' +
+                            '                                    <div style="margin-top: 30px">'+
+                            '                                        <button onclick="delExp(\'' + data.Id + '\')" class="btn btn-danger" style="background-color: #fff;color:#e35b5a">' +
+                            '                                            <i class="fa fa-trash"></i> 删除'+
+                            '                                        </button>'+
+                            '                                    </div>'+
+                            '                                </div>'+
+                            '                            </div>'+
+                            '                            <hr>';
+
+                    $("#appendExpEdit").append(uploadHtml);
+                    $('#newExpEdit').html("");
+
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+    var delExpUrl = '@Url.Action("DelExp", "ResumePage")';
+    //删除工作经验
+    function delExp(id) {
+        $.ajax({
+            type: "POST",
+            url: delExpUrl,//填写保存工作经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'id':id
+            },
+            success: function (data) {
+                debugger;
+                if (data.state == "success") {
+                    //如果在后端删除成功，那么前端也会删除相应的div
+                    $('#exp_' + id).remove()
+                }else{
+                    yifanToast("删除失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+
+    //改变教育背景显示
+    function changeEduView() {
+        $(".changeInput2").addClass("editInput");
+    }
+    var saveEduUrl = '@Url.Action("SaveEdu", "ResumePage")';
+    //保存教育背景
+    function saveEdu() {
+        var eduSchool = $("#eduSchool").val();//学校
+        var eduMajor = $("#eduMajor").val();//专业
+        var eduSDT = $("#eduSDT").val();//入学时间
+
+        $.ajax({
+            type: "POST",
+            url: saveEduUrl,//填写保存用户教育背景信息接口
+            dataType: "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data: {
+                'RId': Id,
+                'School': eduSchool,
+                'Major': eduMajor,
+                'SDT': eduSDT
+            },
+            success: function (data) {
+                if (data.state == "success") {
+                    $(".changeInput2").removeClass("editInput");
+                } else {
+                    yifanToast("保存失败，请重试", 'toast-md');
+                }
+            },
+            error: function () {
+                yifanToast("无法连接服务器", 'toast-md');
+            }
+        });
+
+    }
+
+    //添加培训经验
+    function addTrain() {
+        var form = '  <div style="border:1px solid #ddd;padding: 15px">'+
+                '                                    <form class="form-horizontal">'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">培训公司</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainCpyName" placeholder="请填写培训公司">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">培训岗位</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainPost" placeholder="请填写培训岗位">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">培训内容</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainTrainDesc" placeholder="请简述培训内容">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">开始时间</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainSDT" placeholder="开始时间 :如2015-06">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">结束时间</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="trainEDT" placeholder="结束时间 :如2015-06">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div style="text-align: center;margin-top: 10px">'+
+                '                                            <a class="btn btn-default confirmButton" style="width: 60px" href="javascript:void(0)" onclick="saveTrain()">确定</a>'+
+                '                                        </div>'+
+                '                                    </form>'+
+                '                                </div>';
+        $('#newTrainEdit').html(form);
+
+    }
+    var saveTrainUrl = '@Url.Action("SaveTrain", "ResumePage")';
+    //保存培训经验
+    function saveTrain() {
+        var cpyName = $("#trainCpyName").val();
+        var post = $("#trainPost").val();
+        var trainDesc = $("#trainTrainDesc").val();
+        var sDT = $("#trainSDT").val();
+        var eDT = $("#trainEDT").val();
+        $.ajax({
+            type: "POST",
+            url: saveTrainUrl,//填写保存培训经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data: {
+                'RId': Id,
+                'CpyName': cpyName,
+                'Post': post,
+                'TrainDesc': trainDesc,
+                'SDT': sDT,
+                'EDT': eDT
+            },
+            success:function(data) {
+                if (data.state == "success") {
+                    var data = data.data;
+                    var uploadHtml = '<div class="row expPreview" id="train_'+data.Id+'">'+
+                            '                                <div class="col-md-9">'+
+                            '                                    <h3>' + cpyName + '</h3>' +
+                            '                                    <div class="height8"></div>'+
+                            '                                    <span class="font555 fontSize14">培训岗位：' + post + '</span>' +
+                            '                                    <div class="height8"></div>'+
+                            '                                    <span class="font555 fontSize14">培训内容：' + trainDesc + '</span>' +
+                            '                                </div>'+
+                            '                                <div class="col-md-3" style="text-align: right">'+
+                            '                                    <span class="font555 fontSize14">' + sDT + ' ~ ' + eDT + '</span>' +
+                            '                                    <div style="margin-top: 30px">'+
+                            '                                        <button onclick="delTrain(\'' + data.Id + '\')" class="btn btn-danger" style="background-color: #fff;color:#e35b5a">' +
+                            '                                            <i class="fa fa-trash"></i> 删除'+
+                            '                                        </button>'+
+                            '                                    </div>'+
+                            '                                </div>'+
+                            '                            </div>'+
+                            '                            <hr>';
+
+                    $("#appendTrainEdit").append(uploadHtml);
+                    $('#newTrainEdit').html("");
+
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+
+
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+    }
+    var delTrainUrl = '@Url.Action("DelTrain", "ResumePage")';
+    //删除培训经验
+    function delTrain(id) {
+        $.ajax({
+            type: "POST",
+            url: delTrainUrl,//填写删除培训经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'id':id
+            },
+            success:function(data) {
+                if (data.state == "success") {
+                    //如果在后端删除成功，那么前端也会删除相应的div
+                    $('#train_' + id).remove()
+
+                }else{
+                    yifanToast("删除失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+
+    //添加证书
+    function addCer() {
+        var form = '  <div style="border:1px solid #ddd;padding: 15px">'+
+                '                                    <form class="form-horizontal">'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">证书名称</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="cerName" placeholder="请填写证书等级">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div class="form-group">'+
+                '                                            <label class="col-sm-2 control-label font555 fontSize14">证书等级</label>'+
+                '                                            <div class="col-sm-10">'+
+                '                                                <input type="text" class="form-control" id="cerLevel" placeholder="请填写证书等级">'+
+                '                                            </div>'+
+                '                                        </div>'+
+                '                                        <div style="text-align: center;margin-top: 10px">'+
+                '                                            <a class="btn btn-default confirmButton" style="width: 60px" href="javascript:void(0)" onclick="saveCer()">确定</a>' +
+                '                                        </div>'+
+                '                                    </form>'+
+                '                                </div>';
+        $('#certificateEdit').html(form);
+
+    }
+    var saveCerUrl = '@Url.Action("SaveCer", "ResumePage")';
+    //保存证书
+    function saveCer() {
+        var cerName = $("#cerName").val();
+        var cerLevel = $("#cerLevel").val();
+        $.ajax({
+            type: "POST",
+            url: saveCerUrl,//填写保存培训经验基本信息接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data: {
+                'RId': Id,
+                'Name': cerName,
+                'Level': cerLevel
+            },
+            success:function(data) {
+                if (data.state == "success") {
+                    var data = data.data;
+                    var uploadHtml = '<div class="row" style="margin-bottom: 20px" id="cer_' + data.Id + '">' +
+                            '                                <div class="col-md-12">'+
+                            '                                    <div>'+
+                            '                                        <span class=fontSize14">' + cerName + '</span>' +
+                            '                                        <span class="font555 fontSize14 marginLeft10">' + cerLevel + '</span>' +
+                            '                                        <span class="marginLeft10"><a href="javascript:void(0)" onclick="delCer(\'' + data.Id + '\')">删除</a></span>' +
+                            '                                    </div>'+
+                            '                                </div>'+
+                            '                            </div>';
+
+                    $("#appendCertificateEdit").append(uploadHtml);
+                    $('#certificateEdit').html("");
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+
+
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+
+    }
+    var delCerUrl = '@Url.Action("DelCer", "ResumePage")';
+    //删除证书
+    function delCer(id) {
+        $.ajax({
+            type: "POST",
+            url: delCerUrl,//填写删除证书接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data:{
+                'id':id
+            },
+            success:function(data) {
+                if (data.state == "success") {
+                    //如果在后端删除成功，那么前端也会删除相应的div
+                    $('#cer_' + id).remove()
+
+                }else{
+                    yifanToast("删除失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+    }
+
+    var saveSkillUrl = '@Url.Action("SaveSkill", "ResumePage")';
+    //保存专业技能
+    function saveSkill() {
+        var skillContent = $("#cvSkillContent").val();
+        $.ajax({
+            type: "POST",
+            url: saveSkillUrl,//填写保存专业技能接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data: {
+                'Id': Id,
+                'SkillContent':skillContent
+            },
+            success:function(data) {
+                if (data.state == "success") {
+                    //如果在后端删除成功，那么前端也会删除相应的div
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+    }
+
+    var saveSelfUrl = '@Url.Action("SaveSelf", "ResumePage")';
+    //保存自我评价
+    function saveSelf() {
+        var selfContent = $("#cvSelfContent").val()
+        $.ajax({
+            type: "POST",
+            url: saveSelfUrl,//填写保存自我评价接口
+            dataType : "json",
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            data: {
+                'Id': Id,
+                'SelfContent':selfContent
+            },
+            success:function(data) {
+                if (data.state == "success") {
+                    //如果在后端删除成功，那么前端也会删除相应的div
+
+                }else{
+                    yifanToast("保存失败，请重试",'toast-md');
+                }
+            },
+            error : function() {
+                yifanToast("无法连接服务器",'toast-md');
+            }
+        });
+    }
+
+    //加载简历
+    function loadResume(data) {
+        //var data = { Cv: null, JobExps: null, TrainExps: null, Edu: null, Cers: null };
+        if (data) {
+            if (data.Cv) {
+                /*Username，UserSex，UserAge，UserAddress，UserTel，UserEmail，Logo SkillContent SelfContent*/
+                $.each(data.Cv, function (key, val) {
+                    $('.cvUserInfo,.cvSkill,.cvSelfCom').find('#cv' + key).val(data.Cv[key]);
+                });
+                $('#cvLogoImg').attr('src', "/File/GetFile?keyValue=" + data.Cv["Logo"]);
+            }
+            
+            if (data.JobExps) {
+                var $cvJobExp = $('.cvJobExp');
+                for (var i = 0; i < data.JobExps.length; i++) {
+                    var exp = data.JobExps[i];
+                    //Id, CpyName Post JobDesc SDT EDT
+                    $cvJobExp.append('<div class="row expPreview" id="exp_' + exp.Id + '">\
+                        <div class="col-md-9">\
+                            <h3>' + exp.CpyName + '</h3>\
+                            <div class="height8"></div>\
+                            <span class="font555 fontSize14">职务：' + exp.Post + '</span>\
+                            <div class="height8"></div>\
+                            <span class="font555 fontSize14">工作内容：'+ exp.JobDesc + '</span>\
+                        </div>\
+                        <div class="col-md-3" style="text-align: right">\
+                            <span class="font555 fontSize14">' + exp.SDTStr + ' ~ ' + exp.EDTStr + '</span>\
+                            <div style="margin-top: 30px">\
+                                <!--此处delExp为无刷新删除的函数，请传入唯一Id-->\
+                                <button onclick="delExp(\'' + exp.Id + '\')" class="btn btn-danger" style="background-color: #fff;color:#e35b5a">\
+                                    <i class="fa fa-trash"></i> 删除</button>\
+                            </div>\
+                        </div>\
+                    </div>\
+                    <hr>');
+                }
+            }
+
+            if (data.TrainExps) {
+                var $cvTrainExp = $('.cvTrainExp');
+                for (var i = 0; i < data.TrainExps.length; i++) {
+                    var exp = data.TrainExps[i];
+                    //Id CpyName Post TrainDesc SDT EDT
+                    $cvTrainExp.append('<div class="row" id="' + exp.Id + '">\
+                        <div class="col-md-9">\
+                            <h3>' + exp.CpyName + '</h3>\
+                            <div class="height8"></div>\
+                            <span class="font555 fontSize14">培训岗位：'+exp.Post+'</span>\
+                            <div class="height8"></div>\
+                            <span class="font555 fontSize14">培训内容：'+exp.TrainDesc+'</span>\
+                        </div>\
+                        <div class="col-md-3" style="text-align: right">\
+                            <span class="font555 fontSize14">' + exp.SDTStr + ' ~ ' + exp.EDTStr + '</span>\
+                        </div>\
+                    </div>\
+                    <hr>');
+                }
+            }
+
+            if (data.Edu) {
+                //School，Major，SDT
+                $.each(data.Edu, function (key, val) {
+                    $('.cvEdu').find('#edu' + key).val(data.Edu[key]);
+                });
+                $('.cvEdu').find('#eduSDT').val(data.Edu["SDTStr"]);
+            }
+
+            if (data.Cers) {
+                var $cvCer = $('.cvCer');
+                for (var i = 0; i < data.Cers.length; i++) {
+                    var cer = data.Cers[i];
+                    //Id Name Level
+                    $cvCer.append('<div class="row" style="margin-bottom: 20px" id="cer_'+cer.Id+'">\
+                        <div class="col-md-12">\
+                            <div>\
+                                <span class=fontSize14">'+cer.Name+'</span>\
+                                <span class="font555 fontSize14 marginLeft10">'+cer.Level+'</span>\
+                                <span class="marginLeft10"><a href="javascript:void(0)" onclick="delCer(\'' + cer.Id + '\')">删除</a></span>\
+                            </div>\
+                        </div>\
+                    </div>');
+
+                }
+            }
+        }
+    }
+    var getResumeUrl = '@Url.Action("GetResume", "ResumePage")';
+
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: getResumeUrl,
+            data: { id: Id },
+            dataType: "json",
+            success: function (data) {
+                loadResume(data.data);
+            }
+        });
+    });
+</script>

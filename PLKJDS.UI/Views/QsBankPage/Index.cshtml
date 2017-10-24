@@ -1,0 +1,163 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    ViewBag.Title = "课程-跨境电商产学研平台";
+}
+@*<link href="~/Content/js/kkpager/kkpager_blue.css" rel="stylesheet" />*@
+<style>
+    body {
+        background-color: #eee;
+        height: 100%;
+    }
+</style>
+
+<!--导航条 end-->
+<div class="height30"></div>
+
+<!--内容填充-->
+<!--课程分类导航条 end-->
+<div class="height30"></div>
+<!--课程列表 begin-->
+<section class="courseList container">
+    <div class="height30"></div>
+    <div class="row">
+        <div class="col-md-2" style="line-height: 35px">
+            <div class="checkbox" style="width: 60px;margin: 0 0 0 10px">
+                <label style="line-height: 20px;color: #777">
+                    <input id="cbQsBankAll" type="checkbox">全选
+                </label>
+            </div>
+        </div>
+        <div class="col-md-2" style="color: #777;line-height: 35px">
+            已选择 <span id="ckdQsBankCount">0</span> 份资料
+        </div>
+        <div class="col-md-2">
+            <button id="btnMultiDownload" class="btn btn-default" style="border-radius: 0;width: 100%">批量下载</button>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <!--搜索 begin-->
+            <div class="navbar-form navbar-left hidden-xs" style="position: relative;right: -15px;bottom: 5px;padding-right: 0">
+                <div class="form-group inputGroup" style="width: 180px">
+                    <input id="txtKey" type="text" style="border-color: #ddd" class="form-control searchInput" placeholder="请输入资料名称">
+                </div>
+                <button id="btnSearch" style="background-color: #aaa;border: 0;" class="searchButton btn btn-info"><i class="fa fa-search"></i></button>
+            </div>
+            <!--搜索 end-->
+        </div>
+    </div>
+    <div class="height10"></div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>序号</th>
+                <th>资料名称</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="qsBankList">
+        </tbody>
+    </table>
+
+
+    <div class="height30"></div>
+    <!--分页组件 begin-->
+    <div class="text-center">
+        <div class="page" id="page6"></div>
+    </div>
+    <!--分页组件 end-->
+    <div class="height30"></div>
+</section>
+<!--课程列表 end-->
+<div class="height50"></div>
+<!--内容填充-->
+
+<iframe id="ifmMultiDownload"></iframe>
+
+<script type="text/javascript">
+    var FileServer = '@ViewBag.FileServer';
+
+    //加载数据
+    var loadQsBankCondition = { key: null, pageNo: 1, pageSize: 8 };
+    var loadQsBankUrl = '@Url.Action("GetQsBanks", "QsBankPage")';
+    var loadQsBank = function () {
+        $.ajax({
+            type: "GET",
+            url: loadQsBankUrl,
+            data: loadQsBankCondition,
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var $qsBankList = $('#qsBankList');
+                $qsBankList.empty();
+                if (data.List.length > 0) {
+                    for (var i = 0; i < data.List.length; i++) {
+                        var item = data.List[i];
+                        $qsBankList.append('<tr>\
+                            <th style="width: 30px">\
+                                <div class="checkbox" style="width: 30px;margin: 0 0 0 10px">\
+                                    <label>\
+                                        <input name="cbQsBankItem" type="checkbox" data-id="'+item.ID+'">\
+                                    </label>\
+                                </div>\
+                            </th>\
+                            <th scope="row">' + (i+1) + '</th>\
+                            <td style="color: #777">'+ (item.OrgName || '') + '</td>\
+                            <td><a class="btn btn-primary" style="width: 60px;height: 30px;line-height: 16px;border-radius: 0" href="' + (FileServer + item.FilePath + item.StrName + item.FileExt) + '">下载</a></td>\
+                        </tr>');
+                    }
+                } else {
+                    $qsBankList.append('抱歉，暂无相关信息！');
+                }
+
+                $.mypage("page6", loadQsBankCondition.pageNo, data.TotalPage, function (page) {
+                    loadQsBankCondition.pageNo = page;
+                    loadQsBank();
+                });
+            }
+        });
+    };
+
+    function search(){
+        loadQsBankCondition.key = $('#txtKey').val();
+        loadQsBankCondition.pageNo = 1;
+        loadQsBank();
+    }
+
+    //选择全部
+    function checkAll() {
+        var isChecked = $('#cbQsBankAll').prop('checked');
+        var $Items = $('input[name="cbQsBankItem"]');
+        $Items.prop('checked', isChecked);
+        $('#ckdQsBankCount').text(isChecked ? $Items.length : 0);
+    }
+    //选择单项
+    function checkItem() {
+        var $totalItems = $('input[name="cbQsBankItem"]');
+        var $ckdItems = $('input[name="cbQsBankItem"]:checked');
+        $('#cbQsBankAll').prop('checked', $totalItems.length == $ckdItems.length);
+        $('#ckdQsBankCount').text($ckdItems.length);
+    }
+    var QsBankUrl = '@ViewBag.QsBankUrl';
+    //多项下载
+    function multiDownload() {
+        var $ckdItems = $('input[name="cbQsBankItem"]:checked');
+        if ($ckdItems.length == 0) {
+            return;
+        }
+        var ids = [];
+        for (var i = 0; i < $ckdItems.length; i++) {
+            ids.push($($ckdItems[i]).attr("data-id"));
+        }
+
+        $('#ifmMultiDownload').attr('src', QsBankUrl + JSON.stringify(ids));
+    }
+
+    $(function () {
+        loadQsBank();
+        $('#btnSearch').click(search);
+        $('#cbQsBankAll').click(checkAll);
+        $(document).on('click', 'input[name="cbQsBankItem"]', checkItem);
+        $('#btnMultiDownload').click(multiDownload);
+    });
+</script>

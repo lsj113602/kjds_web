@@ -1,0 +1,208 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script src="~/Content/js/plupload/plupload.full.min.js"></script>
+<script src="~/Content/js/loadDeviceParam.js"></script>
+<style>
+    #selectImg {
+        top: -109px;
+        left: 229px;
+    }
+</style>
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: '@Url.Action("GetFormJson", "TrainInfo")',
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                    $("#PicImage").show();
+                    $("#PicImage").attr('src', getRootPath() + data.PhotoID);//添加图片
+                    if(data.LimitNumber==0)
+                    {
+                        $("#NoLimited").attr("checked", true);
+                    }
+                    else
+                    {
+                        $("#Limited").attr("checked", true);
+                        
+                    }
+                    showNumberText();
+                }
+            });
+        }
+
+        var uploader = new plupload.Uploader({
+            browse_button: 'selectImg', //触发文件选择对话框的按钮，为那个元素id
+            url: '@Url.Action("SavePic", "Course")', //服务器端的上传页面地址
+            multi_selection: false,
+            filters: {
+                max_file_size: "1mb",
+                mime_types: [{
+                    title: "图片类型",
+                    extensions: "jpg,png,gif,bmp"
+                }],
+                prevent_duplicates: true
+            },
+            init: {
+                FilesAdded: function (uploader, files) {
+                    //每个事件监听函数都会传入一些很有用的参数，
+                    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+                    uploader.start();
+                },
+                FileUploaded: function (up, file, data) {
+                    //每个事件监听函数都会传入一些很有用的参数，
+                    //我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
+                    var result = $.parseJSON(data.response);
+                    if (result.state == "success") {
+                        //userLogoID = result.Data.Items[0].ID;
+                        var imgpath = getRootPath() + result.data;
+                        $('#PicImage').attr('src',imgpath);
+
+                        $('#PhotoID').attr('value', result.data);
+                    } else {
+                        alert(result.Message);
+                    }
+                }
+            }
+
+
+        });
+        uploader.init();
+    });
+
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        else
+        {
+            var starttime = $("#StartTime").val();
+            var endtime = $("#EndTime").val();
+            var apply_stime = $("#ApplySTime").val();
+            var apply_etime = $("#ApplyETime").val();
+
+            if(!dateCompare(starttime, endtime))
+            {
+                $("#EndTime").siblings('.validText').text('活动开始时间不能晚于结束时间').show();
+            }
+            else {
+                $("#EndTime").siblings('.validText').text('').hide();
+                if (!dateCompare(apply_stime, apply_etime))
+                {
+                    $("#ApplyETime").siblings('.validText').text('报名开始时间不能晚于结束时间').show();
+                }
+                else if(!dateCompare(apply_etime,starttime))
+                {
+                    $("#ApplyETime").siblings('.validText').text('报名时间必须早于活动开始时间').show();
+                }
+                else
+                {
+                    $.submitForm({
+                        url:"@Url.Action("SubmitForm", "TrainInfo")?keyValue=" + keyValue,
+                        param: $("#form1").formSerialize(),
+                        success: function () {
+                            $.currentWindow().$("#gridList").trigger("reloadGrid");
+                        }
+                    })
+                }
+            }
+        }
+
+    }
+
+    function showNumberText()
+    {
+        var a = $('input:radio[name="F_Allow"]:checked').val();
+        if(a=="0")
+        {
+            $("#LimitNumber").css("display", "inline-block");
+        }
+        else
+        {
+            $("#LimitNumber").css("display", "none");
+            $("#LimitNumber").val("0");
+        }
+    }
+    
+ 
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">活动主题</th>
+                    <td class="formValue" colspan="2">
+                        <input id="TrainTitle" name="TrainTitle" type="text" class="form-control required" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">主办单位</th>
+                    <td class="formValue" colspan="2">
+                        <input id="Host" name="Host" type="text" class="form-control required" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">活动地址</th>
+                    <td class="formValue" colspan="2">
+                        <input id="Address" name="Address" type="text" class="form-control required" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">活动时间</th>
+                    <td class="formValue" >
+                        <input id="StartTime" name="StartTime" type="text" class="form-control input-wdatepicker normal required" onfocus="WdatePicker({ minDate: '%y-%M-#{%d}', dateFmt: 'yyyy-MM-dd HH:mm:ss' })" style="width:97%"/>                
+                    </td>
+                    <td class="formValue">
+                        <span style="float:left;margin-right:10px;">至</span>
+                        <input id="EndTime" name="EndTime" type="text" class="form-control input-wdatepicker normal required" onfocus="WdatePicker({ minDate: '%y-%M-#{%d}', dateFmt: 'yyyy-MM-dd HH:mm:ss' })" style="width:87%;" />
+                          <span class="validText" style="color: #ff3300;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">报名时间</th>
+                    <td class="formValue">
+                        <input id="ApplySTime" name="ApplySTime" type="text" class="form-control input-wdatepicker normal required" onfocus="WdatePicker({ minDate: '%y-%M-#{%d}', dateFmt: 'yyyy-MM-dd HH:mm:ss' })"
+                          style="width:97%" />
+                    </td>
+        
+                    <td class="formValue" style=" white-space: nowrap;">
+                        <span style="float:left;margin-right:10px;">至</span>
+                        <input id="ApplyETime" name="ApplyETime" type="text" class="form-control input-wdatepicker normal required" onfocus="WdatePicker({ minDate: '%y-%M-#{%d}', dateFmt: 'yyyy-MM-dd HH:mm:ss' })" style="width:87%;" />
+                        <span class="validText" style="color: #ff3300;"></span>
+                    </td>   
+                </tr>
+                <tr>
+                    <th class="formTitle">报名人数限制</th>
+                     <td class="formValue" colspan="2">
+                         <input id="Limited" name="F_Allow" type="radio" onclick="showNumberText()"  value="0"/><label for="F_AllowEdit">限制人数</label>
+                         <input id="LimitNumber" name=" LimitNumber" type="number" style="display:none"  />
+                         <input id="NoLimited" name="F_Allow" type="radio" style="margin-left:20px;" onclick="showNumberText()" value="1"><label for="F_AllowDelete" >不限人数</label>
+                      
+                     </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">活动宣传图片</th>
+                    <td class="formValue">
+                        <img id="PicImage" height="200" width="200" style="" />
+                        <input id="PhotoID" name="PhotoID" type="hidden" />
+                        <a id="selectImg" class="btn btn-default">上传图片</a>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="formTitle">活动简介</th>
+                    <td class="formValue">
+                        <textarea class="form-control" id="Content" name="Content"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>

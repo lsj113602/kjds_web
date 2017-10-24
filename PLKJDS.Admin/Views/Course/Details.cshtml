@@ -1,0 +1,243 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<link href="~/Content/css/style.css" rel="stylesheet" />
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+
+        $.ajax({
+            url:'@Url.Action("GetFormJson", "Course")?keyValue=' +keyValue,
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+                var path = getRootPath();
+                $("#PhotoID").attr("src", path + data.PhotoID);
+                $("#CourseName").text(data.CourseName);
+                switch (data.StatusCode)
+                {
+                    case 0: $("#StatusCode").text("即将开课"); break;
+                    case 1: $("#StatusCode").text("开课中"); break;
+                    case 2: $("#StatusCode").text("已结课"); break;
+                }
+                switch (data.LevelID) {
+                    case "0": $("#LevelID").text("初级"); break;
+                    case "1": $("#LevelID").text("高级"); break;
+                    case "2": $("#LevelID").text("中级"); break;
+                }
+                if(data.IsTest)
+                {
+                    $("#IsTest").text("开设考试");
+                }
+                else
+                {
+                    $("#IsTest").text("不开设考试");
+                }
+                $("#StartTime").text(data.StartTime);
+                $("#EndTime").text(data.EndTime);
+                $("#Desc").text(data.Desc);
+                $("#SerialNum").text(data.SerialNum);
+                if (data.CreatorUserId == "" || data.CreatorUserId==null)
+                {
+                    $("#CreatorUserId").text("admin");
+                }
+                else
+                {
+                    $("#CreatorUserId").text(data.CreatorUserId);
+                }
+
+                $("#CreatorTime").text(data.CreatorTime);
+            }
+        });
+     //   GetTreeList();
+
+        $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', '关闭');
+        $('.tree li.parent_li > span').on('click', function (e) {
+            var children = $(this).parent('li.parent_li').find(' > ul > li');
+            if (children.is(":visible")) {
+                children.hide('fast');
+                $(this).attr('title', '展开').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+            } else {
+                children.show('fast');
+                $(this).attr('title', '关闭').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+            }
+            e.stopPropagation();
+        });
+        $("a[data-toggle='tab']:last").on('shown.bs.tab', function (e) {
+            gridList();
+        });
+       
+    });
+
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            treeGrid: true,
+            treeGridModel: "adjacency",
+            ExpandColumn: "ChapterName",
+            url: "@Url.Action("GetChapterContentJson","Course")?keyValue="+keyValue,
+            height: $(window).height()/2 +68,
+            colModel: [
+                { label: '主键', name: 'ID', hidden: true },
+                {
+                    label: '课件名称', name: 'FileID', width: 120, align: 'left',
+                    formatter: function (cellvalue)
+                    {
+                        if(cellvalue!="")
+                        {
+                            var arr = cellvalue.split('/');
+                            var filename = arr[2].substr(17);
+                            return filename;
+                        }
+                    }
+                },
+                {
+                    label: '课件类型', name: 'TypeID', width:70, align: 'left',
+                },
+               { label: '所属章节', name: 'SumChapterName', width: 180, align: 'left' },
+               {
+                   label: '课件上传人', name: 'CreatorUserId', width: 70, align: 'left',
+                   formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+               },
+                {
+                    label: '创建时间', name: 'CreatorTime', width: 70, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                }
+            ],
+            pager: "#gridPager",
+            sortname: 'CreatorTime',
+            viewrecords: true
+        });
+    }
+
+    function GetTreeList()
+    {
+        $.ajax({
+            url: "@Url.Action("GetTreeData", "CourseChapter")?keyValue="+keyValue,
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+                tree(data);
+            }
+        });
+    }
+
+    function tree(data) {
+        for (var i = 0; i < data.length; i++) {
+            var data2 = data[i];
+            if (data[i].icon == "icon-th") {
+                $("#rootUL").append("<li data-name='" + data[i].code + "'><span><i class='" + data[i].icon + "'></i> " + data[i].name + "</span></li>");
+            } else {
+                var children = $("li[data-name='" + data[i].parentCode + "']").children("ul");
+                if (children.length == 0) {
+                    $("li[data-name='" + data[i].parentCode + "']").append("<ul></ul>")
+                }
+                $("li[data-name='" + data[i].parentCode + "'] > ul").append(
+                    "<li data-name='" + data[i].code + "'>" +
+                    "<span>" +
+                    "<i class='" + data[i].icon + "'></i> " +
+                    data[i].name +
+                    "</span>" +
+                    "</li>")
+            }
+            for (var j = 0; j < data[i].child.length; j++) {
+                var child = data[i].child[j];
+                var children = $("li[data-name='" + child.parentCode + "']").children("ul");
+                if (children.length == 0) {
+                    $("li[data-name='" + child.parentCode + "']").append("<ul></ul>")
+                }
+                $("li[data-name='" + child.parentCode + "'] > ul").append(
+                    "<li data-name='" + child.code + "'>" +
+                    "<span>" +
+                    "<i class='" + child.icon + "'></i> " +
+                    child.name +
+                    "</span>" +
+                    "</li>")
+                var child2 = data[i].child[j].child;
+                tree(child2)
+            }
+            tree(data[i]);
+        }
+
+    }
+
+
+   
+</script>
+<script src="~/Content/js/loadDeviceParam.js"></script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_a" data-toggle="tab">基本信息</a></li>
+            @*<li><a href="#tab_b" data-toggle="tab">课程大纲</a></li>*@
+            <li><a href="#tab_c" data-toggle="tab">课件列表</a></li>
+        </ul>
+        <div class="tab-content" style="padding-top: 5px;">
+            <div id="tab_a" style="padding-top: 20px; margin-right: 30px;" class="tab-pane active">  
+                <div>
+                    <div align="center"><h4 id="CourseName"></h4></div>
+                    <div style="width: 25%; text-align: center; float: left;">
+                        <span id="StatusCode">12</span>
+                        <p style="color: #a1a1a1">课程状态</p>
+                    </div>
+                    <div style="width: 25%; text-align: center; float: left;">
+                        <span id="LevelID">7.5小时</span>
+                        <p style="color: #a1a1a1">课程级别</p>
+                    </div>
+                    <div style="width: 25%; text-align: center; float: left;">
+                        <span id="StartTime">13小时</span>
+                        <p style="color: #a1a1a1">开课时间</p>
+                    </div>
+                    <div style="width: 25%; text-align: center; float: left;">
+                        <span id="EndTime">19小时</span>
+                        <p style="color: #a1a1a1">结课时间</p>
+                    </div>
+                </div>
+                <div>
+                    <div style="width: 25%; text-align: center; float: left;">
+                        <span id="IsTest"></span>
+                        <p style="color: #a1a1a1">是否开设考试</p>
+                    </div>
+                    <div style="width: 25%; text-align: center; float: left;">
+                        <span id="SerialNum"></span>
+                        <p style="color: #a1a1a1">已开课期数</p>
+                    </div>
+                    <div style="width: 25%; text-align: center; float: left;">
+                        <span id="CreatorUserId"></span>
+                        <p style="color: #a1a1a1">课程创始人</p>
+                    </div>
+                    <div style="width: 25%; text-align: center; float: left;">
+                        <span id="CreatorTime"></span>
+                        <p style="color: #a1a1a1">创建时间</p>
+                    </div>
+                </div>
+                <div class="media" style="overflow:visible;margin-top:20px;">
+                    <a class="media-left media-middle" href="#">
+                        <img id="PhotoID" height="200" width="200">
+                    </a>
+                    <div class="media-body">
+                        <p id="Desc"></p>
+                    </div>
+                </div>
+
+            </div>
+            @*<div id="tab_b" class="tab-pane">
+                <div class="tree ">
+
+                    <ul id="rootUL"></ul>
+                </div>
+            </div>*@
+            <div id="tab_c" class="tab-pane">
+                <div class="gridPanel">
+                    <table id="gridList"></table>
+                    <div id="gridPager"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<!--内容填充-->
+<div style="background-color: #eee">
+    <section class="container">
+        <div class="height30"></div>
+        <div class="row">
+            <!--左侧导航-->
+            <div class="col-md-3">
+                <div class="userLeft">
+                    <!--用户头像-->
+                    <img src="../Content/img/ccsu.jpg" height="60px" class="img-circle" alt="">
+                    <p class="userSchool">长沙学院经济管理学院2015级</p>
+                    <hr style="border-color: #ddd;margin-top: 10px">
+                    <div class="height30"></div>
+                    <div class="leftNavContent">
+                        <!--当前页面请加navActive-->
+                        <div class="userNav " data-page="UserCourse">
+                            <a href="@Url.Action("Index", "UserCourse")">
+                                <span class="navLogo fa fa-tasks"></span>
+                                <span class="navTitle">我的课程</span>
+                                <span class="arrowRight  fa fa-caret-right "></span>
+                                <hr>
+                            </a>
+                        </div>
+
+                        <div class="userNav ">
+                            <a href="user-train.html">
+                                <span class="navLogo fa fa-cloud"></span>
+                                <span class="navTitle">我的培训</span>
+                                <span class="arrowRight  fa fa-caret-right "></span>
+                                <hr>
+                            </a>
+                        </div>
+
+                        <div class="userNav " data-page="ResumePage">
+                            <a href="@Url.Action("Index", "ResumePage")">
+                                <span class="navLogo fa fa-file-text"></span>
+                                <span class="navTitle">我的简历</span>
+                                <span class="arrowRight  fa fa-caret-right "></span>
+                                <hr>
+                            </a>
+                        </div>
+
+                        <div class="userNav" data-page="UserInfo">
+                            <a href="@Url.Action("Index", "UserInfo")">
+                                <span class="navLogo fa fa-dashcube"></span>
+                                <span class="navTitle">我的资料</span>
+                                <span class="arrowRight  fa fa-caret-right "></span>
+                                <hr>
+                            </a>
+                        </div>
+
+                        <div class="userNav">
+                            <a href="user-message.html">
+                                <span class="navLogo fa fa-envelope"></span>
+                                <span class="navTitle">消息通知</span>
+                                <span class="arrowRight  fa fa-caret-right "></span>
+                                <hr>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            @RenderBody()
+        </div>
+        <div class="height30"></div>
+    </section>
+    <div class="height30"></div>
+</div>
+<!--内容填充-->
+<script>
+    $(function () {
+        $('.leftNavContent .userNav[data-page="' + $('#pageLabel').attr('data-page') + '"]').addClass('navActive');
+    });
+</script>

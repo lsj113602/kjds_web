@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<link href="~/Content/css/jquery.bigautocomplete.css" rel="stylesheet" />
+<script src="~/Content/js/jquery.bigautocomplete.js"></script>
+
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        getChapters();
+        if (!!keyValue) {
+            $.ajax({
+                url:"@Url.Action("GetFormJson", "CourseChapter")",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+            
+                    var chaptername = data.ChapterName.split(" ")[1];
+                    $("#ChapterName").val(chaptername);
+                    var a = $("#PID option:selected").val();
+                    if (a == undefined || a == "") {
+                        $("#PID").val("-1").trigger('change');
+                        $("#SequenceID").val(data.SequenceID);
+                    }
+                    $("#form1").find('.form-control,select,input').attr('readonly', 'readonly');
+                }
+            });
+        }
+        else {
+            getSequenceID();
+        }
+    });
+
+    function initControl() {
+        $("#CourserID").bindSelect({
+            url:"@Url.Action("GetCourseTree", "CourseChapter")",
+            change: function () {
+                $("#PID").empty();
+                var str = "<option value='-1'>根章节</option>";
+                $("#PID").html(str);
+                getChapters();
+                getSequenceID();
+            }
+        });
+
+    }
+
+    function getChapters() {
+        var pid = $("#CourserID").val();
+        $("#PID").bindSelect({
+            url: "@Url.Action("GetTreeSelectJson", "Course")?type=" + "0" + "&courseID=" + pid,
+            change: function () {
+                getSequenceID();
+            }
+        })
+    }
+
+    function getSequenceID() {
+        var param = $("#PID").val();
+        var a = $("#PID").find("option").length;
+        if (param == "-1") {
+            $("#SequenceID").val(a);
+        }
+        else {
+            $.ajax({
+                type: "post",
+                url:"@Url.Action("GetChapterOrder", "CourseChapter")",
+                data: { keyValue: param },
+                dataType: "Json",
+                success: function (data) {
+                    $("#SequenceID").val(data + 1);
+                }
+            })
+        }
+
+    }
+
+
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+
+                <tr>
+                    <th class="formTitle">所属课程</th>
+                    <td class="formValue">
+                        <select id="CourserID" name="CourserID" class="form-control required">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">父章节</th>
+                    <td class="formValue">
+                        <select id="PID" name="PID" class="form-control required">
+                            <option value="-1">根章节</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">名称</th>
+                    <td class="formValue">
+                        <input id="ChapterName" name="ChapterName" type="text" class="form-control required" placeholder="请输入章节名称" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">序号</th>
+                    <td class="formValue">
+                        <input id="SequenceID" name="SequenceID" type="number" min="1" class="form-control required" placeholder="请输入章节序号" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">章节负责人</th>
+                    <td class="formValue">
+                        <input id="UserID" name="UserID" type="text" class="form-control required text" placeholder="请输入章节负责人" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
